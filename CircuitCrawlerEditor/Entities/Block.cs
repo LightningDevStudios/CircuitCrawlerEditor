@@ -3,15 +3,15 @@ using System.ComponentModel;
 
 namespace CircuitCrawlerEditor.Entities
 {
-    public class PhysBall : HoldObject
+    public class Block : HoldObject
     {
-        [Category("PhysBall"), Description("The amount of speed lost over time and per bounce")]
+
+        [Category("PhysBlock"), Description("The amount of speed lost over time and per bounce")]
         public float Friction { get; set; }
 
-        public PhysBall(float size, float xPos, float yPos)
+        public Block(float size, float xPos, float yPos)
             : base(size, xPos, yPos)
         {
-
         }
     }
 }

@@ -2,10 +2,10 @@
 
 namespace CircuitCrawlerEditor.Entities
 {
-    public class HoldObject : PhysEnt
+    public class HoldObject : Entity
     {
         public HoldObject(float size, float xPos, float yPos)
-            : base(size, xPos, yPos, 100.0f, 90.0f, 5.0f)
+            : base(size, xPos, yPos)
         {
         }
     }

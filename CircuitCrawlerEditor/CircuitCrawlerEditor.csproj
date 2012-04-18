@@ -48,43 +48,65 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="Entities\BreakableDoor.cs" />
     <Compile Include="Entities\Button.cs" />
     <Compile Include="Entities\Cannon.cs" />
-    <Compile Include="Entities\Character.cs" />
     <Compile Include="Entities\Door.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\HoldObject.cs" />
-    <Compile Include="Entities\PhysBall.cs" />
-    <Compile Include="Entities\PhysBlock.cs" />
-    <Compile Include="Entities\PhysEnt.cs" />
-    <Compile Include="Entities\Pickup.cs" />
-    <Compile Include="Entities\PickupEnergy.cs" />
-    <Compile Include="Entities\PickupHealth.cs" />
+    <Compile Include="Entities\Ball.cs" />
+    <Compile Include="Entities\Block.cs" />
+    <Compile Include="Entities\LaserShooter.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\PuzzleBox.cs" />
-    <Compile Include="Entities\SpikeBall.cs" />
-    <Compile Include="Entities\Spikes.cs" />
-    <Compile Include="Entities\Sprite.cs" />
-    <Compile Include="Entities\StaticBlock.cs" />
+    <Compile Include="Entities\SpikeWall.cs" />
     <Compile Include="Entities\Teleporter.cs" />
-    <Compile Include="Entities\WallButton.cs" />
     <Compile Include="FormEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormEditor.Designer.cs">
       <DependentUpon>FormEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEffectListEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEffectListEditor.Designer.cs">
+      <DependentUpon>FormEffectListEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Level.cs" />
+    <Compile Include="Light.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Tileset.cs" />
     <Compile Include="TilesetHelper.cs" />
+    <Compile Include="Triggers\Cause.cs" />
+    <Compile Include="Triggers\CauseAND.cs" />
+    <Compile Include="Triggers\CauseButton.cs" />
+    <Compile Include="Triggers\CauseEntityDestruction.cs" />
+    <Compile Include="Triggers\CauseLocation.cs" />
+    <Compile Include="Triggers\CauseNOT.cs" />
+    <Compile Include="Triggers\CauseOR.cs" />
+    <Compile Include="Triggers\CauseTimePassed.cs" />
+    <Compile Include="Triggers\CauseXOR.cs" />
+    <Compile Include="Triggers\Effect.cs" />
+    <Compile Include="Triggers\EffectAND.cs" />
+    <Compile Include="Triggers\EffectDoor.cs" />
+    <Compile Include="Triggers\EffectEndGame.cs" />
+    <Compile Include="Triggers\EffectList.cs" />
+    <Compile Include="Triggers\EffectRaiseBridge.cs" />
+    <Compile Include="Triggers\EffectRemoveEntity.cs" />
+    <Compile Include="Triggers\EffectTriggerTimer.cs" />
+    <Compile Include="Triggers\Trigger.cs" />
+    <Compile Include="UITypeEditors.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormEditor.resx">
       <DependentUpon>FormEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEffectListEditor.resx">
+      <DependentUpon>FormEffectListEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
