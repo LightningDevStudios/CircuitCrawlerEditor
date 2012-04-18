@@ -24,19 +24,12 @@ namespace CircuitCrawlerEditor
 			foreach (Tile[] ta in tiles)
 				foreach (Tile t in ta)
 					t.SetTileset(this);
-		}
 
-		/**
-	 * Initializes the parts of the tileset that rely on OpenGL.
-	 * @param gl The OpenGL context to use.
-	 */
-		public void Initialize()
-		{
 			List<float> verts = new List<float>();
 			List<ushort> indices = new List<ushort>();
-		
+
 			ushort indPos = 0;
-		
+
 			//iterate through tileset, generate vertex data, then append to the buffer.
 			for (int i = 0; i < tiles.Length; i++)
 			{
@@ -45,24 +38,24 @@ namespace CircuitCrawlerEditor
 					tiles[i][j].calculateBorders(tiles);
 					float[] vertData = tiles[i][j].getVertexData();
 					ushort[] indData = tiles[i][j].getIndexData(indPos);
-				
+
 					indPos += (ushort)(vertData.Length / 8);
-				
+
 					verts.AddRange(vertData);
-				
+
 					indices.AddRange(indData);
 				}
 			}
-		
+
 			vertCount = verts.Count;
 			indCount = indices.Count;
-		
+
 			//generate VBO
 			int[] glBuffers = new int[2];
 			GL.GenBuffers(2, glBuffers);
 			vertBuffer = glBuffers[0];
 			indBuffer = glBuffers[1];
-		
+
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertBuffer);
 			GL.BufferData<float>(BufferTarget.ArrayBuffer, (IntPtr)(vertCount * sizeof(float)), verts.ToArray(), BufferUsageHint.StaticDraw);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);

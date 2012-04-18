@@ -1,27 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+using CircuitCrawlerEditor.Entities;
+using CircuitCrawlerEditor.Triggers;
+
+using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace CircuitCrawlerEditor
 {
 	public class Level
 	{
-		private Tileset tileset;
+		public Level()
+		{
+			Lights = new List<Light>();
+			Entities = new List<Entity>();
+			Causes = new List<Cause>();
+			Effects = new List<Effect>();
+			Triggers = new List<Trigger>();
+		}
+
+		public List<Light> Lights { get; set; }
+		public Tileset Tileset { get; set; }
+		public List<Entity> Entities { get; set; }
+		public List<Cause> Causes { get; set; }
+		public List<Effect> Effects { get; set; }
+		public List<Trigger> Triggers { get; set; }
 
 		public void Update()
 		{
-			tileset.Update();
+			Tileset.Update();
 		}
 
 		public void Draw()
 		{
-			tileset.Draw();
-		}
+			foreach (Light l in Lights)
+			{
+				GL.Enable(EnableCap.Light0 + l.Index);
+				GL.Light(LightName.Light0 + l.Index, LightParameter.Ambient, l.Ambient);
+				GL.Light(LightName.Light0 + l.Index, LightParameter.Diffuse, l.Diffuse);
+				GL.Light(LightName.Light0 + l.Index, LightParameter.Position, l.Position);
+				GL.Light(LightName.Light0 + l.Index, LightParameter.ConstantAttenuation, l.ConstantAttenuation);
+				GL.Light(LightName.Light0 + l.Index, LightParameter.LinearAttenuation, l.LinearAttenuation);
+				GL.Light(LightName.Light0 + l.Index, LightParameter.QuadraticAttenuation, l.QuadraticAttenuation);
+			}
 
-		public void SetTileset(Tileset ts)
-		{
-			this.tileset = ts;
+			Tileset.Draw();
+
+			foreach (Light l in Lights)
+			{
+				GL.Disable(EnableCap.Light0 + l.Index);
+			}
 		}
 	}
 }

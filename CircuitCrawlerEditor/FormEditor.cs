@@ -49,7 +49,7 @@ namespace CircuitCrawlerEditor
 
 			ResizeViewport();
 
-			Tileset t = new Tileset(new Tile[][]
+			level.Tileset = new Tileset(new Tile[][]
 			{
 				new Tile[] { new Tile(new Point(0, 0), 4, 4, TileType.Wall), new Tile(new Point(1, 0), 4, 4, TileType.Wall), new Tile(new Point(2, 0), 4, 4, TileType.Pit), new Tile(new Point(3, 0), 4, 4, TileType.Wall) },
 				new Tile[] { new Tile(new Point(0, 1), 4, 4, TileType.Wall), new Tile(new Point(1, 1), 4, 4, TileType.Floor), new Tile(new Point(2, 1), 4, 4, TileType.Wall), new Tile(new Point(3, 1), 4, 4, TileType.Wall) },
@@ -57,8 +57,14 @@ namespace CircuitCrawlerEditor
 				new Tile[] { new Tile(new Point(0, 3), 4, 4, TileType.Wall), new Tile(new Point(1, 3), 4, 4, TileType.Wall), new Tile(new Point(2, 3), 4, 4, TileType.Wall), new Tile(new Point(3, 3), 4, 4, TileType.Wall) }
 			}, new Texture(new Bitmap("Resources/Textures/tilesetworld.png"), 16, 8, TextureMinFilter.Linear, TextureMagFilter.Linear, TextureWrapMode.Clamp, TextureWrapMode.Clamp));
 
-			t.Initialize();
-			level.SetTileset(t);
+			Light l = new Light();
+			l.Diffuse = Color4.Blue;
+			l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
+			l.Position = new Vector4(-40, 0, 1, 1);
+			l.ConstantAttenuation = 1f;
+			l.LinearAttenuation = 1f / 100f;
+			l.QuadraticAttenuation = 1f / 20000f;
+			level.Lights.Add(l);
 		}
 
 		private void worldView_Paint(object sender, PaintEventArgs e)
@@ -68,6 +74,7 @@ namespace CircuitCrawlerEditor
 			GL.Disable(EnableCap.CullFace);
 			GL.FrontFace(FrontFaceDirection.Cw);
 
+			GL.Enable(EnableCap.Lighting);
 			GL.Enable(EnableCap.Texture2D);
 			GL.EnableClientState(ArrayCap.VertexArray);
 			GL.EnableClientState(ArrayCap.TextureCoordArray);
@@ -81,6 +88,7 @@ namespace CircuitCrawlerEditor
 
 			GL.PopMatrix();
 
+			GL.Disable(EnableCap.Lighting);
 			GL.Disable(EnableCap.Texture2D);
 			GL.DisableClientState(ArrayCap.NormalArray);
 			GL.DisableClientState(ArrayCap.TextureCoordArray);
