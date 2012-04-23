@@ -8,6 +8,7 @@ using CircuitCrawlerEditor.Triggers;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using CircuitCrawlerEditor.Triggers;
 
 namespace CircuitCrawlerEditor
 {
@@ -17,6 +18,8 @@ namespace CircuitCrawlerEditor
 
 		private Camera camera;
 		private Level level;
+
+        private Entity selectedEntity;
 
 		public FormEditor()
 		{
@@ -70,6 +73,8 @@ namespace CircuitCrawlerEditor
 			l.LinearAttenuation = 1f / 100f;
 			l.QuadraticAttenuation = 1f / 20000f;
 			level.Lights.Add(l);
+
+			UpdateWorldTree();
 		}
 
 		private void worldView_Paint(object sender, PaintEventArgs e)
@@ -122,23 +127,7 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_DragDrop(object sender, DragEventArgs e)
 		{
-			//Convert to world position
-			Point formPosition = PointToClient(new Point(e.X, e.Y));
-
-			Point controlPosition = new Point();
-			Control ctrl = worldView;
-
-			while (ctrl != this)
-			{
-				controlPosition.X += ctrl.Location.X;
-				controlPosition.Y += ctrl.Location.Y;
-				ctrl = ctrl.Parent;
-			}
-
-			formPosition.X -= controlPosition.X;
-			formPosition.Y -= controlPosition.Y;
-
-			Vector2 worldPos = ExtraMath.UnProject(camera.Projection, camera.View, worldView.Size, formPosition).Xy;
+            Vector2 worldPos = ScreenToWorld(e.X, e.Y);
 
 			//get item
 			ListViewItem item = new ListViewItem();
@@ -249,12 +238,41 @@ namespace CircuitCrawlerEditor
 					level.Triggers.Add(new Trigger());
 					break;
 			}
+
+			UpdateWorldTree();
 		}
 
 		private void worldView_DragOver(object sender, DragEventArgs e)
 		{
 			e.Effect = DragDropEffects.Copy;
 		}
+
+		private void worldView_MouseClick(object sender, MouseEventArgs e)
+        {
+            Vector2 pos = ScreenToWorld(e.Location);
+
+            if (selectedEntity != null)
+            {
+                selectedEntity.Position = pos;
+                selectedEntity = null;
+            }
+            else
+            {
+                bool selected = false;
+                foreach (Entity ent in level.Entities)
+                {
+                    if (RadiusCheck(pos, ent.Position, ent.Size))
+                    {
+                        selectedEntity = ent;
+                        selected = true;
+                    }
+                }
+                if (!selected)
+                {
+                    selectedEntity = null;
+                }
+            }
+        }
 
 		#endregion
 
@@ -266,6 +284,65 @@ namespace CircuitCrawlerEditor
 
 			if (item != null)
 				spawnList.DoDragDrop(item.Clone(), DragDropEffects.Copy);
+		}
+
+		#endregion
+
+		#region Helper Methods
+
+        private void UpdateWorldTree()
+        {
+            foreach (Entity ent in level.Entities)
+				levelTreeView.Nodes[0].Nodes.Add(ent.ToString());
+
+			foreach (Cause cause in level.Causes)
+				levelTreeView.Nodes[1].Nodes.Add(cause.ToString()); 
+			
+			foreach (Effect effect in level.Effects)
+				levelTreeView.Nodes[2].Nodes.Add(effect.ToString()); 
+			
+			foreach (Trigger trigger in level.Triggers)
+				levelTreeView.Nodes[3].Nodes.Add(trigger.ToString()); 
+			
+			foreach (Light light in level.Lights)
+				levelTreeView.Nodes[4].Nodes.Add(light.ToString());
+        }
+
+        private bool RadiusCheck(Vector2 a, Vector2 b, float distance)
+        {
+            float diag1 = (float)Math.Pow((a.X - b.X), 2);
+            float diag2 = (float)Math.Pow((a.Y - b.Y), 2);
+            return (float)Math.Sqrt(diag1 + diag2) < distance;
+        }
+
+        private Vector2 ScreenToWorld(Vector2 v)
+        {
+            Point formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
+
+            Point controlPosition = new Point();
+            Control ctrl = worldView;
+
+            while (ctrl != this)
+            {
+                controlPosition.X += ctrl.Location.X;
+                controlPosition.Y += ctrl.Location.Y;
+                ctrl = ctrl.Parent;
+            }
+
+            formPosition.X -= controlPosition.X;
+            formPosition.Y -= controlPosition.Y;
+
+            return ExtraMath.UnProject(camera.Projection, camera.View, worldView.Size, formPosition).Xy;
+        }
+
+        private Vector2 ScreenToWorld(Point p)
+        {
+            return ScreenToWorld(new Vector2(p.X, p.Y));
+        }
+
+        private Vector2 ScreenToWorld(float x, float y)
+        {
+            return ScreenToWorld(new Vector2(x, y));
 		}
 
 		#endregion
