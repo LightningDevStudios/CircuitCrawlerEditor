@@ -29,44 +29,44 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Entities", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Causes", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Effects", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Light", 9);
-			System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Ball", 0);
-			System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Block", 1);
-			System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("BreakableDoor", 4);
-			System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Button", 2);
-			System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("Cannon", 3);
-			System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("Door", 4);
-			System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("LaserShooter", 5);
-			System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("Player", 6);
-			System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("PuzzleBox", 7);
-			System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("SpikeWall", 8);
-			System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("Teleporter", 7);
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem("AND", 10);
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem("NOT", 10);
-			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem("OR", 10);
-			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem("XOR", 10);
-			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem("Button", 10);
-			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem("EntityDestruction", 10);
-			System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem("Location", 10);
-			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem("TimePassed", 10);
-			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem("AND", 11);
-			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem("List", 11);
-			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("Door", 11);
-			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("EndGame", 11);
-			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem("RaiseBridge", 11);
-			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem("RemoveEntity", 11);
-			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem("TriggerTimer", 11);
-			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem("Trigger", 12);
+			System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Entities", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Causes", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Effects", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem("Light", 9);
+			System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem("Ball", 0);
+			System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem("Block", 1);
+			System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem("BreakableDoor", 4);
+			System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem("Button", 2);
+			System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem("Cannon", 3);
+			System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem("Door", 4);
+			System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem("LaserShooter", 5);
+			System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem("Player", 6);
+			System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem("PuzzleBox", 7);
+			System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem("SpikeWall", 8);
+			System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem("Teleporter", 7);
+			System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem("AND", 10);
+			System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem("NOT", 10);
+			System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem("OR", 10);
+			System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem("XOR", 10);
+			System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem("Button", 10);
+			System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem("EntityDestruction", 10);
+			System.Windows.Forms.ListViewItem listViewItem47 = new System.Windows.Forms.ListViewItem("Location", 10);
+			System.Windows.Forms.ListViewItem listViewItem48 = new System.Windows.Forms.ListViewItem("TimePassed", 10);
+			System.Windows.Forms.ListViewItem listViewItem49 = new System.Windows.Forms.ListViewItem("AND", 11);
+			System.Windows.Forms.ListViewItem listViewItem50 = new System.Windows.Forms.ListViewItem("List", 11);
+			System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem("Door", 11);
+			System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem("EndGame", 11);
+			System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem("RaiseBridge", 11);
+			System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem("RemoveEntity", 11);
+			System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem("TriggerTimer", 11);
+			System.Windows.Forms.ListViewItem listViewItem56 = new System.Windows.Forms.ListViewItem("Trigger", 12);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEditor));
-			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tileset");
-			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Entities");
-			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Causes");
-			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Effects");
-			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Triggers");
-			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Lights");
+			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Tileset");
+			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Entities");
+			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Causes");
+			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Effects");
+			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Triggers");
+			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Lights");
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -323,101 +323,102 @@
 			// 
 			// spawnList
 			// 
+			this.spawnList.AllowDrop = true;
 			this.spawnList.Dock = System.Windows.Forms.DockStyle.Fill;
-			listViewGroup1.Header = "Entities";
-			listViewGroup1.Name = "EntitesGroup";
-			listViewGroup2.Header = "Causes";
-			listViewGroup2.Name = "CausesGroup";
-			listViewGroup3.Header = "Effects";
-			listViewGroup3.Name = "EffectsGroup";
+			listViewGroup4.Header = "Entities";
+			listViewGroup4.Name = "EntitesGroup";
+			listViewGroup5.Header = "Causes";
+			listViewGroup5.Name = "CausesGroup";
+			listViewGroup6.Header = "Effects";
+			listViewGroup6.Name = "EffectsGroup";
 			this.spawnList.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
 			this.spawnList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			listViewItem1.Tag = "Light";
-			listViewItem2.Group = listViewGroup1;
-			listViewItem2.Tag = "Ball";
-			listViewItem3.Group = listViewGroup1;
-			listViewItem3.Tag = "Block";
-			listViewItem4.Group = listViewGroup1;
-			listViewItem4.Tag = "BreakableDoor";
-			listViewItem5.Group = listViewGroup1;
-			listViewItem5.Tag = "Button";
-			listViewItem6.Group = listViewGroup1;
-			listViewItem6.Tag = "Cannon";
-			listViewItem7.Group = listViewGroup1;
-			listViewItem7.Tag = "Door";
-			listViewItem8.Group = listViewGroup1;
-			listViewItem8.Tag = "LaserShooter";
-			listViewItem9.Group = listViewGroup1;
-			listViewItem9.Tag = "Player";
-			listViewItem10.Group = listViewGroup1;
-			listViewItem10.Tag = "PuzzleBox";
-			listViewItem11.Group = listViewGroup1;
-			listViewItem11.Tag = "SpikeWall";
-			listViewItem12.Group = listViewGroup1;
-			listViewItem12.Tag = "Teleporter";
-			listViewItem13.Group = listViewGroup2;
-			listViewItem13.Tag = "CauseAND";
-			listViewItem14.Group = listViewGroup2;
-			listViewItem14.Tag = "CauseNOT";
-			listViewItem15.Group = listViewGroup2;
-			listViewItem15.Tag = "CauseOR";
-			listViewItem16.Group = listViewGroup2;
-			listViewItem16.Tag = "CauseXOR";
-			listViewItem17.Group = listViewGroup2;
-			listViewItem17.Tag = "CauseButton";
-			listViewItem18.Group = listViewGroup2;
-			listViewItem18.Tag = "CauseEntityDestruction";
-			listViewItem19.Group = listViewGroup2;
-			listViewItem19.Tag = "CauseLocation";
-			listViewItem20.Group = listViewGroup2;
-			listViewItem20.Tag = "CauseTimePassed";
-			listViewItem21.Group = listViewGroup3;
-			listViewItem21.Tag = "EffectAND";
-			listViewItem22.Group = listViewGroup3;
-			listViewItem22.Tag = "EffectList";
-			listViewItem23.Group = listViewGroup3;
-			listViewItem23.Tag = "EffectDoor";
-			listViewItem24.Group = listViewGroup3;
-			listViewItem24.Tag = "EffectEndGame";
-			listViewItem25.Group = listViewGroup3;
-			listViewItem25.Tag = "EffectRaiseBridge";
-			listViewItem26.Group = listViewGroup3;
-			listViewItem26.Tag = "EffectRemoveEntity";
-			listViewItem27.Group = listViewGroup3;
-			listViewItem27.Tag = "EffectTriggerTimer";
-			listViewItem28.Tag = "Trigger";
+			listViewItem29.Tag = "Light";
+			listViewItem30.Group = listViewGroup4;
+			listViewItem30.Tag = "Ball";
+			listViewItem31.Group = listViewGroup4;
+			listViewItem31.Tag = "Block";
+			listViewItem32.Group = listViewGroup4;
+			listViewItem32.Tag = "BreakableDoor";
+			listViewItem33.Group = listViewGroup4;
+			listViewItem33.Tag = "Button";
+			listViewItem34.Group = listViewGroup4;
+			listViewItem34.Tag = "Cannon";
+			listViewItem35.Group = listViewGroup4;
+			listViewItem35.Tag = "Door";
+			listViewItem36.Group = listViewGroup4;
+			listViewItem36.Tag = "LaserShooter";
+			listViewItem37.Group = listViewGroup4;
+			listViewItem37.Tag = "Player";
+			listViewItem38.Group = listViewGroup4;
+			listViewItem38.Tag = "PuzzleBox";
+			listViewItem39.Group = listViewGroup4;
+			listViewItem39.Tag = "SpikeWall";
+			listViewItem40.Group = listViewGroup4;
+			listViewItem40.Tag = "Teleporter";
+			listViewItem41.Group = listViewGroup5;
+			listViewItem41.Tag = "CauseAND";
+			listViewItem42.Group = listViewGroup5;
+			listViewItem42.Tag = "CauseNOT";
+			listViewItem43.Group = listViewGroup5;
+			listViewItem43.Tag = "CauseOR";
+			listViewItem44.Group = listViewGroup5;
+			listViewItem44.Tag = "CauseXOR";
+			listViewItem45.Group = listViewGroup5;
+			listViewItem45.Tag = "CauseButton";
+			listViewItem46.Group = listViewGroup5;
+			listViewItem46.Tag = "CauseEntityDestruction";
+			listViewItem47.Group = listViewGroup5;
+			listViewItem47.Tag = "CauseLocation";
+			listViewItem48.Group = listViewGroup5;
+			listViewItem48.Tag = "CauseTimePassed";
+			listViewItem49.Group = listViewGroup6;
+			listViewItem49.Tag = "EffectAND";
+			listViewItem50.Group = listViewGroup6;
+			listViewItem50.Tag = "EffectList";
+			listViewItem51.Group = listViewGroup6;
+			listViewItem51.Tag = "EffectDoor";
+			listViewItem52.Group = listViewGroup6;
+			listViewItem52.Tag = "EffectEndGame";
+			listViewItem53.Group = listViewGroup6;
+			listViewItem53.Tag = "EffectRaiseBridge";
+			listViewItem54.Group = listViewGroup6;
+			listViewItem54.Tag = "EffectRemoveEntity";
+			listViewItem55.Group = listViewGroup6;
+			listViewItem55.Tag = "EffectTriggerTimer";
+			listViewItem56.Tag = "Trigger";
 			this.spawnList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5,
-            listViewItem6,
-            listViewItem7,
-            listViewItem8,
-            listViewItem9,
-            listViewItem10,
-            listViewItem11,
-            listViewItem12,
-            listViewItem13,
-            listViewItem14,
-            listViewItem15,
-            listViewItem16,
-            listViewItem17,
-            listViewItem18,
-            listViewItem19,
-            listViewItem20,
-            listViewItem21,
-            listViewItem22,
-            listViewItem23,
-            listViewItem24,
-            listViewItem25,
-            listViewItem26,
-            listViewItem27,
-            listViewItem28});
+            listViewItem29,
+            listViewItem30,
+            listViewItem31,
+            listViewItem32,
+            listViewItem33,
+            listViewItem34,
+            listViewItem35,
+            listViewItem36,
+            listViewItem37,
+            listViewItem38,
+            listViewItem39,
+            listViewItem40,
+            listViewItem41,
+            listViewItem42,
+            listViewItem43,
+            listViewItem44,
+            listViewItem45,
+            listViewItem46,
+            listViewItem47,
+            listViewItem48,
+            listViewItem49,
+            listViewItem50,
+            listViewItem51,
+            listViewItem52,
+            listViewItem53,
+            listViewItem54,
+            listViewItem55,
+            listViewItem56});
 			this.spawnList.LabelWrap = false;
 			this.spawnList.LargeImageList = this.spawnIcons;
 			this.spawnList.Location = new System.Drawing.Point(0, 0);
@@ -466,6 +467,7 @@
 			// 
 			// worldView
 			// 
+			this.worldView.AllowDrop = true;
 			this.worldView.BackColor = System.Drawing.Color.Black;
 			this.worldView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.worldView.Location = new System.Drawing.Point(0, 0);
@@ -474,6 +476,7 @@
 			this.worldView.TabIndex = 0;
 			this.worldView.VSync = true;
 			this.worldView.Load += new System.EventHandler(this.worldView_Load);
+			this.worldView.DragDrop += new System.Windows.Forms.DragEventHandler(this.worldView_DragDrop);
 			this.worldView.Paint += new System.Windows.Forms.PaintEventHandler(this.worldView_Paint);
 			this.worldView.Resize += new System.EventHandler(this.worldView_Resize);
 			// 
@@ -500,25 +503,25 @@
 			this.levelTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.levelTreeView.Location = new System.Drawing.Point(0, 0);
 			this.levelTreeView.Name = "levelTreeView";
-			treeNode1.Name = "TreeViewTileset";
-			treeNode1.Text = "Tileset";
-			treeNode2.Name = "TreeViewEntities";
-			treeNode2.Text = "Entities";
-			treeNode3.Name = "TreeViewCauses";
-			treeNode3.Text = "Causes";
-			treeNode4.Name = "TreeViewEffects";
-			treeNode4.Text = "Effects";
-			treeNode5.Name = "TreeViewTriggers";
-			treeNode5.Text = "Triggers";
-			treeNode6.Name = "TreeViewLights";
-			treeNode6.Text = "Lights";
+			treeNode7.Name = "TreeViewTileset";
+			treeNode7.Text = "Tileset";
+			treeNode8.Name = "TreeViewEntities";
+			treeNode8.Text = "Entities";
+			treeNode9.Name = "TreeViewCauses";
+			treeNode9.Text = "Causes";
+			treeNode10.Name = "TreeViewEffects";
+			treeNode10.Text = "Effects";
+			treeNode11.Name = "TreeViewTriggers";
+			treeNode11.Text = "Triggers";
+			treeNode12.Name = "TreeViewLights";
+			treeNode12.Text = "Lights";
 			this.levelTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5,
-            treeNode6});
+            treeNode7,
+            treeNode8,
+            treeNode9,
+            treeNode10,
+            treeNode11,
+            treeNode12});
 			this.levelTreeView.Size = new System.Drawing.Size(265, 220);
 			this.levelTreeView.TabIndex = 0;
 			// 

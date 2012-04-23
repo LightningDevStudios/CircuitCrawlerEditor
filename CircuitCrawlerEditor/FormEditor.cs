@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 
+using CircuitCrawlerEditor.Entities;
+
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -58,7 +60,7 @@ namespace CircuitCrawlerEditor
 			}, new Texture(new Bitmap("Resources/Textures/tilesetworld.png"), 16, 8, TextureMinFilter.Linear, TextureMagFilter.Linear, TextureWrapMode.Clamp, TextureWrapMode.Clamp));
 
 			Light l = new Light();
-			l.Diffuse = Color4.Blue;
+			l.Diffuse = Color4.White;
 			l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
 			l.Position = new Vector4(-40, 0, 1, 1);
 			l.ConstantAttenuation = 1f;
@@ -113,6 +115,76 @@ namespace CircuitCrawlerEditor
 			camera.LoadProjection();
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
+		}
+
+		private void worldView_DragDrop(object sender, DragEventArgs e)
+		{
+			//Convert to world position
+			Point formPosition = PointToClient(new Point(e.X, e.Y));
+
+			Point controlPosition = new Point();
+			Control ctrl = worldView;
+
+			while (ctrl != this)
+			{
+				controlPosition.X += ctrl.Location.X;
+				controlPosition.Y += ctrl.Location.Y;
+				ctrl = ctrl.Parent;
+			}
+
+			formPosition.X -= controlPosition.X;
+			formPosition.Y -= controlPosition.Y;
+
+			Vector2 worldPos = ExtraMath.UnProject(camera.Projection, camera.View, worldView.Size, formPosition).Xy;
+
+			//get item
+			ListViewItem item = new ListViewItem();
+			if (e.Data.GetData(typeof(ListViewItem)) != null)
+				item = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
+
+			switch ((string)item.Tag)
+			{
+				case "Light":
+					Light l = new Light();
+					l.Diffuse = Color4.White;
+					l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
+					l.Position = new Vector4(worldPos.X, worldPos.Y, 1, 1);
+					l.ConstantAttenuation = 1f;
+					l.LinearAttenuation = 1f / 100f;
+					l.QuadraticAttenuation = 1f / 20000f;
+					level.Lights.Add(l);
+					break;
+				case "Ball":
+					Ball ball = new Ball(32, worldPos.X, worldPos.Y);
+					level.Entities.Add(ball);
+					break;
+				case "Block":
+					Block block = new Block(50, worldPos.X, worldPos.Y);
+					level.Entities.Add(block);
+					break;
+				case "BreakableDoor":
+					BreakableDoor bdoor = new BreakableDoor(worldPos.X, worldPos.Y, 5);
+					level.Entities.Add(bdoor);
+					break;
+				case "Button":
+					Entities.Button button = new Entities.Button(worldPos.X, worldPos.Y);
+					level.Entities.Add(button);
+					break;
+				case "Cannon":
+					break;
+				case "Door":
+					break;
+				case "LaserShooter":
+					break;
+				case "Player":
+					break;
+				case "PuzzleBox":
+					break;
+				case "SpikeWall":
+					break;
+				case "Teleporter":
+					break;
+			}
 		}
 	}
 }

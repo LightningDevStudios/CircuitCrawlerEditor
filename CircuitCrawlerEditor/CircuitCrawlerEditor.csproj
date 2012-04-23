@@ -61,6 +61,7 @@
     <Compile Include="Entities\PuzzleBox.cs" />
     <Compile Include="Entities\SpikeWall.cs" />
     <Compile Include="Entities\Teleporter.cs" />
+    <Compile Include="ExtraMath.cs" />
     <Compile Include="FormEditor.cs">
       <SubType>Form</SubType>
     </Compile>
