@@ -7,6 +7,7 @@ using CircuitCrawlerEditor.Entities;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using CircuitCrawlerEditor.Triggers;
 
 namespace CircuitCrawlerEditor
 {
@@ -16,6 +17,8 @@ namespace CircuitCrawlerEditor
 
 		private Camera camera;
 		private Level level;
+
+        private Entity selectedEntity;
 
 		public FormEditor()
 		{
@@ -119,23 +122,7 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_DragDrop(object sender, DragEventArgs e)
 		{
-			//Convert to world position
-			Point formPosition = PointToClient(new Point(e.X, e.Y));
-
-			Point controlPosition = new Point();
-			Control ctrl = worldView;
-
-			while (ctrl != this)
-			{
-				controlPosition.X += ctrl.Location.X;
-				controlPosition.Y += ctrl.Location.Y;
-				ctrl = ctrl.Parent;
-			}
-
-			formPosition.X -= controlPosition.X;
-			formPosition.Y -= controlPosition.Y;
-
-			Vector2 worldPos = ExtraMath.UnProject(camera.Projection, camera.View, worldView.Size, formPosition).Xy;
+            Vector2 worldPos = ScreenToWorld(e.X, e.Y);
 
 			//get item
 			ListViewItem item = new ListViewItem();
@@ -188,5 +175,98 @@ namespace CircuitCrawlerEditor
 					break;
 			}
 		}
+
+        private void worldView_MouseClick(object sender, MouseEventArgs e)
+        {
+            Vector2 pos = ScreenToWorld(e.Location);
+
+            if (selectedEntity != null)
+            {
+                selectedEntity.Position = pos;
+                selectedEntity = null;
+            }
+            else
+            {
+                bool selected = false;
+                foreach (Entity ent in level.Entities)
+                {
+                    if (RadiusCheck(pos, ent.Position, ent.Size))
+                    {
+                        selectedEntity = ent;
+                        selected = true;
+                    }
+                }
+                if (!selected)
+                {
+                    selectedEntity = null;
+                }
+            }
+        }
+
+        private void UpdateWorldTree()
+        {
+            foreach (Entity ent in level.Entities)
+            {
+                TreeNode node = levelTreeView.Nodes.Find("Entities", false)[0];
+                node.Nodes.Add(ent.ToString());
+            }
+            foreach (Cause cause in level.Causes)
+            {
+                TreeNode node = levelTreeView.Nodes.Find("Causes", false)[0];
+                node.Nodes.Add(cause.ToString());
+            }
+            foreach (Effect effect in level.Effects)
+            {
+                TreeNode node = levelTreeView.Nodes.Find("Effects", false)[0];
+                node.Nodes.Add(effect.ToString());
+            }
+            foreach (Trigger trigger in level.Triggers)
+            {
+                TreeNode node = levelTreeView.Nodes.Find("Triggers", false)[0];
+                node.Nodes.Add(trigger.ToString());
+            }
+            foreach (Light light in level.Lights)
+            {
+                TreeNode node = levelTreeView.Nodes.Find("Lights", false)[0];
+                node.Nodes.Add(light.Index.ToString());
+            }
+        }
+
+        private bool RadiusCheck(Vector2 a, Vector2 b, float distance)
+        {
+            float diag1 = (float)Math.Pow((a.X - b.X), 2);
+            float diag2 = (float)Math.Pow((a.Y - b.Y), 2);
+            return (float)Math.Sqrt(diag1 + diag2) < distance;
+        }
+
+        private Vector2 ScreenToWorld(Vector2 v)
+        {
+            Point formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
+
+            Point controlPosition = new Point();
+            Control ctrl = worldView;
+
+            while (ctrl != this)
+            {
+                controlPosition.X += ctrl.Location.X;
+                controlPosition.Y += ctrl.Location.Y;
+                ctrl = ctrl.Parent;
+            }
+
+            formPosition.X -= controlPosition.X;
+            formPosition.Y -= controlPosition.Y;
+
+            return ExtraMath.UnProject(camera.Projection, camera.View, worldView.Size, formPosition).Xy;
+        }
+
+        private Vector2 ScreenToWorld(Point p)
+        {
+            return ScreenToWorld(new Vector2(p.X, p.Y));
+        }
+
+        private Vector2 ScreenToWorld(float x, float y)
+        {
+            return ScreenToWorld(new Vector2(x, y));
+        }
 	}
 }
