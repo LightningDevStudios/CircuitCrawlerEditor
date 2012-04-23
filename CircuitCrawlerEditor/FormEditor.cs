@@ -171,6 +171,8 @@ namespace CircuitCrawlerEditor
 					level.Entities.Add(button);
 					break;
 				case "Cannon":
+					Cannon cannon = new Cannon(50, worldPos.X, worldPos.Y);
+					level.Entities.Add(cannon);
 					break;
 				case "Door":
 					break;
