@@ -51,6 +51,7 @@
     <Compile Include="Entities\BreakableDoor.cs" />
     <Compile Include="Entities\Button.cs" />
     <Compile Include="Entities\Cannon.cs" />
+    <Compile Include="Entities\Direction.cs" />
     <Compile Include="Entities\Door.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\HoldObject.cs" />

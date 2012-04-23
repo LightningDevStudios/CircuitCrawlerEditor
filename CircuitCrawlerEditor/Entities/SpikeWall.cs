@@ -1,11 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 
 namespace CircuitCrawlerEditor.Entities
 {
-	class SpikeWall
+	public class SpikeWall : Entity
 	{
+		public SpikeWall(float xPos, float yPos)
+            : base(64, xPos, yPos)
+        {
+			Dir = Direction.LEFT;
+        }
+
+		[Category("SpikeWall"), Description("The direction in which the spikewall pushes.")]
+		public Direction Dir { get; set; }
 	}
 }

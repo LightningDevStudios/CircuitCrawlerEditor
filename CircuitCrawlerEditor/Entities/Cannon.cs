@@ -13,7 +13,7 @@ namespace CircuitCrawlerEditor.Entities
 		[Category("Cannon"), Description("The speed at which the balls from this cannon fire.")]
 		public int BallSpeed { get; set; }
 
-		[Category("Cannon"), Description("The interval at which balls fire from this cannon.")]
-		public int FireRate { get; set; }
+		[Category("Cannon"), Description("The stupidity of the Cannon's AI.")]
+		public int Stupidity { get; set; }
 	}
 }

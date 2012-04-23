@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using CircuitCrawlerEditor.Entities;
+using CircuitCrawlerEditor.Triggers;
 
 using OpenTK;
 using OpenTK.Graphics;
@@ -34,6 +35,8 @@ namespace CircuitCrawlerEditor
 
 			worldView.Invalidate();
 		}
+
+		#region WorldView Events
 
 		private void worldView_Load(object sender, EventArgs e)
 		{
@@ -175,18 +178,96 @@ namespace CircuitCrawlerEditor
 					level.Entities.Add(cannon);
 					break;
 				case "Door":
+					Door door = new Door(worldPos.X, worldPos.Y);
+					level.Entities.Add(door);
 					break;
 				case "LaserShooter":
+					LaserShooter ls = new LaserShooter(50, worldPos.X, worldPos.Y);
+					level.Entities.Add(ls);
 					break;
 				case "Player":
+					Player p = new Player(32, worldPos.X, worldPos.Y);
+					level.Entities.Add(p);
 					break;
 				case "PuzzleBox":
+					PuzzleBox pb = new PuzzleBox(32, worldPos.X, worldPos.Y);
+					level.Entities.Add(pb);
 					break;
 				case "SpikeWall":
+					SpikeWall sw = new SpikeWall(worldPos.X, worldPos.Y);
 					break;
 				case "Teleporter":
+					Teleporter tp = new Teleporter(64, worldPos.X, worldPos.Y);
+					level.Entities.Add(tp);
+					break;
+				case "CauseAND":
+					level.Causes.Add(new CauseAND());
+					break;
+				case "CauseNOT":
+					level.Causes.Add(new CauseNOT());
+					break;
+				case "CauseOR":
+					level.Causes.Add(new CauseOR());
+					break;
+				case "CauseXOR":
+					level.Causes.Add(new CauseXOR());
+					break;
+				case "CauseButton":
+					level.Causes.Add(new CauseButton());
+					break;
+				case "CauseEntityDestruction":
+					level.Causes.Add(new CauseEntityDestruction());
+					break;
+				case "CauseLocation":
+					level.Causes.Add(new CauseButton());
+					break;
+				case "CauseTimePast":
+					level.Causes.Add(new CauseButton());
+					break;
+				case "EffectAND":
+					level.Effects.Add(new EffectAND());
+					break;
+				case "EffectList":
+					level.Effects.Add(new EffectList());
+					break;
+				case "EffectDoor":
+					level.Effects.Add(new EffectDoor());
+					break;
+				case "EffectEndGame":
+					level.Effects.Add(new EffectEndGame());
+					break;
+				case "EffectRaiseBridge":
+					level.Effects.Add(new EffectRaiseBridge());
+					break;
+				case "EffectRemoveEntity":
+					level.Effects.Add(new EffectRemoveEntity());
+					break;
+				case "EffectTriggerTimer":
+					level.Effects.Add(new EffectTriggerTimer());
+					break;
+				case "Trigger":
+					level.Triggers.Add(new Trigger());
 					break;
 			}
 		}
+
+		private void worldView_DragOver(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.Copy;
+		}
+
+		#endregion
+
+		#region SpawnList Events
+
+		private void spawnList_MouseDown(object sender, MouseEventArgs e)
+		{
+			ListViewItem item = spawnList.GetItemAt(e.X, e.Y);
+
+			if (item != null)
+				spawnList.DoDragDrop(item.Clone(), DragDropEffects.Copy);
+		}
+
+		#endregion
 	}
 }
