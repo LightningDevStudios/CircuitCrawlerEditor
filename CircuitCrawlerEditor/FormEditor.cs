@@ -310,6 +310,42 @@ namespace CircuitCrawlerEditor
 			selectedEntity = e.Node.Tag as Entity;
 		}
 
+		#endregion	
+
+		#region ToolStrip Events
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("CC Level Editor: \r\n//TODO Put Stuff Here.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//TODO Lol Sauce
+		}
+
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (loadDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				level = Parser.Parser.LoadLevel(loadDialog.FileName);
+
+			UpdateWorldTree();
+		}
+
+		private void snapSizeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (SnapSize form = new SnapSize())
+			{
+				form.ShowDialog();
+				gridSnap = form.snapSize;
+			}
+		}
+
 		#endregion
 
 		#region Helper Methods
@@ -395,40 +431,6 @@ namespace CircuitCrawlerEditor
 		private Vector2 ScreenToWorld(float x, float y)
 		{
 			return ScreenToWorld(new Vector2(x, y));
-		}
-
-		#endregion
-
-		#region ToolStrip Events
-
-		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Application.Exit();
-		}
-
-		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("CC Level Editor: \r\n//TODO Put Stuff Here.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
-		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			//TODO Lol Sauce
-		}
-
-		private void openToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (loadDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				level = Parser.Parser.LoadLevel(loadDialog.FileName);
-		}
-
-		private void snapSizeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			using (SnapSize form = new SnapSize())
-			{
-				form.ShowDialog();
-				gridSnap = form.snapSize;
-			}
 		}
 
 		#endregion
