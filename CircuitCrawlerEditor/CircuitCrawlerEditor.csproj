@@ -93,6 +93,12 @@
     <Compile Include="Tile.cs" />
     <Compile Include="Tileset.cs" />
     <Compile Include="TilesetHelper.cs" />
+    <Compile Include="TileSize.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TileSize.Designer.cs">
+      <DependentUpon>TileSize.cs</DependentUpon>
+    </Compile>
     <Compile Include="Triggers\Cause.cs" />
     <Compile Include="Triggers\CauseAND.cs" />
     <Compile Include="Triggers\CauseButton.cs" />
@@ -123,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SnapSize.resx">
       <DependentUpon>SnapSize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TileSize.resx">
+      <DependentUpon>TileSize.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

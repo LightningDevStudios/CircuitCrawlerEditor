@@ -62,15 +62,8 @@ namespace CircuitCrawlerEditor
 			GL.ClearColor(Color.CornflowerBlue);
 
 			ResizeViewport();
-
-			level.Tileset = new Tileset(new Tile[][]
-			{
-				new Tile[] { new Tile(new Point(0, 0), 4, 4, TileType.Wall), new Tile(new Point(1, 0), 4, 4, TileType.Wall), new Tile(new Point(2, 0), 4, 4, TileType.Pit), new Tile(new Point(3, 0), 4, 4, TileType.Wall) },
-				new Tile[] { new Tile(new Point(0, 1), 4, 4, TileType.Wall), new Tile(new Point(1, 1), 4, 4, TileType.Floor), new Tile(new Point(2, 1), 4, 4, TileType.Wall), new Tile(new Point(3, 1), 4, 4, TileType.Wall) },
-				new Tile[] { new Tile(new Point(0, 2), 4, 4, TileType.Wall), new Tile(new Point(1, 2), 4, 4, TileType.Floor), new Tile(new Point(2, 2), 4, 4, TileType.Wall), new Tile(new Point(3, 2), 4, 4, TileType.Wall) },
-				new Tile[] { new Tile(new Point(0, 3), 4, 4, TileType.Wall), new Tile(new Point(1, 3), 4, 4, TileType.Wall), new Tile(new Point(2, 3), 4, 4, TileType.Wall), new Tile(new Point(3, 3), 4, 4, TileType.Wall) }
-			}, new Texture(new Bitmap("Resources/Textures/tilesetworld.png"), 16, 8, TextureMinFilter.Linear, TextureMagFilter.Linear, TextureWrapMode.Clamp, TextureWrapMode.Clamp));
-
+			GenerateTiles(4, 4);
+			
 			Light l = new Light();
 			l.Diffuse = Color4.White;
 			l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
@@ -373,6 +366,41 @@ namespace CircuitCrawlerEditor
 			}
 		}
 
+		private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			snapping = !snapping;
+		}
+
+		private void lightsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			showLights = !showLights;
+		}
+
+		private void newToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("Are you sure you want to create a new level?", "New Level", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+			{
+				level = new Level();
+				worldView_Load(this, EventArgs.Empty);
+			}
+		}
+
+		private void resizeTilesetToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (TileSize form = new TileSize())
+			{
+				form.ShowDialog();
+
+				if (level.Tileset.Tiles.Length == form.X && level.Tileset.Tiles[0].Length == form.Y)
+					return;
+
+				if (MessageBox.Show("Are you sure you want to resize the tiles?\r\nThis will erase all current tiles.", "Resize Tiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+				{
+					GenerateTiles(form.X, form.Y);
+				}
+			}
+		}
+
 		#endregion
 
 		#region Helper Methods
@@ -475,25 +503,27 @@ namespace CircuitCrawlerEditor
 			return ScreenToWorld(new Vector2(x, y));
 		}
 
-		#endregion
-
-		private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
+		private void GenerateTiles(int x, int y)
 		{
-			snapping = !snapping;
-		}
+			Tile[][] tiles = new Tile[x][];
+			for (int i = 0; i < tiles.Length; i++)
+				tiles[i] = new Tile[y];
 
-		private void lightsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			showLights = !showLights;
-		}
-
-		private void newToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (MessageBox.Show("Are you sure you want to create a new level?", "New Level", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+			for (int i = 0; i < x; i++)
 			{
-				level = new Level();
-				worldView_Load(this, EventArgs.Empty);
+				for (int j = 0; j < y; j++)
+				{
+					if (j == 0 || j == y - 1 || i == 0 || i == x - 1)
+					{
+						tiles[i][j] = new Tile(new Point(i, j), 4, 4, TileType.Wall); 
+					}
+					else
+						tiles[i][j] = new Tile(new Point(i, j), 4, 4, TileType.Floor); 
+				}
 			}
+			level.Tileset = new Tileset(tiles, new Texture(new Bitmap("Resources/Textures/tilesetworld.png"), 16, 8, TextureMinFilter.Linear, TextureMagFilter.Linear, TextureWrapMode.Clamp, TextureWrapMode.Clamp));
 		}
+
+		#endregion
 	}
 }
