@@ -8,7 +8,6 @@ using CircuitCrawlerEditor.Triggers;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using CircuitCrawlerEditor.Triggers;
 
 namespace CircuitCrawlerEditor
 {
@@ -292,6 +291,9 @@ namespace CircuitCrawlerEditor
 
         private void UpdateWorldTree()
         {
+            foreach (TreeNode node in levelTreeView.Nodes)
+                node.Nodes.Clear();
+
             foreach (Entity ent in level.Entities)
 				levelTreeView.Nodes[0].Nodes.Add(ent.ToString());
 
@@ -346,5 +348,25 @@ namespace CircuitCrawlerEditor
 		}
 
 		#endregion
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("CC Level Editor: \r\n//TODO Put Stuff Here.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
 	}
 }
