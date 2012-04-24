@@ -20,6 +20,8 @@ namespace CircuitCrawlerEditor
 
         private Entity selectedEntity;
 
+        private float gridSnap;
+
 		public FormEditor()
 		{
 			InitializeComponent();
@@ -361,12 +363,21 @@ namespace CircuitCrawlerEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //TODO Lol Sauce
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void snapSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SnapSize form = new SnapSize())
+            {
+                form.ShowDialog();
+                gridSnap = form.snapSize;
+            }
         }
 	}
 }
