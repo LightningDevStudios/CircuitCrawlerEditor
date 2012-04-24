@@ -98,8 +98,8 @@
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.worldView = new OpenTK.GLControl();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-			this.levelTreeView = new System.Windows.Forms.TreeView();
-			this.propertyGridSelected = new System.Windows.Forms.PropertyGrid();
+			this.levelItemsList = new System.Windows.Forms.TreeView();
+			this.selectedItemProperties = new System.Windows.Forms.PropertyGrid();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -491,20 +491,20 @@
 			// 
 			// splitContainer3.Panel1
 			// 
-			this.splitContainer3.Panel1.Controls.Add(this.levelTreeView);
+			this.splitContainer3.Panel1.Controls.Add(this.levelItemsList);
 			// 
 			// splitContainer3.Panel2
 			// 
-			this.splitContainer3.Panel2.Controls.Add(this.propertyGridSelected);
+			this.splitContainer3.Panel2.Controls.Add(this.selectedItemProperties);
 			this.splitContainer3.Size = new System.Drawing.Size(265, 501);
 			this.splitContainer3.SplitterDistance = 220;
 			this.splitContainer3.TabIndex = 0;
 			// 
-			// levelTreeView
+			// levelItemsList
 			// 
-			this.levelTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.levelTreeView.Location = new System.Drawing.Point(0, 0);
-			this.levelTreeView.Name = "levelTreeView";
+			this.levelItemsList.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.levelItemsList.Location = new System.Drawing.Point(0, 0);
+			this.levelItemsList.Name = "levelItemsList";
 			treeNode1.Name = "TreeViewEntities";
 			treeNode1.Text = "Entities";
 			treeNode2.Name = "TreeViewCauses";
@@ -515,22 +515,23 @@
 			treeNode4.Text = "Triggers";
 			treeNode5.Name = "TreeViewLights";
 			treeNode5.Text = "Lights";
-			this.levelTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+			this.levelItemsList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
             treeNode4,
             treeNode5});
-			this.levelTreeView.Size = new System.Drawing.Size(265, 220);
-			this.levelTreeView.TabIndex = 0;
+			this.levelItemsList.Size = new System.Drawing.Size(265, 220);
+			this.levelItemsList.TabIndex = 0;
+			this.levelItemsList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.levelItems_NodeMouseClick);
 			// 
-			// propertyGridSelected
+			// selectedItemProperties
 			// 
-			this.propertyGridSelected.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.propertyGridSelected.Location = new System.Drawing.Point(0, 0);
-			this.propertyGridSelected.Name = "propertyGridSelected";
-			this.propertyGridSelected.Size = new System.Drawing.Size(265, 277);
-			this.propertyGridSelected.TabIndex = 0;
+			this.selectedItemProperties.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.selectedItemProperties.Location = new System.Drawing.Point(0, 0);
+			this.selectedItemProperties.Name = "selectedItemProperties";
+			this.selectedItemProperties.Size = new System.Drawing.Size(265, 277);
+			this.selectedItemProperties.TabIndex = 0;
 			// 
 			// FormEditor
 			// 
@@ -594,8 +595,8 @@
 		private System.Windows.Forms.SplitContainer splitContainer2;
 		private OpenTK.GLControl worldView;
 		private System.Windows.Forms.SplitContainer splitContainer3;
-		private System.Windows.Forms.TreeView levelTreeView;
-		private System.Windows.Forms.PropertyGrid propertyGridSelected;
+		private System.Windows.Forms.TreeView levelItemsList;
+		private System.Windows.Forms.PropertyGrid selectedItemProperties;
 		private System.Windows.Forms.ListView spawnList;
 		private System.Windows.Forms.ImageList spawnIcons;
 	}

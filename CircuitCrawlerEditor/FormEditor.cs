@@ -253,7 +253,8 @@ namespace CircuitCrawlerEditor
 
             if (selectedEntity != null)
             {
-                selectedEntity.Position = pos;
+                selectedEntity.XPos = pos.X;
+				selectedEntity.YPos = pos.Y;
                 selectedEntity = null;
             }
             else
@@ -261,10 +262,20 @@ namespace CircuitCrawlerEditor
                 bool selected = false;
                 foreach (Entity ent in level.Entities)
                 {
-                    if (RadiusCheck(pos, ent.Position, ent.Size))
+                    if (RadiusCheck(pos, new Vector2(ent.XPos, ent.YPos), ent.Size))
                     {
                         selectedEntity = ent;
-                        selected = true;
+						TreeNodeCollection nodes = levelItemsList.Nodes;
+						foreach (TreeNode node in nodes)
+						{
+							if (node.Tag == ent)
+							{
+								levelItemsList.SelectedNode = node;
+								break;
+							}
+						}
+						selectedItemProperties.SelectedObject = ent;
+						selected = true;
                     }
                 }
                 if (!selected)
@@ -288,24 +299,54 @@ namespace CircuitCrawlerEditor
 
 		#endregion
 
+		#region LevelItemsList Events
+
+		private void levelItems_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
+			selectedItemProperties.SelectedObject = e.Node.Tag;
+			selectedEntity = e.Node.Tag as Entity;
+		}
+
+		#endregion
+
 		#region Helper Methods
 
-        private void UpdateWorldTree()
+		private void UpdateWorldTree()
         {
-            foreach (Entity ent in level.Entities)
-				levelTreeView.Nodes[0].Nodes.Add(ent.ToString());
+			foreach (Entity ent in level.Entities)
+			{
+				TreeNode node = new TreeNode(ent.ToString());
+				node.Tag = ent;
+				levelItemsList.Nodes[0].Nodes.Add(node);
+			}
 
 			foreach (Cause cause in level.Causes)
-				levelTreeView.Nodes[1].Nodes.Add(cause.ToString()); 
+			{
+				TreeNode node = new TreeNode(cause.ToString());
+				node.Tag = cause;
+				levelItemsList.Nodes[1].Nodes.Add(node);
+			}
 			
 			foreach (Effect effect in level.Effects)
-				levelTreeView.Nodes[2].Nodes.Add(effect.ToString()); 
+			{
+				TreeNode node = new TreeNode(effect.ToString());
+				node.Tag = effect;
+				levelItemsList.Nodes[2].Nodes.Add(node);
+			}
 			
 			foreach (Trigger trigger in level.Triggers)
-				levelTreeView.Nodes[3].Nodes.Add(trigger.ToString()); 
+			{
+				TreeNode node = new TreeNode(trigger.ToString());
+				node.Tag = trigger;
+				levelItemsList.Nodes[3].Nodes.Add(node);
+			}
 			
 			foreach (Light light in level.Lights)
-				levelTreeView.Nodes[4].Nodes.Add(light.ToString());
+			{
+				TreeNode node = new TreeNode(light.ToString());
+				node.Tag = light;
+				levelItemsList.Nodes[4].Nodes.Add(node);
+			}
         }
 
         private bool RadiusCheck(Vector2 a, Vector2 b, float distance)

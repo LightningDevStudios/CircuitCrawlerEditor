@@ -13,8 +13,7 @@ namespace CircuitCrawlerEditor.Entities
 		public const float DefaultSize = 64.0f;
 		protected bool isSolid, circular, willCollide;
 
-		protected Vector2 posVec, scaleVec;
-		protected float angle, size, halfSize;
+		protected float xPos, yPos, angle, size, halfSize;
 		protected Texture tex;
 
 		protected float[] vertices, color, texture;
@@ -37,25 +36,25 @@ namespace CircuitCrawlerEditor.Entities
 		[Browsable(false)]
 		public float[] TextureCoordArray { get { return texture; } }
 
-		[CategoryAttribute("\n"), DescriptionAttribute("The type of entity this is.")]
+		[Category("\n"), Description("The type of entity this is.")]
 		public String Type { get { return GetType().ToString().Substring(24); } }
 
-		[CategoryAttribute("\n"), DescriptionAttribute("A unique ID for each entity")]
+		[Category("\n"), Description("A unique ID for each entity")]
 		public String ID { get { return id; } set { id = value; } }
 
-		[CategoryAttribute("Basic Properties"), DefaultValueAttribute("Vector2f"), DescriptionAttribute("The position of the entity")]
-		public virtual Vector2 Position { get { return posVec; } set { posVec = value; } }
+		[Category("Basic Properties"), Description("The x position of the entity")]
+		public virtual float XPos { get { return xPos; } set { xPos = value; } }
 
-		[CategoryAttribute("Basic Properties"), DefaultValueAttribute("Vector2f"), DescriptionAttribute("The scale of the entity")]
-		public virtual Vector2 Scale { get { return scaleVec; } set { scaleVec = value; } }
+		[Category("Basic Properties"), Description("The y position of the entity")]
+		public virtual float YPos { get { return yPos; } set { yPos = value; } }
 
-		[CategoryAttribute("Basic Properties"), DescriptionAttribute("The angle of the entity")]
+		[Category("Basic Properties"), Description("The angle of the entity")]
 		public virtual float Angle { get { return angle; } set { angle = value; } }
 
 		[Browsable(false)]
 		public Texture Tex { get { return tex; } set { tex = value; } }
 
-		[CategoryAttribute("Basic Properties"), DescriptionAttribute("The size of the entity")]
+		[Category("Basic Properties"), Description("The size of the entity")]
 		public virtual float Size
 		{
 			get
@@ -94,8 +93,8 @@ namespace CircuitCrawlerEditor.Entities
 			entCount++;
 			this.size = size;
 			this.halfSize = size / 2;
-			this.posVec = new Vector2(xPos, yPos);
-			this.scaleVec = new Vector2(1, 1);
+			this.xPos = xPos;
+			this.yPos = yPos;
 
 			this.angle = 0;
 
