@@ -28,6 +28,7 @@ namespace CircuitCrawlerEditor
 
 		private Entity selectedEntity;
 		private Tile selectedTile;
+        private Light selectedLight;
 
 		private float gridSnap;
 		private bool snapping;
@@ -182,19 +183,75 @@ namespace CircuitCrawlerEditor
 				if (!selected)
 				{
 					selectedEntity = null;
-					foreach (Tile[] t in level.Tileset.Tiles)
-					{
-						foreach (Tile tile in t)
-						{
-							if (PointInSquare(pos, tile.Position, Tile.TILE_SIZE))
-							{
-								selectedTile = tile;
-								selectedItemProperties.SelectedObject = selectedTile;
-							}
-						}
-					}
+                    if (selectedLight != null)
+                    {
+                        if (snapping)
+                        {
+                            pos = SnapToGrid(pos);
+                        }
+                        selectedLight.Position = new Vector4(pos.X, pos.Y, selectedLight.PositionZ, selectedLight.PositionW);
+                        selectedLight = null;
+                    }
+                    else
+                    {
+                        bool selectedALight = false;
+                        foreach (Light l in level.Lights)
+                        {
+                            if (RadiusCheck(pos, new Vector2(l.Position.X, l.Position.Y), 32))
+                            {
+                                selectedLight = l;
+                                TreeNodeCollection nodes = levelItemsList.Nodes;
+                                foreach (TreeNode node in nodes)
+                                {
+                                    if (node.Tag == l)
+                                    {
+                                        levelItemsList.SelectedNode = node;
+                                        break;
+                                    }
+                                }
+                                selectedItemProperties.SelectedObject = l;
+                                selectedALight = true;
+                            }
+                        }
+
+                        if (!selectedALight)
+                        {
+                            foreach (Tile[] t in level.Tileset.Tiles)
+                            {
+                                foreach (Tile tile in t)
+                                {
+                                    if (PointInSquare(pos, tile.Position, Tile.TILE_SIZE))
+                                    {
+                                        if (selectedTile == tile)
+                                        {
+                                            selectedTile = null;
+                                        }
+                                        else
+                                        {
+                                            selectedTile = tile;
+                                            TreeNodeCollection nodes = levelItemsList.Nodes;
+                                            foreach (TreeNode node in nodes)
+                                            {
+                                                if (node.Tag == selectedTile)
+                                                {
+                                                    levelItemsList.SelectedNode = node;
+                                                    break;
+                                                }
+                                            }
+                                            selectedItemProperties.SelectedObject = selectedTile;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
 				}
 			}
+
+            if (selectedTile == null && selectedEntity == null && selectedLight == null)
+            {
+                selectedItemProperties.SelectedObject = null;
+            }
 		}
 
 		private void worldView_MouseMove(object sender, MouseEventArgs e)
