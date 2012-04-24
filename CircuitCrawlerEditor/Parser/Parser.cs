@@ -740,6 +740,10 @@ namespace CircuitCrawlerEditor.Parser
 			}
 
 			#endregion
+
+			XmlSerializer serializer = new XmlSerializer(level.GetType());
+			StreamWriter writer = new StreamWriter(filepath);
+			serializer.Serialize(writer, level);
 		}
 
 		public static T SaveEntity<T, K>(T info, K ent)

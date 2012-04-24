@@ -326,7 +326,10 @@ namespace CircuitCrawlerEditor
 
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//TODO Lol Sauce
+			if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				Parser.Parser.SaveLevel(saveDialog.FileName, level);
+
+			UpdateWorldTree();
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e)
