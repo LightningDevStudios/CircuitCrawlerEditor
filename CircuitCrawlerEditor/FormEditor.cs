@@ -15,6 +15,10 @@ namespace CircuitCrawlerEditor
 	public partial class FormEditor : Form
 	{
 		private bool loaded;
+		private bool panning;
+
+		private Point initialMousePos;
+		private Vector2 initialCameraPos;
 
 		private Camera camera;
 		private Level level;
@@ -288,6 +292,82 @@ namespace CircuitCrawlerEditor
 			}
 		}
 
+		private void worldView_KeyUp(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyData)
+			{
+				case Keys.Q:
+					panning = false;
+					break;
+				case Keys.Delete:
+					level.Entities.Remove(selectedEntity);
+					selectedEntity = null;
+					UpdateWorldTree();
+					break;
+			}
+		}
+
+		private void worldView_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyData)
+			{
+				case Keys.Q:
+					panning = true;
+					break;
+				case Keys.W:
+					camera.Position -= Vector2.UnitY * 10;
+					break;
+				case Keys.S:
+					camera.Position += Vector2.UnitY * 10;
+					break;
+				case Keys.A:
+					camera.Position += Vector2.UnitX * 10;
+					break;
+				case Keys.D:
+					camera.Position -= Vector2.UnitX * 10;
+					break;
+				case Keys.PageUp:
+					float zoom = camera.Zoom - 5;
+					if (zoom <= 1)
+						zoom = 1;
+					camera.Zoom = zoom;
+					break;
+				case Keys.PageDown:
+					camera.Zoom += 5;
+					break;
+			}
+
+			camera.LoadView();
+			camera.LoadProjection();
+		}
+
+		private void worldView_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (panning && e.Button == MouseButtons.Left)
+			{
+				camera.Position = initialCameraPos + new Vector2((e.X - initialMousePos.X) / worldView.Width, (initialMousePos.Y - e.Y) / worldView.Height) * camera.Zoom * 10;
+				camera.LoadView();
+			}
+		}
+
+		private void worldView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (panning && e.Button == MouseButtons.Left)
+			{
+				initialMousePos = new Point(e.X, e.Y);
+				initialCameraPos = camera.Position;
+			}
+		}
+
+		private void worldView_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			float zoom = camera.Zoom + -e.Delta / 20;
+			if (zoom < 1)
+				zoom = 1;
+			camera.Zoom = zoom;
+			camera.LoadProjection();
+		}
+
 		#endregion
 
 		#region SpawnList Events
@@ -308,6 +388,16 @@ namespace CircuitCrawlerEditor
 		{
 			selectedItemProperties.SelectedObject = e.Node.Tag;
 			selectedEntity = e.Node.Tag as Entity;
+		}
+
+		private void levelItemsList_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Delete)
+			{
+				//TODO: proper casting
+				level.Entities.Remove((Entity)levelItemsList.SelectedNode.Tag);
+				UpdateWorldTree();
+			}
 		}
 
 		#endregion	
@@ -436,6 +526,6 @@ namespace CircuitCrawlerEditor
 			return ScreenToWorld(new Vector2(x, y));
 		}
 
-		#endregion
+		#endregion	
 	}
 }

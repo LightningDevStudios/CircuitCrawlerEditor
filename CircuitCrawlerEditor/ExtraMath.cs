@@ -20,15 +20,14 @@ namespace CircuitCrawlerEditor
 			Matrix4 projInv = Matrix4.Invert(projection);
 
 			Vector4.Transform(ref worldPos, ref projInv, out worldPos);
-
 			Vector4.Transform(ref worldPos, ref viewInv, out worldPos);
 
-			if (worldPos.W > float.Epsilon || worldPos.W < float.Epsilon)
+			/*if (worldPos.W > float.Epsilon || worldPos.W < float.Epsilon)
 			{
 				worldPos.X /= worldPos.W;
 				worldPos.Y /= worldPos.W;
 				worldPos.Z /= worldPos.W;
-			}
+			}*/
 
 			return worldPos;
 		}

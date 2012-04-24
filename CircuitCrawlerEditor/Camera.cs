@@ -9,13 +9,29 @@ namespace CircuitCrawlerEditor
 {
 	public class Camera
 	{
+		private float zoom;
 		private Vector2 position;
+
+		private Size viewport;
 
 		private Matrix4 view;
 		private Matrix4 projection;
 
 		public Matrix4 View { get { return view; } set { view = value; } }
 		public Matrix4 Projection { get { return projection; } set { projection = value; } }
+
+		public float Zoom 
+		{
+			get
+			{
+				return zoom;
+			}
+			set
+			{
+				zoom = value;
+				UpdateProjection(viewport);
+			}
+		}
 
 		public Vector2 Position
 		{
@@ -26,6 +42,7 @@ namespace CircuitCrawlerEditor
 
 			set
 			{
+				position = value;
 				UpdateView(value);
 			}
 		}
@@ -34,18 +51,23 @@ namespace CircuitCrawlerEditor
 		{
 			UpdateProjection(viewportSize);
 			UpdateView(position);
+			zoom = 100;
+			viewport = viewportSize;
 		}
 
 		public Camera()
 		{
 			projection = Matrix4.Identity;
 			view = Matrix4.Identity;
+			zoom = 100;
+			viewport = new Size(1, 1);
 		}
 
 		public void UpdateProjection(Size viewportSize)
 		{
 			float aspectRatio = (float)viewportSize.Width / (float)viewportSize.Height;
-			projection = Matrix4.CreatePerspectiveOffCenter(-2.5f, 2.5f, -2.5f / aspectRatio, 2.5f / aspectRatio, 0.01f, 1.5f);
+			viewport = viewportSize;
+			projection = Matrix4.CreatePerspectiveOffCenter(-2.5f, 2.5f, -2.5f / aspectRatio, 2.5f / aspectRatio, 1 / zoom, 1.5f);
 		}
 
 		public void UpdateView(Vector2 position)
