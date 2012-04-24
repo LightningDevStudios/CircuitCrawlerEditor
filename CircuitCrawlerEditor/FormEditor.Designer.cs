@@ -490,7 +490,12 @@
 			this.worldView.DragDrop += new System.Windows.Forms.DragEventHandler(this.worldView_DragDrop);
 			this.worldView.DragOver += new System.Windows.Forms.DragEventHandler(this.worldView_DragOver);
 			this.worldView.Paint += new System.Windows.Forms.PaintEventHandler(this.worldView_Paint);
+			this.worldView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.worldView_KeyDown);
+			this.worldView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.worldView_KeyUp);
 			this.worldView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.worldView_MouseClick);
+			this.worldView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.worldView_MouseDown);
+			this.worldView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.worldView_MouseMove);
+			this.worldView.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.worldView_MouseWheel);
 			this.worldView.Resize += new System.EventHandler(this.worldView_Resize);
 			// 
 			// splitContainer3
@@ -535,6 +540,7 @@
 			this.levelItemsList.Size = new System.Drawing.Size(265, 220);
 			this.levelItemsList.TabIndex = 0;
 			this.levelItemsList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.levelItems_NodeMouseClick);
+			this.levelItemsList.KeyUp += new System.Windows.Forms.KeyEventHandler(this.levelItemsList_KeyUp);
 			// 
 			// selectedItemProperties
 			// 

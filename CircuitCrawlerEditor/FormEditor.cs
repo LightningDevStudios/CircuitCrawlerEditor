@@ -16,6 +16,12 @@ namespace CircuitCrawlerEditor
 	{
 		private bool loaded;
 		private bool showLights;
+		private bool panning;
+
+		private Point initialMousePos;
+		private Vector2 initialCameraPos;
+
+		private Size initialSize;
 
 		private Camera camera;
 		private Level level;
@@ -47,6 +53,8 @@ namespace CircuitCrawlerEditor
 
 		#region WorldView Events
 
+		#region Graphics Events
+
 		private void worldView_Load(object sender, EventArgs e)
 		{
 			loaded = true;
@@ -62,8 +70,11 @@ namespace CircuitCrawlerEditor
 			GL.ClearColor(Color.CornflowerBlue);
 
 			ResizeViewport();
+
 			GenerateTiles(4, 4);
-			
+
+			initialSize = worldView.Size;
+
 			Light l = new Light();
 			l.Diffuse = Color4.White;
 			l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
@@ -127,6 +138,132 @@ namespace CircuitCrawlerEditor
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
 		}
+
+		#endregion
+
+		#region Mouse Events
+
+		private void worldView_MouseClick(object sender, MouseEventArgs e)
+		{
+			Vector2 pos = ScreenToWorld(e.Location);
+
+			if (selectedEntity != null)
+			{
+				selectedEntity.XPos = pos.X;
+				selectedEntity.YPos = pos.Y;
+				selectedEntity = null;
+			}
+			else
+			{
+				bool selected = false;
+				foreach (Entity ent in level.Entities)
+				{
+					if (RadiusCheck(pos, new Vector2(ent.XPos, ent.YPos), 32)) //TODO: make this better
+					{
+						selectedEntity = ent;
+						TreeNodeCollection nodes = levelItemsList.Nodes;
+						foreach (TreeNode node in nodes)
+						{
+							if (node.Tag == ent)
+							{
+								levelItemsList.SelectedNode = node;
+								break;
+							}
+						}
+						selectedItemProperties.SelectedObject = ent;
+						selected = true;
+					}
+				}
+				if (!selected)
+				{
+					selectedEntity = null;
+				}
+			}
+		}
+
+		private void worldView_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (panning && e.Button == MouseButtons.Left)
+			{
+				camera.Position = initialCameraPos + new Vector2((e.X - initialMousePos.X) * initialSize.Width / worldView.Size.Width, (initialMousePos.Y - e.Y) * initialSize.Width / worldView.Size.Width) * camera.Zoom / 100;
+				camera.LoadView();
+			}
+		}
+
+		private void worldView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (panning && e.Button == MouseButtons.Left)
+			{
+				initialMousePos = new Point(e.X, e.Y);
+				initialCameraPos = camera.Position;
+			}
+		}
+
+		private void worldView_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			float zoom = camera.Zoom + -e.Delta / 20;
+			if (zoom < 1)
+				zoom = 1;
+			camera.Zoom = zoom;
+			camera.LoadProjection();
+		}
+
+		#endregion
+
+		#region Keyboard Events
+
+		private void worldView_KeyUp(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyData)
+			{
+				case Keys.Q:
+					panning = false;
+					break;
+				case Keys.Delete:
+					level.Entities.Remove(selectedEntity);
+					selectedEntity = null;
+					UpdateWorldTree();
+					break;
+			}
+		}
+
+		private void worldView_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyData)
+			{
+				case Keys.Q:
+					panning = true;
+					break;
+				case Keys.W:
+					camera.Position -= Vector2.UnitY * 10;
+					break;
+				case Keys.S:
+					camera.Position += Vector2.UnitY * 10;
+					break;
+				case Keys.A:
+					camera.Position += Vector2.UnitX * 10;
+					break;
+				case Keys.D:
+					camera.Position -= Vector2.UnitX * 10;
+					break;
+				case Keys.PageUp:
+					float zoom = camera.Zoom - 5;
+					if (zoom <= 1)
+						zoom = 1;
+					camera.Zoom = zoom;
+					break;
+				case Keys.PageDown:
+					camera.Zoom += 5;
+					break;
+			}
+
+			camera.LoadView();
+			camera.LoadProjection();
+		}
+
+		#endregion
+
+		#region Drag and Drop Events
 
 		private void worldView_DragDrop(object sender, DragEventArgs e)
 		{
@@ -256,43 +393,7 @@ namespace CircuitCrawlerEditor
 			e.Effect = DragDropEffects.Copy;
 		}
 
-		private void worldView_MouseClick(object sender, MouseEventArgs e)
-		{
-			Vector2 pos = ScreenToWorld(e.Location);
-
-			if (selectedEntity != null)
-			{
-				selectedEntity.XPos = pos.X;
-				selectedEntity.YPos = pos.Y;
-				selectedEntity = null;
-			}
-			else
-			{
-				bool selected = false;
-				foreach (Entity ent in level.Entities)
-				{
-					if (RadiusCheck(pos, new Vector2(ent.XPos, ent.YPos), 32)) //TODO: make this better
-					{
-						selectedEntity = ent;
-						TreeNodeCollection nodes = levelItemsList.Nodes;
-						foreach (TreeNode node in nodes)
-						{
-							if (node.Tag == ent)
-							{
-								levelItemsList.SelectedNode = node;
-								break;
-							}
-						}
-						selectedItemProperties.SelectedObject = ent;
-						selected = true;
-					}
-				}
-				if (!selected)
-				{
-					selectedEntity = null;
-				}
-			}
-		}
+		#endregion
 
 		#endregion
 
@@ -314,6 +415,33 @@ namespace CircuitCrawlerEditor
 		{
 			selectedItemProperties.SelectedObject = e.Node.Tag;
 			selectedEntity = e.Node.Tag as Entity;
+		}
+
+		private void levelItemsList_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Delete)
+			{
+				switch (levelItemsList.SelectedNode.Parent.Text)
+				{
+					case "Entities":
+						level.Entities.Remove((Entity)levelItemsList.SelectedNode.Tag);
+						break;
+					case "Causes":
+						level.Causes.Remove((Cause)levelItemsList.SelectedNode.Tag);
+						break;
+					case "Effects":
+						level.Effects.Remove((Effect)levelItemsList.SelectedNode.Tag);
+						break;
+					case "Triggers":
+						level.Triggers.Remove((Trigger)levelItemsList.SelectedNode.Tag);
+						break;
+					case "Lights":
+						level.Lights.Remove((Light)levelItemsList.SelectedNode.Tag);
+						break;
+				}
+				
+				UpdateWorldTree();
+			}
 		}
 
 		#endregion	
