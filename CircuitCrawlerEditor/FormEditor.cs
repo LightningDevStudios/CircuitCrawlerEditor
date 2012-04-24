@@ -200,7 +200,7 @@ namespace CircuitCrawlerEditor
 		private void worldView_MouseMove(object sender, MouseEventArgs e)
 		{
 			Vector2 pos = ScreenToWorld(e.Location);
-			label1.Text = "X: " + (int)pos.X + " Y: " + (int)pos.Y;
+			label1.Text = "X: " + pos.X + " Y: " + pos.Y;
 
 			if (panning && e.Button == MouseButtons.Left)
 			{
