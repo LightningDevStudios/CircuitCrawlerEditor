@@ -351,13 +351,8 @@ namespace CircuitCrawlerEditor
 
 			UIEntListEditor.entList = level.Entities;
 			UICauseListEditor.causeList = level.Causes;
-			List<Effect> effects = level.Effects;
-			List<Effect> effectLists = new List<Effect>();
-			foreach (Effect effect in effects)
-				if (effect is EffectList)
-					effectLists.Add(effect);
 			UIEffectListEditor.effectList = level.Effects;
-			UIFormEffectListEditor.effectList = effectLists;
+			UIFormEffectListEditor.effectList = level.Effects;
         }
 
         private bool RadiusCheck(Vector2 a, Vector2 b, float distance)
