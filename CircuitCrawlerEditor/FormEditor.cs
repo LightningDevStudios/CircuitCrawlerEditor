@@ -27,6 +27,7 @@ namespace CircuitCrawlerEditor
 		private Level level;
 
 		private Entity selectedEntity;
+		private Tile selectedTile;
 
 		private float gridSnap;
 		private bool snapping;
@@ -149,6 +150,10 @@ namespace CircuitCrawlerEditor
 
 			if (selectedEntity != null)
 			{
+				if(snapping)
+				{
+					pos = SnapToGrid(pos);
+				}
 				selectedEntity.XPos = pos.X;
 				selectedEntity.YPos = pos.Y;
 				selectedEntity = null;
@@ -177,12 +182,26 @@ namespace CircuitCrawlerEditor
 				if (!selected)
 				{
 					selectedEntity = null;
+					foreach (Tile[] t in level.Tileset.Tiles)
+					{
+						foreach (Tile tile in t)
+						{
+							if (PointInSquare(pos, tile.Position, Tile.TILE_SIZE))
+							{
+								selectedTile = tile;
+								selectedItemProperties.SelectedObject = selectedTile;
+							}
+						}
+					}
 				}
 			}
 		}
 
 		private void worldView_MouseMove(object sender, MouseEventArgs e)
 		{
+			Vector2 pos = ScreenToWorld(e.Location);
+			label1.Text = "X: " + (int)pos.X + " Y: " + (int)pos.Y;
+
 			if (panning && e.Button == MouseButtons.Left)
 			{
 				camera.Position = initialCameraPos + new Vector2((e.X - initialMousePos.X) * initialSize.Width / worldView.Size.Width, (initialMousePos.Y - e.Y) * initialSize.Width / worldView.Size.Width) * camera.Zoom / 100;
@@ -532,6 +551,11 @@ namespace CircuitCrawlerEditor
 		#endregion
 
 		#region Helper Methods
+
+		private bool PointInSquare(Vector2 point, Vector2 boxPosition, int boxSize)
+		{
+			return point.X > boxPosition.X - boxSize / 2 && point.X < boxPosition.X + boxSize / 2 && point.Y > boxPosition.Y - boxSize / 2 && point.Y < boxPosition.Y + boxSize / 2;
+		}
 
 		private void UpdateWorldTree()
 		{

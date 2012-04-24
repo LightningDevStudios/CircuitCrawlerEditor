@@ -61,11 +61,11 @@
 			System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem("TriggerTimer", 11);
 			System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem("Trigger", 12);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEditor));
-			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Entities");
-			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Causes");
-			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Effects");
-			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Triggers");
-			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Lights");
+			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Entities");
+			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Causes");
+			System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Effects");
+			System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Triggers");
+			System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Lights");
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,6 +103,7 @@
 			this.loadDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.label1 = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -523,22 +524,22 @@
 			this.levelItemsList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.levelItemsList.Location = new System.Drawing.Point(0, 0);
 			this.levelItemsList.Name = "levelItemsList";
-			treeNode1.Name = "TreeViewEntities";
-			treeNode1.Text = "Entities";
-			treeNode2.Name = "TreeViewCauses";
-			treeNode2.Text = "Causes";
-			treeNode3.Name = "TreeViewEffects";
-			treeNode3.Text = "Effects";
-			treeNode4.Name = "TreeViewTriggers";
-			treeNode4.Text = "Triggers";
-			treeNode5.Name = "TreeViewLights";
-			treeNode5.Text = "Lights";
+			treeNode11.Name = "TreeViewEntities";
+			treeNode11.Text = "Entities";
+			treeNode12.Name = "TreeViewCauses";
+			treeNode12.Text = "Causes";
+			treeNode13.Name = "TreeViewEffects";
+			treeNode13.Text = "Effects";
+			treeNode14.Name = "TreeViewTriggers";
+			treeNode14.Text = "Triggers";
+			treeNode15.Name = "TreeViewLights";
+			treeNode15.Text = "Lights";
 			this.levelItemsList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
+            treeNode11,
+            treeNode12,
+            treeNode13,
+            treeNode14,
+            treeNode15});
 			this.levelItemsList.Size = new System.Drawing.Size(265, 220);
 			this.levelItemsList.TabIndex = 0;
 			this.levelItemsList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.levelItems_NodeMouseClick);
@@ -568,11 +569,20 @@
 			this.controlsToolStripMenuItem.Text = "Controls";
 			this.controlsToolStripMenuItem.Click += new System.EventHandler(this.controlsToolStripMenuItem_Click);
 			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(218, 9);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(0, 13);
+			this.label1.TabIndex = 1;
+			// 
 			// FormEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(855, 547);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
@@ -637,5 +647,6 @@
 		private System.Windows.Forms.OpenFileDialog loadDialog;
 		private System.Windows.Forms.SaveFileDialog saveDialog;
 		private System.Windows.Forms.ToolStripMenuItem controlsToolStripMenuItem;
+		private System.Windows.Forms.Label label1;
 	}
 }
