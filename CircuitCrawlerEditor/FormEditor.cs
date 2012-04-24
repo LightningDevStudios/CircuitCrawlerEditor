@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -347,6 +348,16 @@ namespace CircuitCrawlerEditor
 				node.Tag = light;
 				levelItemsList.Nodes[4].Nodes.Add(node);
 			}
+
+			UIEntListEditor.entList = level.Entities;
+			UICauseListEditor.causeList = level.Causes;
+			List<Effect> effects = level.Effects;
+			List<Effect> effectLists = new List<Effect>();
+			foreach (Effect effect in effects)
+				if (effect is EffectList)
+					effectLists.Add(effect);
+			UIEffectListEditor.effectList = level.Effects;
+			UIFormEffectListEditor.effectList = effectLists;
         }
 
         private bool RadiusCheck(Vector2 a, Vector2 b, float distance)

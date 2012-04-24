@@ -145,49 +145,7 @@ namespace CircuitCrawlerEditor
 		}
 	}
 
-	public class UITexListEditor : UITypeEditor
-	{
-		public static List<Texture> texList;
-
-		private IWindowsFormsEditorService service;
-
-		public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
-		{
-			if (provider != null)
-			{
-				service = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-
-				if (service != null)
-				{
-					ListBox list = new ListBox();
-					list.Click += new EventHandler(list_Click);
-					foreach (Texture t in texList)
-					{
-						list.Items.Add(t);
-					}
-
-					service.DropDownControl(list);
-
-					if (list.SelectedItem != null && list.SelectedIndices.Count == 1)
-					{
-						value = list.SelectedItem;
-					}
-				}
-			}
-			return value;
-		}
-
-		void list_Click(object sender, EventArgs e)
-		{
-			if (service != null)
-				service.CloseDropDown();
-		}
-
-		public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context)
-		{
-			return UITypeEditorEditStyle.DropDown;
-		}
-	}
+	
 
 	public class UIFormEffectListEditor : UITypeEditor
 	{
