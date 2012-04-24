@@ -9,7 +9,6 @@ using CircuitCrawlerEditor.Triggers;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using CircuitCrawlerEditor.Triggers;
 
 namespace CircuitCrawlerEditor
 {
@@ -21,6 +20,8 @@ namespace CircuitCrawlerEditor
 		private Level level;
 
         private Entity selectedEntity;
+
+        private float gridSnap;
 
 		public FormEditor()
 		{
@@ -314,12 +315,15 @@ namespace CircuitCrawlerEditor
 
 		private void UpdateWorldTree()
         {
+			foreach (TreeNode node in levelItemsList.Nodes)
+                node.Nodes.Clear();
+
 			foreach (Entity ent in level.Entities)
 			{
 				TreeNode node = new TreeNode(ent.ToString());
 				node.Tag = ent;
 				levelItemsList.Nodes[0].Nodes.Add(node);
-			}
+			} 
 
 			foreach (Cause cause in level.Causes)
 			{
@@ -390,6 +394,39 @@ namespace CircuitCrawlerEditor
         private Vector2 ScreenToWorld(float x, float y)
         {
             return ScreenToWorld(new Vector2(x, y));
+		}
+
+		#endregion
+
+		#region ToolStrip Events
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("CC Level Editor: \r\n//TODO Put Stuff Here.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //TODO Lol Sauce
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void snapSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SnapSize form = new SnapSize())
+            {
+                form.ShowDialog();
+                gridSnap = form.snapSize;
+            }
 		}
 
 		#endregion

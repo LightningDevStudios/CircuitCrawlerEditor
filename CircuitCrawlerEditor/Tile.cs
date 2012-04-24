@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace CircuitCrawlerEditor
 {
-	public enum TileType { Floor, Wall, Pit }
+	public enum TileType { Floor, Wall, Pit, Slip }
 
 	[DefaultPropertyAttribute("Tile")]
 	public class Tile

@@ -11,9 +11,9 @@ namespace CircuitCrawlerEditor.Entities
 		}
 
 		[Category("Cannon"), Description("The speed at which the balls from this cannon fire.")]
-		public int BallSpeed { get; set; }
+		public float BallSpeed { get; set; }
 
 		[Category("Cannon"), Description("The stupidity of the Cannon's AI.")]
-		public int Stupidity { get; set; }
+		public float Stupidity { get; set; }
 	}
 }

@@ -130,266 +130,271 @@
             this.editToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.helpToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(855, 24);
-			this.menuStrip1.TabIndex = 1;
-			this.menuStrip1.Text = "menuStrip1";
-			// 
-			// fileToolStripMenuItem
-			// 
-			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(855, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
-			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-			this.fileToolStripMenuItem.Text = "File";
-			// 
-			// newToolStripMenuItem
-			// 
-			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-			this.newToolStripMenuItem.Text = "New...";
-			// 
-			// openToolStripMenuItem
-			// 
-			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-			this.openToolStripMenuItem.Text = "Open...";
-			// 
-			// saveToolStripMenuItem
-			// 
-			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-			this.saveToolStripMenuItem.Text = "Save...";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(109, 6);
-			// 
-			// exitToolStripMenuItem
-			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-			this.exitToolStripMenuItem.Text = "Exit";
-			// 
-			// editToolStripMenuItem
-			// 
-			this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.newToolStripMenuItem.Text = "New...";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.openToolStripMenuItem.Text = "Open...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.saveToolStripMenuItem.Text = "Save...";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(109, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectionToolStripMenuItem,
             this.toolStripSeparator4,
             this.resizeTilesetToolStripMenuItem});
-			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-			this.editToolStripMenuItem.Text = "Edit";
-			// 
-			// selectionToolStripMenuItem
-			// 
-			this.selectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // selectionToolStripMenuItem
+            // 
+            this.selectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem,
             this.deselectAllToolStripMenuItem,
             this.invertSelectionToolStripMenuItem,
             this.toolStripSeparator3,
             this.tilesetToolStripMenuItem});
-			this.selectionToolStripMenuItem.Name = "selectionToolStripMenuItem";
-			this.selectionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.selectionToolStripMenuItem.Text = "Selection";
-			// 
-			// selectAllToolStripMenuItem
-			// 
-			this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-			this.selectAllToolStripMenuItem.Text = "Select All";
-			// 
-			// deselectAllToolStripMenuItem
-			// 
-			this.deselectAllToolStripMenuItem.Name = "deselectAllToolStripMenuItem";
-			this.deselectAllToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-			this.deselectAllToolStripMenuItem.Text = "Deselect All";
-			// 
-			// invertSelectionToolStripMenuItem
-			// 
-			this.invertSelectionToolStripMenuItem.Name = "invertSelectionToolStripMenuItem";
-			this.invertSelectionToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-			this.invertSelectionToolStripMenuItem.Text = "Invert Selection";
-			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(152, 6);
-			// 
-			// tilesetToolStripMenuItem
-			// 
-			this.tilesetToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectionToolStripMenuItem.Name = "selectionToolStripMenuItem";
+            this.selectionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.selectionToolStripMenuItem.Text = "Selection";
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.selectAllToolStripMenuItem.Text = "Select All";
+            // 
+            // deselectAllToolStripMenuItem
+            // 
+            this.deselectAllToolStripMenuItem.Name = "deselectAllToolStripMenuItem";
+            this.deselectAllToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.deselectAllToolStripMenuItem.Text = "Deselect All";
+            // 
+            // invertSelectionToolStripMenuItem
+            // 
+            this.invertSelectionToolStripMenuItem.Name = "invertSelectionToolStripMenuItem";
+            this.invertSelectionToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.invertSelectionToolStripMenuItem.Text = "Invert Selection";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(152, 6);
+            // 
+            // tilesetToolStripMenuItem
+            // 
+            this.tilesetToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.borderToolStripMenuItem,
             this.squareToolStripMenuItem});
-			this.tilesetToolStripMenuItem.Name = "tilesetToolStripMenuItem";
-			this.tilesetToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-			this.tilesetToolStripMenuItem.Text = "Tileset";
-			// 
-			// borderToolStripMenuItem
-			// 
-			this.borderToolStripMenuItem.Name = "borderToolStripMenuItem";
-			this.borderToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-			this.borderToolStripMenuItem.Text = "Border";
-			// 
-			// squareToolStripMenuItem
-			// 
-			this.squareToolStripMenuItem.Name = "squareToolStripMenuItem";
-			this.squareToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-			this.squareToolStripMenuItem.Text = "Square";
-			// 
-			// toolStripSeparator4
-			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
-			// 
-			// resizeTilesetToolStripMenuItem
-			// 
-			this.resizeTilesetToolStripMenuItem.Name = "resizeTilesetToolStripMenuItem";
-			this.resizeTilesetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.resizeTilesetToolStripMenuItem.Text = "Resize Tileset...";
-			// 
-			// viewToolStripMenuItem
-			// 
-			this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tilesetToolStripMenuItem.Name = "tilesetToolStripMenuItem";
+            this.tilesetToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.tilesetToolStripMenuItem.Text = "Tileset";
+            // 
+            // borderToolStripMenuItem
+            // 
+            this.borderToolStripMenuItem.Name = "borderToolStripMenuItem";
+            this.borderToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.borderToolStripMenuItem.Text = "Border";
+            // 
+            // squareToolStripMenuItem
+            // 
+            this.squareToolStripMenuItem.Name = "squareToolStripMenuItem";
+            this.squareToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.squareToolStripMenuItem.Text = "Square";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            // 
+            // resizeTilesetToolStripMenuItem
+            // 
+            this.resizeTilesetToolStripMenuItem.Name = "resizeTilesetToolStripMenuItem";
+            this.resizeTilesetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.resizeTilesetToolStripMenuItem.Text = "Resize Tileset...";
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lightsToolStripMenuItem,
             this.toolStripSeparator2,
             this.snapToGridToolStripMenuItem,
             this.snapSizeToolStripMenuItem});
-			this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-			this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.viewToolStripMenuItem.Text = "View";
-			// 
-			// lightsToolStripMenuItem
-			// 
-			this.lightsToolStripMenuItem.Name = "lightsToolStripMenuItem";
-			this.lightsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-			this.lightsToolStripMenuItem.Text = "Lights";
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
-			// 
-			// snapToGridToolStripMenuItem
-			// 
-			this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
-			this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-			this.snapToGridToolStripMenuItem.Text = "Snap To Grid";
-			// 
-			// snapSizeToolStripMenuItem
-			// 
-			this.snapSizeToolStripMenuItem.Name = "snapSizeToolStripMenuItem";
-			this.snapSizeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-			this.snapSizeToolStripMenuItem.Text = "Snap Size...";
-			// 
-			// helpToolStripMenuItem
-			// 
-			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // lightsToolStripMenuItem
+            // 
+            this.lightsToolStripMenuItem.Name = "lightsToolStripMenuItem";
+            this.lightsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.lightsToolStripMenuItem.Text = "Lights";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            // 
+            // snapToGridToolStripMenuItem
+            // 
+            this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.snapToGridToolStripMenuItem.Text = "Snap To Grid";
+            // 
+            // snapSizeToolStripMenuItem
+            // 
+            this.snapSizeToolStripMenuItem.Name = "snapSizeToolStripMenuItem";
+            this.snapSizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.snapSizeToolStripMenuItem.Text = "Snap Size...";
+            this.snapSizeToolStripMenuItem.Click += new System.EventHandler(this.snapSizeToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.helpToolStripMenuItem.Text = "Help";
-			// 
-			// aboutToolStripMenuItem
-			// 
-			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-			this.aboutToolStripMenuItem.Text = "About";
-			// 
-			// splitContainer1
-			// 
-			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
-			this.splitContainer1.Name = "splitContainer1";
-			// 
-			// splitContainer1.Panel1
-			// 
-			this.splitContainer1.Panel1.Controls.Add(this.spawnList);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-			this.splitContainer1.Size = new System.Drawing.Size(855, 501);
-			this.splitContainer1.SplitterDistance = 217;
-			this.splitContainer1.TabIndex = 2;
-			// 
-			// spawnList
-			// 
-			this.spawnList.AllowDrop = true;
-			this.spawnList.Dock = System.Windows.Forms.DockStyle.Fill;
-			listViewGroup1.Header = "Entities";
-			listViewGroup1.Name = "EntitesGroup";
-			listViewGroup2.Header = "Causes";
-			listViewGroup2.Name = "CausesGroup";
-			listViewGroup3.Header = "Effects";
-			listViewGroup3.Name = "EffectsGroup";
-			this.spawnList.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.spawnList);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Size = new System.Drawing.Size(855, 501);
+            this.splitContainer1.SplitterDistance = 217;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // spawnList
+            // 
+            this.spawnList.AllowDrop = true;
+            this.spawnList.Dock = System.Windows.Forms.DockStyle.Fill;
+            listViewGroup1.Header = "Entities";
+            listViewGroup1.Name = "EntitesGroup";
+            listViewGroup2.Header = "Causes";
+            listViewGroup2.Name = "CausesGroup";
+            listViewGroup3.Header = "Effects";
+            listViewGroup3.Name = "EffectsGroup";
+            this.spawnList.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2,
             listViewGroup3});
-			this.spawnList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			listViewItem1.Tag = "Light";
-			listViewItem2.Group = listViewGroup1;
-			listViewItem2.Tag = "Ball";
-			listViewItem3.Group = listViewGroup1;
-			listViewItem3.Tag = "Block";
-			listViewItem4.Group = listViewGroup1;
-			listViewItem4.Tag = "BreakableDoor";
-			listViewItem5.Group = listViewGroup1;
-			listViewItem5.Tag = "Button";
-			listViewItem6.Group = listViewGroup1;
-			listViewItem6.Tag = "Cannon";
-			listViewItem7.Group = listViewGroup1;
-			listViewItem7.Tag = "Door";
-			listViewItem8.Group = listViewGroup1;
-			listViewItem8.Tag = "LaserShooter";
-			listViewItem9.Group = listViewGroup1;
-			listViewItem9.Tag = "Player";
-			listViewItem10.Group = listViewGroup1;
-			listViewItem10.Tag = "PuzzleBox";
-			listViewItem11.Group = listViewGroup1;
-			listViewItem11.Tag = "SpikeWall";
-			listViewItem12.Group = listViewGroup1;
-			listViewItem12.Tag = "Teleporter";
-			listViewItem13.Group = listViewGroup2;
-			listViewItem13.Tag = "CauseAND";
-			listViewItem14.Group = listViewGroup2;
-			listViewItem14.Tag = "CauseNOT";
-			listViewItem15.Group = listViewGroup2;
-			listViewItem15.Tag = "CauseOR";
-			listViewItem16.Group = listViewGroup2;
-			listViewItem16.Tag = "CauseXOR";
-			listViewItem17.Group = listViewGroup2;
-			listViewItem17.Tag = "CauseButton";
-			listViewItem18.Group = listViewGroup2;
-			listViewItem18.Tag = "CauseEntityDestruction";
-			listViewItem19.Group = listViewGroup2;
-			listViewItem19.Tag = "CauseLocation";
-			listViewItem20.Group = listViewGroup2;
-			listViewItem20.Tag = "CauseTimePassed";
-			listViewItem21.Group = listViewGroup3;
-			listViewItem21.Tag = "EffectAND";
-			listViewItem22.Group = listViewGroup3;
-			listViewItem22.Tag = "EffectList";
-			listViewItem23.Group = listViewGroup3;
-			listViewItem23.Tag = "EffectDoor";
-			listViewItem24.Group = listViewGroup3;
-			listViewItem24.Tag = "EffectEndGame";
-			listViewItem25.Group = listViewGroup3;
-			listViewItem25.Tag = "EffectRaiseBridge";
-			listViewItem26.Group = listViewGroup3;
-			listViewItem26.Tag = "EffectRemoveEntity";
-			listViewItem27.Group = listViewGroup3;
-			listViewItem27.Tag = "EffectTriggerTimer";
-			listViewItem28.Tag = "Trigger";
-			this.spawnList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            this.spawnList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            listViewItem1.Tag = "Light";
+            listViewItem2.Group = listViewGroup1;
+            listViewItem2.Tag = "Ball";
+            listViewItem3.Group = listViewGroup1;
+            listViewItem3.Tag = "Block";
+            listViewItem4.Group = listViewGroup1;
+            listViewItem4.Tag = "BreakableDoor";
+            listViewItem5.Group = listViewGroup1;
+            listViewItem5.Tag = "Button";
+            listViewItem6.Group = listViewGroup1;
+            listViewItem6.Tag = "Cannon";
+            listViewItem7.Group = listViewGroup1;
+            listViewItem7.Tag = "Door";
+            listViewItem8.Group = listViewGroup1;
+            listViewItem8.Tag = "LaserShooter";
+            listViewItem9.Group = listViewGroup1;
+            listViewItem9.Tag = "Player";
+            listViewItem10.Group = listViewGroup1;
+            listViewItem10.Tag = "PuzzleBox";
+            listViewItem11.Group = listViewGroup1;
+            listViewItem11.Tag = "SpikeWall";
+            listViewItem12.Group = listViewGroup1;
+            listViewItem12.Tag = "Teleporter";
+            listViewItem13.Group = listViewGroup2;
+            listViewItem13.Tag = "CauseAND";
+            listViewItem14.Group = listViewGroup2;
+            listViewItem14.Tag = "CauseNOT";
+            listViewItem15.Group = listViewGroup2;
+            listViewItem15.Tag = "CauseOR";
+            listViewItem16.Group = listViewGroup2;
+            listViewItem16.Tag = "CauseXOR";
+            listViewItem17.Group = listViewGroup2;
+            listViewItem17.Tag = "CauseButton";
+            listViewItem18.Group = listViewGroup2;
+            listViewItem18.Tag = "CauseEntityDestruction";
+            listViewItem19.Group = listViewGroup2;
+            listViewItem19.Tag = "CauseLocation";
+            listViewItem20.Group = listViewGroup2;
+            listViewItem20.Tag = "CauseTimePassed";
+            listViewItem21.Group = listViewGroup3;
+            listViewItem21.Tag = "EffectAND";
+            listViewItem22.Group = listViewGroup3;
+            listViewItem22.Tag = "EffectList";
+            listViewItem23.Group = listViewGroup3;
+            listViewItem23.Tag = "EffectDoor";
+            listViewItem24.Group = listViewGroup3;
+            listViewItem24.Tag = "EffectEndGame";
+            listViewItem25.Group = listViewGroup3;
+            listViewItem25.Tag = "EffectRaiseBridge";
+            listViewItem26.Group = listViewGroup3;
+            listViewItem26.Tag = "EffectRemoveEntity";
+            listViewItem27.Group = listViewGroup3;
+            listViewItem27.Tag = "EffectTriggerTimer";
+            listViewItem28.Tag = "Trigger";
+            this.spawnList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2,
             listViewItem3,
@@ -560,7 +565,6 @@
 			this.splitContainer3.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion
