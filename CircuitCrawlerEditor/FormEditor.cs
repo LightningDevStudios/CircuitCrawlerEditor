@@ -28,6 +28,7 @@ namespace CircuitCrawlerEditor
 
 		private Entity selectedEntity;
 		private Tile selectedTile;
+        private Light selectedLight;
 
 		private float gridSnap;
 		private bool snapping;
@@ -182,19 +183,75 @@ namespace CircuitCrawlerEditor
 				if (!selected)
 				{
 					selectedEntity = null;
-					foreach (Tile[] t in level.Tileset.Tiles)
-					{
-						foreach (Tile tile in t)
-						{
-							if (PointInSquare(pos, tile.Position, Tile.TILE_SIZE))
-							{
-								selectedTile = tile;
-								selectedItemProperties.SelectedObject = selectedTile;
-							}
-						}
-					}
+                    if (selectedLight != null)
+                    {
+                        if (snapping)
+                        {
+                            pos = SnapToGrid(pos);
+                        }
+                        selectedLight.Position = new Vector4(pos.X, pos.Y, selectedLight.PositionZ, selectedLight.PositionW);
+                        selectedLight = null;
+                    }
+                    else
+                    {
+                        bool selectedALight = false;
+                        foreach (Light l in level.Lights)
+                        {
+                            if (RadiusCheck(pos, new Vector2(l.Position.X, l.Position.Y), 32))
+                            {
+                                selectedLight = l;
+                                TreeNodeCollection nodes = levelItemsList.Nodes;
+                                foreach (TreeNode node in nodes)
+                                {
+                                    if (node.Tag == l)
+                                    {
+                                        levelItemsList.SelectedNode = node;
+                                        break;
+                                    }
+                                }
+                                selectedItemProperties.SelectedObject = l;
+                                selectedALight = true;
+                            }
+                        }
+
+                        if (!selectedALight)
+                        {
+                            foreach (Tile[] t in level.Tileset.Tiles)
+                            {
+                                foreach (Tile tile in t)
+                                {
+                                    if (PointInSquare(pos, tile.Position, Tile.TILE_SIZE))
+                                    {
+                                        if (selectedTile == tile)
+                                        {
+                                            selectedTile = null;
+                                        }
+                                        else
+                                        {
+                                            selectedTile = tile;
+                                            TreeNodeCollection nodes = levelItemsList.Nodes;
+                                            foreach (TreeNode node in nodes)
+                                            {
+                                                if (node.Tag == selectedTile)
+                                                {
+                                                    levelItemsList.SelectedNode = node;
+                                                    break;
+                                                }
+                                            }
+                                            selectedItemProperties.SelectedObject = selectedTile;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
 				}
 			}
+
+            if (selectedTile == null && selectedEntity == null && selectedLight == null)
+            {
+                selectedItemProperties.SelectedObject = null;
+            }
 		}
 
 		private void worldView_MouseMove(object sender, MouseEventArgs e)
@@ -294,15 +351,38 @@ namespace CircuitCrawlerEditor
 			switch ((string)item.Tag)
 			{
 				case "Light":
-					Light l = new Light();
-					l.Diffuse = Color4.White;
-					l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
-					l.Position = new Vector4(worldPos.X, worldPos.Y, 0.2f, 1);
-					l.ConstantAttenuation = 1f;
-					l.LinearAttenuation = 1f / 3000f;
-					l.QuadraticAttenuation = 1f / 40000f;
-					level.Lights.Add(l);
-					selectedObject = l;
+                    if (level.Lights.Count < 8)
+                    {
+                        Light l = new Light();
+                        l.Diffuse = Color4.White;
+                        l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
+                        l.Position = new Vector4(worldPos.X, worldPos.Y, 36, 1);
+                        l.ConstantAttenuation = 1f;
+                        l.LinearAttenuation = 1f / 3000f;
+                        l.QuadraticAttenuation = 1f / 40000f;
+                        level.Lights.Add(l);
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            bool inUse = false;
+                            for (int j = 0; j < level.Lights.Count; j++)
+                            {
+                                if (level.Lights[j].Index == i)
+                                {
+                                    inUse = true;
+                                }
+                            }
+                            if (!inUse)
+                            {
+                                l.Index = i;
+                            }
+                        }
+                        selectedObject = l;
+                    }
+                    else
+                    {
+                        MessageBox.Show("To many lights. Max light count is 8.", "Light Count", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 					break;
 				case "Ball":
 					Ball ball = new Ball(worldPos.X, worldPos.Y);
@@ -722,11 +802,6 @@ namespace CircuitCrawlerEditor
 
 		#endregion
 
-		private void controlsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Controls:\r\n    Q: Press and hold for mouse pan.\r\n    Arrow Keys: Pan screen.\r\n    PageUp/Down: Change zoom level.\r\n    //TODO more of the controls.", "Control Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
 		private void selectedItemProperties_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
 			UpdateWorldTree();
@@ -751,5 +826,13 @@ namespace CircuitCrawlerEditor
 				e.SuppressKeyPress = true;
 			}
 		}
+
+        private void FormEditor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to exit?.\r\nAll unsaved changes will be discarded.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                Application.Exit();
+            else
+                e.Cancel = true;
+        }
 	}
 }
