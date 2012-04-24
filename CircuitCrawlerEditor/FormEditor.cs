@@ -653,5 +653,10 @@ namespace CircuitCrawlerEditor
 		}
 
 		#endregion
+
+		private void controlsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Controls:\r\n    Q: Press and hold for mouse pan.\r\n    Arrow Keys: Pan screen.\r\n    PageUp/Down: Change zoom level.\r\n    //TODO more of the controls.", "Control Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 	}
 }
