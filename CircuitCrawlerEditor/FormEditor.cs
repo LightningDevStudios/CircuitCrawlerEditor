@@ -70,10 +70,10 @@ namespace CircuitCrawlerEditor
 			Light l = new Light();
 			l.Diffuse = Color4.White;
 			l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
-			l.Position = new Vector4(-40, 0, 1, 1);
+			l.Position = new Vector4(-40, 0, 85, 1);
 			l.ConstantAttenuation = 1f;
-			l.LinearAttenuation = 1f / 100f;
-			l.QuadraticAttenuation = 1f / 20000f;
+			l.LinearAttenuation = 1f / 3000f;
+			l.QuadraticAttenuation = 1f / 40000f;
 			level.Lights.Add(l);
 
 			UpdateWorldTree();
@@ -142,10 +142,10 @@ namespace CircuitCrawlerEditor
 					Light l = new Light();
 					l.Diffuse = Color4.White;
 					l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
-					l.Position = new Vector4(worldPos.X, worldPos.Y, 1, 1);
+					l.Position = new Vector4(worldPos.X, worldPos.Y, 85, 1);
 					l.ConstantAttenuation = 1f;
-					l.LinearAttenuation = 1f / 100f;
-					l.QuadraticAttenuation = 1f / 20000f;
+					l.LinearAttenuation = 1f / 3000f;
+					l.QuadraticAttenuation = 1f / 40000f;
 					level.Lights.Add(l);
 					break;
 				case "Ball":
