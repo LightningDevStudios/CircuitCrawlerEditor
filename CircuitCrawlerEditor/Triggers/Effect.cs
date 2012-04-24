@@ -10,7 +10,7 @@ namespace CircuitCrawlerEditor.Triggers
 		public string ID { get; set; }
 
 		[Category("\n"), Description("The type of Cause this is.")]
-		public string Type { get { return GetType().ToString().Substring(24); } }
+		public string Type { get { return GetType().ToString().Substring(30); } }
 
 		public override string ToString()
 		{

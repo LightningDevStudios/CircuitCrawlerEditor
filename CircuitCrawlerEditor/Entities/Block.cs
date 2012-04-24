@@ -5,7 +5,7 @@ namespace CircuitCrawlerEditor.Entities
 {
     public class Block : HoldObject
     {
-        [Category("PhysBlock"), Description("The amount of speed lost over time and per bounce")]
+        [Category("Physics"), Description("The amount of speed lost over time and per bounce")]
         public float Friction { get; set; }
 
         public Block(float xPos, float yPos)

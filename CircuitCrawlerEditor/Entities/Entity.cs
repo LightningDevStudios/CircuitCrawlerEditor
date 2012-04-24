@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace CircuitCrawlerEditor.Entities
 {
-	[DefaultPropertyAttribute("Basic Properties")]
+	[DefaultProperty("ID")]
 	public abstract class Entity
 	{
 		public const float DefaultSize = 64.0f;
@@ -25,7 +25,7 @@ namespace CircuitCrawlerEditor.Entities
 		private bool isSelected = false;
 
 		[Category("\n"), Description("The type of entity this is.")]
-		public String Type { get { return GetType().ToString().Substring(24); } }
+		public String Type { get { return GetType().ToString().Substring(30); } }
 
 		[Category("\n"), Description("A unique ID for each entity")]
 		public String ID { get { return id; } set { id = value; } }

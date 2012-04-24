@@ -22,6 +22,7 @@ namespace CircuitCrawlerEditor
 			Vector4.Transform(ref worldPos, ref projInv, out worldPos);
 			Vector4.Transform(ref worldPos, ref viewInv, out worldPos);
 
+			//no dividing through by W, return a Vector4 instead.
 			/*if (worldPos.W > float.Epsilon || worldPos.W < float.Epsilon)
 			{
 				worldPos.X /= worldPos.W;
