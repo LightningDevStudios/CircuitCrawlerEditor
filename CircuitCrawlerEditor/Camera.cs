@@ -11,8 +11,7 @@ namespace CircuitCrawlerEditor
 	{
 		private float zoom;
 		private Vector2 position;
-
-		private Size viewport;
+		private float aspectRatio;
 
 		private Matrix4 view;
 		private Matrix4 projection;
@@ -29,7 +28,7 @@ namespace CircuitCrawlerEditor
 			set
 			{
 				zoom = value;
-				UpdateProjection(viewport);
+				UpdateView();
 			}
 		}
 
@@ -43,37 +42,47 @@ namespace CircuitCrawlerEditor
 			set
 			{
 				position = value;
-				UpdateView(value);
+				UpdateView();
+			}
+		}
+
+		public float AspectRatio
+		{
+			get
+			{
+				return aspectRatio;
+			}
+
+			set
+			{
+				aspectRatio = value;
+				UpdateProjection();
 			}
 		}
 
 		public Camera(Vector2 position, Size viewportSize)
 		{
-			UpdateProjection(viewportSize);
-			UpdateView(position);
-			zoom = 100;
-			viewport = viewportSize;
+			UpdateProjection();
+			UpdateView();
+			zoom = 1;
+			aspectRatio = (float)viewportSize.Width / (float)viewportSize.Height;
 		}
 
 		public Camera()
 		{
 			projection = Matrix4.Identity;
 			view = Matrix4.Identity;
-			zoom = 100;
-			viewport = new Size(1, 1);
+			zoom = 1;
 		}
 
-		public void UpdateProjection(Size viewportSize)
+		private void UpdateProjection()
 		{
-			float aspectRatio = (float)viewportSize.Width / (float)viewportSize.Height;
-			viewport = viewportSize;
-			projection = Matrix4.CreatePerspectiveOffCenter(-2.5f, 2.5f, -2.5f / aspectRatio, 2.5f / aspectRatio, 1 / zoom, 1.5f);
+			projection = Matrix4.CreatePerspectiveOffCenter(-2.5f, 2.5f, -2.5f / aspectRatio, 2.5f / aspectRatio, 0.01f, 1.5f);
 		}
 
-		public void UpdateView(Vector2 position)
+		private void UpdateView()
 		{
-			this.position = position;
-			view = Matrix4.CreateTranslation(position.X, position.Y, 0);
+			view = Matrix4.Scale(zoom) * Matrix4.CreateTranslation(position.X, position.Y, 0);
 		}
 
 		public void LoadProjection()

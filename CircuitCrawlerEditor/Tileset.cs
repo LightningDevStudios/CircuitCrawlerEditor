@@ -23,6 +23,32 @@ namespace CircuitCrawlerEditor
 			this.tiles = tiles;
 			this.tex = tex;
 
+			Reload();
+		}
+
+		/**
+	 * Draws the tileset.
+	 * @param gl The OpenGL context to draw with.
+	 */
+		public void Draw()
+		{
+			GL.BindTexture(TextureTarget.Texture2D, tex.TexturePtr);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vertBuffer);
+			GL.VertexPointer(3, VertexPointerType.Float, 32, 0);
+			GL.TexCoordPointer(2, TexCoordPointerType.Float, 32, 12);
+			GL.NormalPointer(NormalPointerType.Float, 32, 20);
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indBuffer);
+			GL.DrawElements(BeginMode.Triangles, indCount, DrawElementsType.UnsignedShort, 0);
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+			GL.BindTexture(TextureTarget.Texture2D, 0);
+		}
+
+		public void Reload()
+		{
 			foreach (Tile[] ta in tiles)
 				foreach (Tile t in ta)
 					t.SetTileset(this);
@@ -65,40 +91,6 @@ namespace CircuitCrawlerEditor
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indBuffer);
 			GL.BufferData<ushort>(BufferTarget.ElementArrayBuffer, (IntPtr)(indCount * sizeof(ushort)), indices.ToArray(), BufferUsageHint.StaticDraw);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-		}
-
-		/**
-	 * Draws the tileset.
-	 * @param gl The OpenGL context to draw with.
-	 */
-		public void Draw()
-		{
-			GL.BindTexture(TextureTarget.Texture2D, tex.TexturePtr);
-
-			GL.BindBuffer(BufferTarget.ArrayBuffer, vertBuffer);
-			GL.VertexPointer(3, VertexPointerType.Float, 32, 0);
-			GL.TexCoordPointer(2, TexCoordPointerType.Float, 32, 12);
-			GL.NormalPointer(NormalPointerType.Float, 32, 20);
-
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indBuffer);
-			GL.DrawElements(BeginMode.Triangles, indCount, DrawElementsType.UnsignedShort, 0);
-
-			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-			GL.BindTexture(TextureTarget.Texture2D, 0);
-		}
-
-		public void Update()
-		{
-			if (!updated)
-			{
-				updated = true;
-			}
-		}
-
-		public void Invalidate()
-		{
-			updated = false;
 		}
 	}
 }

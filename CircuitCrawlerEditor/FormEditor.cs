@@ -134,7 +134,7 @@ namespace CircuitCrawlerEditor
 		{
 			GL.Viewport(0, 0, worldView.Width, worldView.Height);
 
-			camera.UpdateProjection(worldView.Size);
+			camera.AspectRatio = (float)worldView.Width / (float)worldView.Height;
 			camera.LoadProjection();
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
@@ -199,12 +199,9 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_MouseMove(object sender, MouseEventArgs e)
 		{
-			Vector2 pos = ScreenToWorld(e.Location);
-			label1.Text = "X: " + (int)pos.X + " Y: " + (int)pos.Y;
-
 			if (panning && e.Button == MouseButtons.Left)
 			{
-				camera.Position = initialCameraPos + new Vector2((e.X - initialMousePos.X) * initialSize.Width / worldView.Size.Width, (initialMousePos.Y - e.Y) * initialSize.Width / worldView.Size.Width) * camera.Zoom / 100;
+				camera.Position = initialCameraPos + new Vector2((e.X - initialMousePos.X) * initialSize.Width / worldView.Size.Width, (initialMousePos.Y - e.Y) * initialSize.Width / worldView.Size.Width);
 				camera.LoadView();
 			}
 		}
@@ -221,10 +218,10 @@ namespace CircuitCrawlerEditor
 		private void worldView_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
 			float zoom = camera.Zoom + -e.Delta / 20;
-			if (zoom < 1)
-				zoom = 1;
+			/*if (zoom < 1)
+				zoom = 1;*/
 			camera.Zoom = zoom;
-			camera.LoadProjection();
+			camera.LoadView();
 		}
 
 		#endregion
@@ -300,7 +297,7 @@ namespace CircuitCrawlerEditor
 					Light l = new Light();
 					l.Diffuse = Color4.White;
 					l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
-					l.Position = new Vector4(worldPos.X, worldPos.Y, 36, 1);
+					l.Position = new Vector4(worldPos.X, worldPos.Y, 0.2f, 1);
 					l.ConstantAttenuation = 1f;
 					l.LinearAttenuation = 1f / 3000f;
 					l.QuadraticAttenuation = 1f / 40000f;
@@ -684,7 +681,12 @@ namespace CircuitCrawlerEditor
 			formPosition.X -= controlPosition.X;
 			formPosition.Y -= controlPosition.Y;
 
-			return ExtraMath.UnProject(camera.Projection, camera.View, worldView.Size, formPosition).Xy;
+			//formPosition.X += worldView.Width / 2;
+			//formPosition.Y += worldView.Height / 2;
+
+			Matrix4 fakeProjection = Matrix4.CreateOrthographic(72 * 4, 72 * 4, 0.01f, 1.5f);
+
+			return ExtraMath.Unproject(fakeProjection, camera.View, worldView.Size, formPosition).Xy;
 		}
 
 		private Vector2 ScreenToWorld(Point p)
@@ -730,14 +732,24 @@ namespace CircuitCrawlerEditor
 			UpdateWorldTree();
 		}
 
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		private void FormEditor_KeyDown(object sender, KeyEventArgs e)
 		{
-			if ((keyData & Keys.Alt) == Keys.Alt)
+			if (e.Alt)
 			{
 				panning = true;
+				e.Handled = true;
+				e.SuppressKeyPress = true;
 			}
+		}
 
-			return base.ProcessCmdKey(ref msg, keyData);
+		private void FormEditor_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (!e.Alt)
+			{
+				panning = false;
+				e.Handled = true;
+				e.SuppressKeyPress = true;
+			}
 		}
 	}
 }

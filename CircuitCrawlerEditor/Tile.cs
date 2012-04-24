@@ -34,7 +34,7 @@ namespace CircuitCrawlerEditor
 				type = value;
 
 				if (tileset != null)
-					tileset.Invalidate();
+					tileset.Reload();
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace CircuitCrawlerEditor
 		public float[] getVertexData()
 		{
 			//calculate vertices
-			float s = TILE_SIZE / 2;
+			float s = TILE_SIZE_F / 2;
 
 			float[] vertices = null;
 			float[] texCoords = null;

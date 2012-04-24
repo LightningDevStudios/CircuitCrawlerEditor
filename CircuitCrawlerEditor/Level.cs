@@ -28,11 +28,6 @@ namespace CircuitCrawlerEditor
 		public List<Effect> Effects { get; set; }
 		public List<Trigger> Triggers { get; set; }
 
-		public void Update()
-		{
-			Tileset.Update();
-		}
-
 		public void Draw()
 		{
 			foreach (Light l in Lights)

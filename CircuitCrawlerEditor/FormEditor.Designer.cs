@@ -92,6 +92,7 @@
 			this.snapSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.spawnList = new System.Windows.Forms.ListView();
 			this.spawnIcons = new System.Windows.Forms.ImageList(this.components);
@@ -102,7 +103,6 @@
 			this.selectedItemProperties = new System.Windows.Forms.PropertyGrid();
 			this.loadDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveDialog = new System.Windows.Forms.SaveFileDialog();
-			this.controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -312,9 +312,16 @@
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			// 
+			// controlsToolStripMenuItem
+			// 
+			this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
+			this.controlsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+			this.controlsToolStripMenuItem.Text = "Controls";
+			this.controlsToolStripMenuItem.Click += new System.EventHandler(this.controlsToolStripMenuItem_Click);
 			// 
 			// splitContainer1
 			// 
@@ -563,13 +570,6 @@
 			this.saveDialog.Filter = "Level files|*.lvl";
 			this.saveDialog.Title = "Save Level...";
 			// 
-			// controlsToolStripMenuItem
-			// 
-			this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
-			this.controlsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.controlsToolStripMenuItem.Text = "Controls";
-			this.controlsToolStripMenuItem.Click += new System.EventHandler(this.controlsToolStripMenuItem_Click);
-			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
@@ -587,9 +587,12 @@
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
+			this.KeyPreview = true;
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "FormEditor";
 			this.Text = "Circuit Crawler Level Editor";
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormEditor_KeyDown);
+			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormEditor_KeyUp);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
