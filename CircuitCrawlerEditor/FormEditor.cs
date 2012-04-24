@@ -15,6 +15,7 @@ namespace CircuitCrawlerEditor
 	public partial class FormEditor : Form
 	{
 		private bool loaded;
+		private bool showLights;
 
 		private Camera camera;
 		private Level level;
@@ -22,6 +23,7 @@ namespace CircuitCrawlerEditor
 		private Entity selectedEntity;
 
 		private float gridSnap;
+		private bool snapping;
 
 		public FormEditor()
 		{
@@ -29,6 +31,8 @@ namespace CircuitCrawlerEditor
 
 			camera = new Camera();
 			level = new Level();
+
+			showLights = true;
 
 			Application.Idle += Application_Idle;
 		}
@@ -86,7 +90,9 @@ namespace CircuitCrawlerEditor
 			GL.Disable(EnableCap.CullFace);
 			GL.FrontFace(FrontFaceDirection.Cw);
 
-			GL.Enable(EnableCap.Lighting);
+			if(showLights)
+				GL.Enable(EnableCap.Lighting);
+
 			GL.Enable(EnableCap.Texture2D);
 			GL.EnableClientState(ArrayCap.VertexArray);
 			GL.EnableClientState(ArrayCap.TextureCoordArray);
@@ -100,7 +106,9 @@ namespace CircuitCrawlerEditor
 
 			GL.PopMatrix();
 
-			GL.Disable(EnableCap.Lighting);
+			if (showLights)
+				GL.Disable(EnableCap.Lighting);
+
 			GL.Disable(EnableCap.Texture2D);
 			GL.DisableClientState(ArrayCap.NormalArray);
 			GL.DisableClientState(ArrayCap.TextureCoordArray);
@@ -130,6 +138,11 @@ namespace CircuitCrawlerEditor
 		private void worldView_DragDrop(object sender, DragEventArgs e)
 		{
 			Vector2 worldPos = ScreenToWorld(e.X, e.Y);
+
+			if (snapping)
+			{
+				worldPos = SnapToGrid(worldPos);
+			}
 
 			//get item
 			ListViewItem item = new ListViewItem();
@@ -316,7 +329,8 @@ namespace CircuitCrawlerEditor
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Application.Exit();
+			if (MessageBox.Show("Are you sure you want to exit?.\r\nAll unsaved changes will be discarded.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+				Application.Exit();
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -327,15 +341,25 @@ namespace CircuitCrawlerEditor
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				Parser.Parser.SaveLevel(saveDialog.FileName, level);
+			{
+				if (MessageBox.Show("Opening this file will discard all current changes.\r\nAre you sure you want to continue?", "Open Level", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+				{
+					Parser.Parser.SaveLevel(saveDialog.FileName, level);
+				}
+			}
 
 			UpdateWorldTree();
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			loadDialog.FileName = "";
 			if (loadDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				level = Parser.Parser.LoadLevel(loadDialog.FileName);
+			{
+				Level newlevel = Parser.Parser.LoadLevel(loadDialog.FileName);
+				if (newlevel != null)
+					level = newlevel;
+			}
 
 			UpdateWorldTree();
 		}
@@ -406,6 +430,21 @@ namespace CircuitCrawlerEditor
 			return (float)Math.Sqrt(diag1 + diag2) < distance;
 		}
 
+		private Vector2 SnapToGrid(Vector2 v)
+		{
+			if (v.X % gridSnap < gridSnap / 2)
+				v.X = v.X - v.X % gridSnap;
+			else
+				v.X = v.X + (gridSnap - v.X % gridSnap);
+
+			if (v.Y % gridSnap < gridSnap / 2)
+				v.Y = v.Y - v.Y % gridSnap;
+			else
+				v.Y = v.Y + (gridSnap - v.Y % gridSnap);
+
+			return new Vector2(v.X + Tile.TILE_SIZE_F / 2, v.Y + Tile.TILE_SIZE_F / 2);
+		}
+
 		private Vector2 ScreenToWorld(Vector2 v)
 		{
 			Point formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
@@ -437,5 +476,24 @@ namespace CircuitCrawlerEditor
 		}
 
 		#endregion
+
+		private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			snapping = !snapping;
+		}
+
+		private void lightsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			showLights = !showLights;
+		}
+
+		private void newToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("Are you sure you want to create a new level?", "New Level", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+			{
+				level = new Level();
+				worldView_Load(this, EventArgs.Empty);
+			}
+		}
 	}
 }
