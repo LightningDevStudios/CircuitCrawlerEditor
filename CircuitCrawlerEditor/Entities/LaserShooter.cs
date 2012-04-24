@@ -5,8 +5,8 @@ namespace CircuitCrawlerEditor.Entities
 {
 	public class LaserShooter : Entity
 	{
-		public LaserShooter(float size, float xPos, float yPos)
-			: base(size, xPos, yPos)
+		public LaserShooter(float xPos, float yPos)
+			: base(xPos, yPos)
 		{
 		}
 

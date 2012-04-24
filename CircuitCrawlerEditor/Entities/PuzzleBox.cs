@@ -5,8 +5,8 @@ namespace CircuitCrawlerEditor.Entities
 {
     class PuzzleBox : Entity
     {
-        public PuzzleBox(float size, float xPos, float yPos)
-            : base(size, xPos, yPos)
+        public PuzzleBox(float xPos, float yPos)
+            : base(xPos, yPos)
         {
         }
     }

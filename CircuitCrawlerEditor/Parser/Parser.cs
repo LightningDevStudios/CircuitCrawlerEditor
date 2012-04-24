@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using CircuitCrawlerEditor.Entities;
 using CircuitCrawlerEditor.Parser;
 using CircuitCrawlerEditor.Triggers;
+using OpenTK.Graphics.OpenGL;
 
 namespace CircuitCrawlerEditor.Parser
 {
@@ -14,7 +15,24 @@ namespace CircuitCrawlerEditor.Parser
 	{
 		#region Load
 
-		public static void loadLevel(String filepath, out Tile[][] tileset, out List<Entity> entities, out List<Cause> causes, out List<Effect> effects, out List<Trigger> triggers)
+		public static CircuitCrawlerEditor.Level LoadLevel(String filepath)
+		{
+			Tile[][] tileset;
+			List<Entity> entities;
+			List<Cause> causes;
+			List<Effect> effects;
+			List<Trigger> triggers;
+			LoadLevel(filepath, out tileset, out entities, out causes, out effects, out triggers);
+			CircuitCrawlerEditor.Level level = new CircuitCrawlerEditor.Level();
+			level.Tileset = new Tileset(tileset, new Texture(new Bitmap("Resources/Textures/tilesetworld.png"), 16, 8, TextureMinFilter.Linear, TextureMagFilter.Linear, TextureWrapMode.Clamp, TextureWrapMode.Clamp));
+			level.Entities = entities;
+			level.Causes = causes;
+			level.Effects = effects;
+			level.Triggers = triggers;
+			return level;
+		}
+
+		public static void LoadLevel(String filepath, out Tile[][] tileset, out List<Entity> entities, out List<Cause> causes, out List<Effect> effects, out List<Trigger> triggers)
 		{
 			StreamReader xmlReader = new StreamReader(filepath);
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(Level));
@@ -55,11 +73,22 @@ namespace CircuitCrawlerEditor.Parser
 				}
 			}
 
+			if (level.Entities.BreakableDoor != null)
+			{
+				foreach (BreakableDoorInfo bdi in level.Entities.BreakableDoor)
+				{
+					BreakableDoor breakableDoor = new BreakableDoor(bdi.xPos, bdi.yPos);
+					breakableDoor.MaxHits = bdi.maxHits;
+					breakableDoor = LoadEntity<BreakableDoorInfo, BreakableDoor>(bdi, breakableDoor);
+					entities.Add(breakableDoor);
+				}
+			}
+
 			if (level.Entities.Cannon != null)
 			{
 				foreach (CannonInfo cInfo in level.Entities.Cannon)
 				{
-					Cannon c = new Cannon(cInfo.size, cInfo.xPos, cInfo.yPos);
+					Cannon c = new Cannon(cInfo.xPos, cInfo.yPos);
 					c.BallSpeed = cInfo.shotVelocity;
 					c.Stupidity = cInfo.stupidity;
 					c = LoadEntity<CannonInfo, Cannon>(cInfo, c);
@@ -82,7 +111,7 @@ namespace CircuitCrawlerEditor.Parser
 			{
 				foreach (LaserShooterInfo lsi in level.Entities.LaserShooter)
 				{
-					LaserShooter ls = new LaserShooter(lsi.size, lsi.xPos, lsi.yPos);
+					LaserShooter ls = new LaserShooter(lsi.xPos, lsi.yPos);
 					ls.BeamWidth = lsi.beamWidth;
 					ls.ShotsPerSecond = lsi.shotsPerSecond;
 					ls.Stupidity = lsi.stupidity;
@@ -91,24 +120,24 @@ namespace CircuitCrawlerEditor.Parser
 				}
 			}
 
-			if (level.Entities.PhysBall != null)
+			if (level.Entities.Ball != null)
 			{
-				foreach (PhysBallInfo ballInfo in level.Entities.PhysBall)
+				foreach (BallInfo ballInfo in level.Entities.Ball)
 				{
-					Ball ball = new Ball(ballInfo.size, ballInfo.xPos, ballInfo.yPos);
+					Ball ball = new Ball(ballInfo.xPos, ballInfo.yPos);
 					ball.Friction = ballInfo.friction;
-					ball = LoadEntity<PhysBallInfo, Ball>(ballInfo, ball);
+					ball = LoadEntity<BallInfo, Ball>(ballInfo, ball);
 					entities.Add(ball);
 				}
 			}
 
-			if (level.Entities.PhysBlock != null)
+			if (level.Entities.Block != null)
 			{
-				foreach (PhysBlockInfo blockInfo in level.Entities.PhysBlock)
+				foreach (BlockInfo blockInfo in level.Entities.Block)
 				{
-					Block block = new Block(blockInfo.size, blockInfo.xPos, blockInfo.yPos);
+					Block block = new Block(blockInfo.xPos, blockInfo.yPos);
 					block.Friction = blockInfo.friction;
-					block = LoadEntity<PhysBlockInfo, Block>(blockInfo, block);
+					block = LoadEntity<BlockInfo, Block>(blockInfo, block);
 					entities.Add(block);
 				}
 			}
@@ -116,7 +145,7 @@ namespace CircuitCrawlerEditor.Parser
 			if (level.Entities.Player != null)
 			{
 				PlayerInfo pi = level.Entities.Player;
-				Player player = new Player(pi.size, pi.xPos, pi.yPos);
+				Player player = new Player(pi.xPos, pi.yPos);
 				player = LoadEntity<PlayerInfo, Player>(pi, player);
 				entities.Add(player);
 			}
@@ -125,7 +154,7 @@ namespace CircuitCrawlerEditor.Parser
 			{
 				foreach (PuzzleBoxInfo pbi in level.Entities.PuzzleBox)
 				{
-					PuzzleBox pb = new PuzzleBox(pbi.size, pbi.xPos, pbi.yPos);
+					PuzzleBox pb = new PuzzleBox(pbi.xPos, pbi.yPos);
 					pb = LoadEntity<PuzzleBoxInfo, PuzzleBox>(pbi, pb);
 					entities.Add(pb);
 				}
@@ -146,7 +175,7 @@ namespace CircuitCrawlerEditor.Parser
 			{
 				foreach (TeleporterInfo tInfo in level.Entities.Teleporter)
 				{
-					Teleporter t = new Teleporter(tInfo.size, tInfo.xPos, tInfo.yPos);
+					Teleporter t = new Teleporter(tInfo.xPos, tInfo.yPos);
 					t = LoadEntity<TeleporterInfo, Teleporter>(tInfo, t);
 					entities.Add(t);
 				}
@@ -350,8 +379,6 @@ namespace CircuitCrawlerEditor.Parser
 		{
 			if (info.id != null)
 				ent.ID = info.id;
-			if (info.size != null)
-				ent.Size = info.size;
 			if (info.angleSpecified)
 				ent.Angle = info.angle;
 
@@ -362,7 +389,12 @@ namespace CircuitCrawlerEditor.Parser
 
 		#region Save
 
-		public static void saveLevel(String filepath, Tile[][] tileset, List<Entity> entList, List<Cause> causeList, List<Effect> effectList, List<Trigger> triggerList)
+		public static void SaveLevel(String filepath, CircuitCrawlerEditor.Level level)
+		{
+			SaveLevel(filepath, level.Tileset.Tiles, level.Entities, level.Causes, level.Effects, level.Triggers);
+		}
+
+		public static void SaveLevel(String filepath, Tile[][] tileset, List<Entity> entList, List<Cause> causeList, List<Effect> effectList, List<Trigger> triggerList)
         {
 			Level level = new Level();
 
@@ -400,6 +432,18 @@ namespace CircuitCrawlerEditor.Parser
 				{
 					level.Entities.Button[i] = new ButtonInfo();
 					level.Entities.Button[i] = SaveEntity<ButtonInfo, Button>(level.Entities.Button[i], (Button)buttonList[i]);
+				}
+			}
+
+			List<Entity> breakableDoorList = entList.FindAll(ent => ent is BreakableDoor);
+			if (breakableDoorList.Count > 0)
+			{
+				level.Entities.BreakableDoor = new BreakableDoorInfo[breakableDoorList.Count];
+				for (int i = 0; i < breakableDoorList.Count; i++)
+				{
+					level.Entities.BreakableDoor[i] = new BreakableDoorInfo();
+					level.Entities.BreakableDoor[i].maxHits = ((BreakableDoor)breakableDoorList[i]).MaxHits;
+					level.Entities.BreakableDoor[i] = SaveEntity<BreakableDoorInfo, BreakableDoor>(level.Entities.BreakableDoor[i], (BreakableDoor)breakableDoorList[i]);
 				}
 			}
 
@@ -444,27 +488,27 @@ namespace CircuitCrawlerEditor.Parser
 				}
 			}
 
-			List<Entity> physBallList = entList.FindAll(ent => ent is Ball);
-			if (physBallList.Count > 0)
+			List<Entity> BallList = entList.FindAll(ent => ent is Ball);
+			if (BallList.Count > 0)
 			{
-				level.Entities.PhysBall = new PhysBallInfo[physBallList.Count];
-				for (int i = 0; i < physBallList.Count; i++)
+				level.Entities.Ball = new BallInfo[BallList.Count];
+				for (int i = 0; i < BallList.Count; i++)
 				{
-					level.Entities.PhysBall[i] = new PhysBallInfo();
-					level.Entities.PhysBall[i].friction = ((Ball)physBallList[i]).Friction;
-					level.Entities.PhysBall[i] = SaveEntity(level.Entities.PhysBall[i], (Ball)physBallList[i]);
+					level.Entities.Ball[i] = new BallInfo();
+					level.Entities.Ball[i].friction = ((Ball)BallList[i]).Friction;
+					level.Entities.Ball[i] = SaveEntity(level.Entities.Ball[i], (Ball)BallList[i]);
 				}
 			}
 
-			List<Entity> physBlockList = entList.FindAll(ent => ent is Block);
-			if (physBlockList.Count > 0)
+			List<Entity> BlockList = entList.FindAll(ent => ent is Block);
+			if (BlockList.Count > 0)
 			{
-				level.Entities.PhysBlock = new PhysBlockInfo[physBlockList.Count];
-				for (int i = 0; i < physBlockList.Count; i++)
+				level.Entities.Block = new BlockInfo[BlockList.Count];
+				for (int i = 0; i < BlockList.Count; i++)
 				{
-					level.Entities.PhysBlock[i] = new PhysBlockInfo();
-					level.Entities.PhysBlock[i].friction = ((Block)physBlockList[i]).Friction;
-					level.Entities.PhysBlock[i] = SaveEntity(level.Entities.PhysBlock[i], (Block)physBlockList[i]);
+					level.Entities.Block[i] = new BlockInfo();
+					level.Entities.Block[i].friction = ((Block)BlockList[i]).Friction;
+					level.Entities.Block[i] = SaveEntity(level.Entities.Block[i], (Block)BlockList[i]);
 				}
 			}
 
@@ -703,7 +747,6 @@ namespace CircuitCrawlerEditor.Parser
 			where K : Entity
 		{
 			info.id = ent.ID;
-			info.size = ent.Size;
 			info.xPos = ent.XPos;
 			info.yPos = ent.YPos;
 

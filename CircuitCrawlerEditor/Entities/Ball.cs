@@ -8,8 +8,8 @@ namespace CircuitCrawlerEditor.Entities
         [Category("PhysBall"), Description("The amount of speed lost over time and per bounce")]
         public float Friction { get; set; }
 
-        public Ball(float size, float xPos, float yPos)
-            : base(size, xPos, yPos)
+        public Ball(float xPos, float yPos)
+            : base(xPos, yPos)
         {
 
         }

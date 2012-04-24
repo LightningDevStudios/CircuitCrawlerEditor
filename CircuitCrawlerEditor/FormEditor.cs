@@ -19,9 +19,9 @@ namespace CircuitCrawlerEditor
 		private Camera camera;
 		private Level level;
 
-        private Entity selectedEntity;
+		private Entity selectedEntity;
 
-        private float gridSnap;
+		private float gridSnap;
 
 		public FormEditor()
 		{
@@ -129,7 +129,7 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_DragDrop(object sender, DragEventArgs e)
 		{
-            Vector2 worldPos = ScreenToWorld(e.X, e.Y);
+			Vector2 worldPos = ScreenToWorld(e.X, e.Y);
 
 			//get item
 			ListViewItem item = new ListViewItem();
@@ -149,15 +149,16 @@ namespace CircuitCrawlerEditor
 					level.Lights.Add(l);
 					break;
 				case "Ball":
-					Ball ball = new Ball(32, worldPos.X, worldPos.Y);
+					Ball ball = new Ball(worldPos.X, worldPos.Y);
 					level.Entities.Add(ball);
 					break;
 				case "Block":
-					Block block = new Block(50, worldPos.X, worldPos.Y);
+					Block block = new Block(worldPos.X, worldPos.Y);
 					level.Entities.Add(block);
 					break;
 				case "BreakableDoor":
-					BreakableDoor bdoor = new BreakableDoor(worldPos.X, worldPos.Y, 5);
+					BreakableDoor bdoor = new BreakableDoor(worldPos.X, worldPos.Y);
+					bdoor.MaxHits = 3;
 					level.Entities.Add(bdoor);
 					break;
 				case "Button":
@@ -165,7 +166,7 @@ namespace CircuitCrawlerEditor
 					level.Entities.Add(button);
 					break;
 				case "Cannon":
-					Cannon cannon = new Cannon(50, worldPos.X, worldPos.Y);
+					Cannon cannon = new Cannon(worldPos.X, worldPos.Y);
 					level.Entities.Add(cannon);
 					break;
 				case "Door":
@@ -173,22 +174,22 @@ namespace CircuitCrawlerEditor
 					level.Entities.Add(door);
 					break;
 				case "LaserShooter":
-					LaserShooter ls = new LaserShooter(50, worldPos.X, worldPos.Y);
+					LaserShooter ls = new LaserShooter(worldPos.X, worldPos.Y);
 					level.Entities.Add(ls);
 					break;
 				case "Player":
-					Player p = new Player(32, worldPos.X, worldPos.Y);
+					Player p = new Player(worldPos.X, worldPos.Y);
 					level.Entities.Add(p);
 					break;
 				case "PuzzleBox":
-					PuzzleBox pb = new PuzzleBox(32, worldPos.X, worldPos.Y);
+					PuzzleBox pb = new PuzzleBox(worldPos.X, worldPos.Y);
 					level.Entities.Add(pb);
 					break;
 				case "SpikeWall":
 					SpikeWall sw = new SpikeWall(worldPos.X, worldPos.Y);
 					break;
 				case "Teleporter":
-					Teleporter tp = new Teleporter(64, worldPos.X, worldPos.Y);
+					Teleporter tp = new Teleporter(worldPos.X, worldPos.Y);
 					level.Entities.Add(tp);
 					break;
 				case "CauseAND":
@@ -250,23 +251,23 @@ namespace CircuitCrawlerEditor
 		}
 
 		private void worldView_MouseClick(object sender, MouseEventArgs e)
-        {
-            Vector2 pos = ScreenToWorld(e.Location);
+		{
+			Vector2 pos = ScreenToWorld(e.Location);
 
-            if (selectedEntity != null)
-            {
-                selectedEntity.XPos = pos.X;
+			if (selectedEntity != null)
+			{
+				selectedEntity.XPos = pos.X;
 				selectedEntity.YPos = pos.Y;
-                selectedEntity = null;
-            }
-            else
-            {
-                bool selected = false;
-                foreach (Entity ent in level.Entities)
-                {
-                    if (RadiusCheck(pos, new Vector2(ent.XPos, ent.YPos), ent.Size))
-                    {
-                        selectedEntity = ent;
+				selectedEntity = null;
+			}
+			else
+			{
+				bool selected = false;
+				foreach (Entity ent in level.Entities)
+				{
+					if (RadiusCheck(pos, new Vector2(ent.XPos, ent.YPos), 32)) //TODO: make this better
+					{
+						selectedEntity = ent;
 						TreeNodeCollection nodes = levelItemsList.Nodes;
 						foreach (TreeNode node in nodes)
 						{
@@ -278,14 +279,14 @@ namespace CircuitCrawlerEditor
 						}
 						selectedItemProperties.SelectedObject = ent;
 						selected = true;
-                    }
-                }
-                if (!selected)
-                {
-                    selectedEntity = null;
-                }
-            }
-        }
+					}
+				}
+				if (!selected)
+				{
+					selectedEntity = null;
+				}
+			}
+		}
 
 		#endregion
 
@@ -314,16 +315,16 @@ namespace CircuitCrawlerEditor
 		#region Helper Methods
 
 		private void UpdateWorldTree()
-        {
+		{
 			foreach (TreeNode node in levelItemsList.Nodes)
-                node.Nodes.Clear();
+				node.Nodes.Clear();
 
 			foreach (Entity ent in level.Entities)
 			{
 				TreeNode node = new TreeNode(ent.ToString());
 				node.Tag = ent;
 				levelItemsList.Nodes[0].Nodes.Add(node);
-			} 
+			}
 
 			foreach (Cause cause in level.Causes)
 			{
@@ -331,21 +332,21 @@ namespace CircuitCrawlerEditor
 				node.Tag = cause;
 				levelItemsList.Nodes[1].Nodes.Add(node);
 			}
-			
+
 			foreach (Effect effect in level.Effects)
 			{
 				TreeNode node = new TreeNode(effect.ToString());
 				node.Tag = effect;
 				levelItemsList.Nodes[2].Nodes.Add(node);
 			}
-			
+
 			foreach (Trigger trigger in level.Triggers)
 			{
 				TreeNode node = new TreeNode(trigger.ToString());
 				node.Tag = trigger;
 				levelItemsList.Nodes[3].Nodes.Add(node);
 			}
-			
+
 			foreach (Light light in level.Lights)
 			{
 				TreeNode node = new TreeNode(light.ToString());
@@ -357,43 +358,43 @@ namespace CircuitCrawlerEditor
 			UICauseListEditor.causeList = level.Causes;
 			UIEffectListEditor.effectList = level.Effects;
 			UIFormEffectListEditor.effectList = level.Effects;
-        }
+		}
 
-        private bool RadiusCheck(Vector2 a, Vector2 b, float distance)
-        {
-            float diag1 = (float)Math.Pow((a.X - b.X), 2);
-            float diag2 = (float)Math.Pow((a.Y - b.Y), 2);
-            return (float)Math.Sqrt(diag1 + diag2) < distance;
-        }
+		private bool RadiusCheck(Vector2 a, Vector2 b, float distance)
+		{
+			float diag1 = (float)Math.Pow((a.X - b.X), 2);
+			float diag2 = (float)Math.Pow((a.Y - b.Y), 2);
+			return (float)Math.Sqrt(diag1 + diag2) < distance;
+		}
 
-        private Vector2 ScreenToWorld(Vector2 v)
-        {
-            Point formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
+		private Vector2 ScreenToWorld(Vector2 v)
+		{
+			Point formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
 
-            Point controlPosition = new Point();
-            Control ctrl = worldView;
+			Point controlPosition = new Point();
+			Control ctrl = worldView;
 
-            while (ctrl != this)
-            {
-                controlPosition.X += ctrl.Location.X;
-                controlPosition.Y += ctrl.Location.Y;
-                ctrl = ctrl.Parent;
-            }
+			while (ctrl != this)
+			{
+				controlPosition.X += ctrl.Location.X;
+				controlPosition.Y += ctrl.Location.Y;
+				ctrl = ctrl.Parent;
+			}
 
-            formPosition.X -= controlPosition.X;
-            formPosition.Y -= controlPosition.Y;
+			formPosition.X -= controlPosition.X;
+			formPosition.Y -= controlPosition.Y;
 
-            return ExtraMath.UnProject(camera.Projection, camera.View, worldView.Size, formPosition).Xy;
-        }
+			return ExtraMath.UnProject(camera.Projection, camera.View, worldView.Size, formPosition).Xy;
+		}
 
-        private Vector2 ScreenToWorld(Point p)
-        {
-            return ScreenToWorld(new Vector2(p.X, p.Y));
-        }
+		private Vector2 ScreenToWorld(Point p)
+		{
+			return ScreenToWorld(new Vector2(p.X, p.Y));
+		}
 
-        private Vector2 ScreenToWorld(float x, float y)
-        {
-            return ScreenToWorld(new Vector2(x, y));
+		private Vector2 ScreenToWorld(float x, float y)
+		{
+			return ScreenToWorld(new Vector2(x, y));
 		}
 
 		#endregion
@@ -401,32 +402,33 @@ namespace CircuitCrawlerEditor
 		#region ToolStrip Events
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+		{
+			Application.Exit();
+		}
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("CC Level Editor: \r\n//TODO Put Stuff Here.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("CC Level Editor: \r\n//TODO Put Stuff Here.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //TODO Lol Sauce
-        }
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//TODO Lol Sauce
+		}
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (loadDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				level = Parser.Parser.LoadLevel(loadDialog.FileName);
+		}
 
-        }
-
-        private void snapSizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (SnapSize form = new SnapSize())
-            {
-                form.ShowDialog();
-                gridSnap = form.snapSize;
-            }
+		private void snapSizeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (SnapSize form = new SnapSize())
+			{
+				form.ShowDialog();
+				gridSnap = form.snapSize;
+			}
 		}
 
 		#endregion

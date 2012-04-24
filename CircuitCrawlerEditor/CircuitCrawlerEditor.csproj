@@ -77,7 +77,9 @@
     </Compile>
     <Compile Include="Level.cs" />
     <Compile Include="Light.cs" />
-    <Compile Include="Parser\level.cs" />
+    <Compile Include="Parser\Level.cs">
+      <DependentUpon>Level.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -140,6 +142,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\TriggerIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Parser\Level.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

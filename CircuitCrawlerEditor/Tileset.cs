@@ -16,6 +16,8 @@ namespace CircuitCrawlerEditor
 
 		private bool updated;
 
+		public Tile[][] Tiles { get; private set; }
+
 		public Tileset(Tile[][] tiles, Texture tex)
 		{
 			this.tiles = tiles;

@@ -6,7 +6,7 @@ namespace CircuitCrawlerEditor.Entities
 	public class SpikeWall : Entity
 	{
 		public SpikeWall(float xPos, float yPos)
-            : base(64, xPos, yPos)
+            : base(xPos, yPos)
         {
 			Dir = Direction.LEFT;
         }

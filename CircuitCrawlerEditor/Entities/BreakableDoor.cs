@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 
 namespace CircuitCrawlerEditor.Entities
 {
 	public class BreakableDoor : Entity
 	{
-		private int maxHits;
+		[Category("BreakableDoor"), Description("The number of hits to destroy the door.")]
+		public int MaxHits { get; set; }
 
-		public BreakableDoor(float xPos, float yPos, int maxHits)
-			: base(80, xPos, yPos)
+		public BreakableDoor(float xPos, float yPos)
+			: base(xPos, yPos)
 		{
-			this.maxHits = maxHits;
 		}
 	}
 }

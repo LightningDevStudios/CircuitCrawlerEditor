@@ -208,12 +208,13 @@ namespace CircuitCrawlerEditor.Parser {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SpikeWallInfo))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PuzzleBoxInfo))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PlayerInfo))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(PhysBallInfo))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(PhysBlockInfo))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BallInfo))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BlockInfo))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DoorInfo))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LaserShooterInfo))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CannonInfo))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ButtonInfo))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BreakableDoorInfo))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -221,8 +222,6 @@ namespace CircuitCrawlerEditor.Parser {
     public partial class EntityInfo {
         
         private string idField;
-        
-        private float sizeField;
         
         private float xPosField;
         
@@ -248,17 +247,6 @@ namespace CircuitCrawlerEditor.Parser {
             }
             set {
                 this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public float size {
-            get {
-                return this.sizeField;
-            }
-            set {
-                this.sizeField = value;
             }
         }
         
@@ -419,7 +407,7 @@ namespace CircuitCrawlerEditor.Parser {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class PhysBallInfo : EntityInfo {
+    public partial class BallInfo : EntityInfo {
         
         private float frictionField;
         
@@ -440,7 +428,7 @@ namespace CircuitCrawlerEditor.Parser {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class PhysBlockInfo : EntityInfo {
+    public partial class BlockInfo : EntityInfo {
         
         private float frictionField;
         
@@ -571,10 +559,33 @@ namespace CircuitCrawlerEditor.Parser {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class BreakableDoorInfo : EntityInfo {
+        
+        private int maxHitsField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int maxHits {
+            get {
+                return this.maxHitsField;
+            }
+            set {
+                this.maxHitsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
     public partial class LevelEntities {
         
         private TeleporterInfo[] teleporterField;
+        
+        private BreakableDoorInfo[] breakableDoorField;
         
         private ButtonInfo[] buttonField;
         
@@ -582,9 +593,9 @@ namespace CircuitCrawlerEditor.Parser {
         
         private DoorInfo[] doorField;
         
-        private PhysBlockInfo[] physBlockField;
+        private BlockInfo[] blockField;
         
-        private PhysBallInfo[] physBallField;
+        private BallInfo[] ballField;
         
         private PuzzleBoxInfo[] puzzleBoxField;
         
@@ -602,6 +613,17 @@ namespace CircuitCrawlerEditor.Parser {
             }
             set {
                 this.teleporterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("BreakableDoor", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public BreakableDoorInfo[] BreakableDoor {
+            get {
+                return this.breakableDoorField;
+            }
+            set {
+                this.breakableDoorField = value;
             }
         }
         
@@ -639,24 +661,24 @@ namespace CircuitCrawlerEditor.Parser {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("PhysBlock", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public PhysBlockInfo[] PhysBlock {
+        [System.Xml.Serialization.XmlElementAttribute("Block", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public BlockInfo[] Block {
             get {
-                return this.physBlockField;
+                return this.blockField;
             }
             set {
-                this.physBlockField = value;
+                this.blockField = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("PhysBall", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public PhysBallInfo[] PhysBall {
+        [System.Xml.Serialization.XmlElementAttribute("Ball", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public BallInfo[] Ball {
             get {
-                return this.physBallField;
+                return this.ballField;
             }
             set {
-                this.physBallField = value;
+                this.ballField = value;
             }
         }
         

@@ -5,8 +5,8 @@ namespace CircuitCrawlerEditor.Entities
 {
 	class Cannon : Entity
 	{
-		public Cannon(float size, float xPos, float yPos)
-			: base(size, xPos, yPos)
+		public Cannon(float xPos, float yPos)
+			: base(xPos, yPos)
 		{
 		}
 
