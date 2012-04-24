@@ -552,6 +552,7 @@
 			this.selectedItemProperties.Name = "selectedItemProperties";
 			this.selectedItemProperties.Size = new System.Drawing.Size(265, 277);
 			this.selectedItemProperties.TabIndex = 0;
+			this.selectedItemProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.selectedItemProperties_PropertyValueChanged);
 			// 
 			// loadDialog
 			// 
@@ -588,7 +589,7 @@
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "FormEditor";
-			this.Text = "FormEditor";
+			this.Text = "Circuit Crawler Level Editor";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);

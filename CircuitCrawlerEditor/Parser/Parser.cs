@@ -5,13 +5,13 @@ using System.IO;
 using System.Xml.Serialization;
 
 using CircuitCrawlerEditor.Entities;
-using CircuitCrawlerEditor.Parser;
 using CircuitCrawlerEditor.Triggers;
+
 using OpenTK.Graphics.OpenGL;
 
 namespace CircuitCrawlerEditor.Parser
 {
-    public static class Parser
+	public static class Parser
 	{
 		#region Load
 
@@ -39,7 +39,7 @@ namespace CircuitCrawlerEditor.Parser
 			}
 		}
 
-		public static bool LoadLevel(String filepath, out Tile[][] tileset, out List<Entity> entities, out List<Cause> causes, out List<Effect> effects, out List<Trigger> triggers)
+		private static bool LoadLevel(String filepath, out Tile[][] tileset, out List<Entity> entities, out List<Cause> causes, out List<Effect> effects, out List<Trigger> triggers)
 		{
 			try
 			{
@@ -416,12 +416,12 @@ namespace CircuitCrawlerEditor.Parser
 			SaveLevel(filepath, level.Tileset.Tiles, level.Entities, level.Causes, level.Effects, level.Triggers);
 		}
 
-		public static void SaveLevel(String filepath, Tile[][] tileset, List<Entity> entList, List<Cause> causeList, List<Effect> effectList, List<Trigger> triggerList)
-        {
+		private static void SaveLevel(String filepath, Tile[][] tileset, List<Entity> entList, List<Cause> causeList, List<Effect> effectList, List<Trigger> triggerList)
+		{
+			Level level = new Level();
+
 			try
 			{
-				Level level = new Level();
-
 				#region Save Tileset
 
 				level.Tileset = new LevelTileset();
@@ -740,7 +740,7 @@ namespace CircuitCrawlerEditor.Parser
 					parseList.Reverse();
 
 					for (int i = 0; i < parseList.Count; i++)
-						level.Triggers.Effect[i] = saveTriggerEffect(parseList[i]);
+						level.Triggers.Effect[i] = SaveTriggerEffect(parseList[i]);
 				}
 
 				#endregion
@@ -838,7 +838,7 @@ namespace CircuitCrawlerEditor.Parser
 			return causeData;
 		}
 
-		public static LevelTriggersEffect saveTriggerEffect(Effect e)
+		private static LevelTriggersEffect SaveTriggerEffect(Effect e)
 		{
 			LevelTriggersEffect effectData = new LevelTriggersEffect();
 			switch (e.GetType().Name)
@@ -859,7 +859,7 @@ namespace CircuitCrawlerEditor.Parser
 				case "EffectList":
 					string effects = "";
 					foreach (Effect effectsList in ((EffectList)e).List)
-						effects += effectsList.ID;
+						effects += effectsList.ID + ",";
 					effectData.Value = effects;
 					effectData.type = effectType.EffectList;
 					break;

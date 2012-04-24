@@ -2,11 +2,11 @@
 
 namespace CircuitCrawlerEditor.Entities
 {
-    public class Button : Entity
-    {
-        public Button(float xPos, float yPos)
+	public class Button : Entity
+	{
+		public Button(float xPos, float yPos)
 			: base(xPos, yPos)
-        {
-        }
-    }
+		{
+		}
+	}
 }

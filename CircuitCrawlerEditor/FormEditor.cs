@@ -79,7 +79,7 @@ namespace CircuitCrawlerEditor
 			Light l = new Light();
 			l.Diffuse = Color4.White;
 			l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
-			l.Position = new Vector4(-40, 0, 85, 1);
+			l.Position = new Vector4(-40, 0, 5, 1);
 			l.ConstantAttenuation = 1f;
 			l.LinearAttenuation = 1f / 3000f;
 			l.QuadraticAttenuation = 1f / 40000f;
@@ -235,9 +235,6 @@ namespace CircuitCrawlerEditor
 		{
 			switch (e.KeyData)
 			{
-				case Keys.Q:
-					panning = false;
-					break;
 				case Keys.Delete:
 					level.Entities.Remove(selectedEntity);
 					selectedEntity = null;
@@ -250,9 +247,6 @@ namespace CircuitCrawlerEditor
 		{
 			switch (e.KeyData)
 			{
-				case Keys.Q:
-					panning = true;
-					break;
 				case Keys.W:
 					camera.Position -= Vector2.UnitY * 10;
 					break;
@@ -298,111 +292,160 @@ namespace CircuitCrawlerEditor
 			if (e.Data.GetData(typeof(ListViewItem)) != null)
 				item = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
 
+			object selectedObject = null;
+
 			switch ((string)item.Tag)
 			{
 				case "Light":
 					Light l = new Light();
 					l.Diffuse = Color4.White;
 					l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
-					l.Position = new Vector4(worldPos.X, worldPos.Y, 85, 1);
+					l.Position = new Vector4(worldPos.X, worldPos.Y, 36, 1);
 					l.ConstantAttenuation = 1f;
 					l.LinearAttenuation = 1f / 3000f;
 					l.QuadraticAttenuation = 1f / 40000f;
 					level.Lights.Add(l);
+					selectedObject = l;
 					break;
 				case "Ball":
 					Ball ball = new Ball(worldPos.X, worldPos.Y);
 					level.Entities.Add(ball);
+					selectedObject = ball;
 					break;
 				case "Block":
 					Block block = new Block(worldPos.X, worldPos.Y);
 					level.Entities.Add(block);
+					selectedObject = block;
 					break;
 				case "BreakableDoor":
 					BreakableDoor bdoor = new BreakableDoor(worldPos.X, worldPos.Y);
 					bdoor.MaxHits = 3;
 					level.Entities.Add(bdoor);
+					selectedObject = bdoor;
 					break;
 				case "Button":
 					Entities.Button button = new Entities.Button(worldPos.X, worldPos.Y);
 					level.Entities.Add(button);
+					selectedObject = button;
 					break;
 				case "Cannon":
 					Cannon cannon = new Cannon(worldPos.X, worldPos.Y);
 					level.Entities.Add(cannon);
+					selectedObject = cannon;
 					break;
 				case "Door":
 					Door door = new Door(worldPos.X, worldPos.Y);
 					level.Entities.Add(door);
+					selectedObject = door;
 					break;
 				case "LaserShooter":
 					LaserShooter ls = new LaserShooter(worldPos.X, worldPos.Y);
 					level.Entities.Add(ls);
+					selectedObject = ls;
 					break;
 				case "Player":
 					Player p = new Player(worldPos.X, worldPos.Y);
 					level.Entities.Add(p);
+					selectedObject = p;
 					break;
 				case "PuzzleBox":
 					PuzzleBox pb = new PuzzleBox(worldPos.X, worldPos.Y);
 					level.Entities.Add(pb);
+					selectedObject = pb;
 					break;
 				case "SpikeWall":
 					SpikeWall sw = new SpikeWall(worldPos.X, worldPos.Y);
+					level.Entities.Add(sw);
+					selectedObject = sw;
 					break;
 				case "Teleporter":
 					Teleporter tp = new Teleporter(worldPos.X, worldPos.Y);
 					level.Entities.Add(tp);
+					selectedObject = tp;
 					break;
 				case "CauseAND":
-					level.Causes.Add(new CauseAND());
+					CauseAND cAnd = new CauseAND();
+					level.Causes.Add(cAnd);
+					selectedObject = cAnd;
 					break;
 				case "CauseNOT":
-					level.Causes.Add(new CauseNOT());
+					CauseNOT cNot = new CauseNOT();
+					level.Causes.Add(cNot);
+					selectedObject = cNot;
 					break;
 				case "CauseOR":
-					level.Causes.Add(new CauseOR());
+					CauseOR cOr = new CauseOR();
+					level.Causes.Add(cOr);
+					selectedObject = cOr;
 					break;
 				case "CauseXOR":
-					level.Causes.Add(new CauseXOR());
+					CauseXOR cXor = new CauseXOR();
+					level.Causes.Add(cXor);
+					selectedObject = cXor;
 					break;
 				case "CauseButton":
-					level.Causes.Add(new CauseButton());
+					CauseButton cBtn = new CauseButton();
+					level.Causes.Add(cBtn);
+					selectedObject = cBtn;
 					break;
 				case "CauseEntityDestruction":
-					level.Causes.Add(new CauseEntityDestruction());
+					CauseEntityDestruction cEntD = new CauseEntityDestruction();
+					level.Causes.Add(cEntD);
+					selectedObject = cEntD;
 					break;
 				case "CauseLocation":
-					level.Causes.Add(new CauseButton());
+					CauseLocation cLoc = new CauseLocation();
+					level.Causes.Add(cLoc);
+					selectedObject = cLoc;
 					break;
-				case "CauseTimePast":
-					level.Causes.Add(new CauseButton());
+				case "CauseTimePassed":
+					CauseTimePassed cTime = new CauseTimePassed();
+					level.Causes.Add(cTime);
+					selectedObject = cTime;
 					break;
 				case "EffectAND":
-					level.Effects.Add(new EffectAND());
+					EffectAND eAnd = new EffectAND();
+					level.Effects.Add(eAnd);
+					selectedObject = eAnd;
 					break;
 				case "EffectList":
-					level.Effects.Add(new EffectList());
+					EffectList eList = new EffectList();
+					level.Effects.Add(eList);
+					selectedObject = eList;
 					break;
 				case "EffectDoor":
-					level.Effects.Add(new EffectDoor());
+					EffectDoor eDoor = new EffectDoor();
+					level.Effects.Add(eDoor);
+					selectedObject = eDoor;
 					break;
 				case "EffectEndGame":
-					level.Effects.Add(new EffectEndGame());
+					EffectEndGame eEnd = new EffectEndGame();
+					level.Effects.Add(eEnd);
+					selectedObject = eEnd;
 					break;
 				case "EffectRaiseBridge":
-					level.Effects.Add(new EffectRaiseBridge());
+					EffectRaiseBridge eBridge = new EffectRaiseBridge();
+					level.Effects.Add(eBridge);
+					selectedObject = eBridge;
 					break;
 				case "EffectRemoveEntity":
-					level.Effects.Add(new EffectRemoveEntity());
+					EffectRemoveEntity eRemove = new EffectRemoveEntity();
+					level.Effects.Add(eRemove);
+					selectedObject = eRemove;
 					break;
 				case "EffectTriggerTimer":
-					level.Effects.Add(new EffectTriggerTimer());
+					EffectTriggerTimer eTimer = new EffectTriggerTimer();
+					level.Effects.Add(eTimer);
+					selectedObject = eTimer;
 					break;
 				case "Trigger":
-					level.Triggers.Add(new Trigger());
+					Trigger t = new Trigger();
+					level.Triggers.Add(t);
+					selectedObject = t;
 					break;
 			}
+
+			selectedItemProperties.SelectedObject = selectedObject;
 
 			UpdateWorldTree();
 		}
@@ -605,9 +648,8 @@ namespace CircuitCrawlerEditor
 
 		private bool RadiusCheck(Vector2 a, Vector2 b, float distance)
 		{
-			float diag1 = (float)Math.Pow((a.X - b.X), 2);
-			float diag2 = (float)Math.Pow((a.Y - b.Y), 2);
-			return (float)Math.Sqrt(diag1 + diag2) < distance;
+			//distance * distance is faster than two Math.Sqrts and float casts.
+			return Vector2.Subtract(a, b).LengthSquared < distance * distance;
 		}
 
 		private Vector2 SnapToGrid(Vector2 v)
@@ -681,6 +723,21 @@ namespace CircuitCrawlerEditor
 		private void controlsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Controls:\r\n    Q: Press and hold for mouse pan.\r\n    Arrow Keys: Pan screen.\r\n    PageUp/Down: Change zoom level.\r\n    //TODO more of the controls.", "Control Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void selectedItemProperties_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+		{
+			UpdateWorldTree();
+		}
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if ((keyData & Keys.Alt) == Keys.Alt)
+			{
+				panning = true;
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 	}
 }
