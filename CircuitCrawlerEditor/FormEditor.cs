@@ -559,27 +559,31 @@ namespace CircuitCrawlerEditor
 		{
 			if (e.KeyData == Keys.Delete)
 			{
-				if (levelItemsList.SelectedNode.Parent != null)
-				{
-					switch (levelItemsList.SelectedNode.Parent.Text)
-					{
-						case "Entities":
-							level.Entities.Remove((Entity)levelItemsList.SelectedNode.Tag);
-							break;
-						case "Causes":
-							level.Causes.Remove((Cause)levelItemsList.SelectedNode.Tag);
-							break;
-						case "Effects":
-							level.Effects.Remove((Effect)levelItemsList.SelectedNode.Tag);
-							break;
-						case "Triggers":
-							level.Triggers.Remove((Trigger)levelItemsList.SelectedNode.Tag);
-							break;
-						case "Lights":
-							level.Lights.Remove((Light)levelItemsList.SelectedNode.Tag);
-							break;
-					}
-				}
+                try
+                {
+                    if (levelItemsList.SelectedNode.Parent != null)
+                    {
+                        switch (levelItemsList.SelectedNode.Parent.Text)
+                        {
+                            case "Entities":
+                                level.Entities.Remove((Entity)levelItemsList.SelectedNode.Tag);
+                                break;
+                            case "Causes":
+                                level.Causes.Remove((Cause)levelItemsList.SelectedNode.Tag);
+                                break;
+                            case "Effects":
+                                level.Effects.Remove((Effect)levelItemsList.SelectedNode.Tag);
+                                break;
+                            case "Triggers":
+                                level.Triggers.Remove((Trigger)levelItemsList.SelectedNode.Tag);
+                                break;
+                            case "Lights":
+                                level.Lights.Remove((Light)levelItemsList.SelectedNode.Tag);
+                                break;
+                        }
+                    }
+                }
+                catch { }
 				
 				UpdateWorldTree();
 			}
