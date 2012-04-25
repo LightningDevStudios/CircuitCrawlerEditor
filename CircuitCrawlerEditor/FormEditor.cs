@@ -33,6 +33,8 @@ namespace CircuitCrawlerEditor
 		private float gridSnap;
 		private bool snapping;
 
+		private SelectionCube selectionCube;
+
 		public FormEditor()
 		{
 			InitializeComponent();
@@ -79,6 +81,8 @@ namespace CircuitCrawlerEditor
 
 			initialSize = worldView.Size;
 
+			selectionCube = new SelectionCube(Vector2.Zero);
+
 			Light l = new Light();
 			l.Diffuse = Color4.White;
 			l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
@@ -111,6 +115,19 @@ namespace CircuitCrawlerEditor
 			GL.Translate(new Vector3(0, 0, -1));
 
 			level.Draw();
+
+			GL.PopMatrix();
+
+			GL.PushMatrix();
+
+			if (showLights)
+				GL.Disable(EnableCap.Lighting);
+
+			selectionCube.Update();
+			selectionCube.Draw();
+
+			if (showLights)
+				GL.Enable(EnableCap.Lighting);
 
 			GL.PopMatrix();
 
@@ -252,6 +269,23 @@ namespace CircuitCrawlerEditor
 			if (selectedTile == null && selectedEntity == null && selectedLight == null)
 			{
 				selectedItemProperties.SelectedObject = null;
+				selectionCube.Hidden = true;
+			}
+			else
+			{
+				selectionCube.Hidden = false;
+				if (selectedTile != null)
+				{
+					selectionCube.Position = selectedTile.Position;
+				}
+				if (selectedEntity != null)
+				{
+					selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
+				}
+				if (selectedLight != null)
+				{
+					selectionCube.Position = selectedLight.Position.Xy;
+				}
 			}
 		}
 
@@ -752,24 +786,24 @@ namespace CircuitCrawlerEditor
 
 		private Vector2 ScreenToWorld(Vector2 v, bool hack = false)
 		{
-            Point formPosition = new Point((int)v.X, (int)v.Y);
-            if (!hack)
-            {
-                formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
+			Point formPosition = new Point((int)v.X, (int)v.Y);
+			if (!hack)
+			{
+				formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
 
-                Point controlPosition = new Point();
-                Control ctrl = worldView;
+				Point controlPosition = new Point();
+				Control ctrl = worldView;
 
-                while (ctrl != this)
-                {
-                    controlPosition.X += ctrl.Location.X;
-                    controlPosition.Y += ctrl.Location.Y;
-                    ctrl = ctrl.Parent;
-                }
+				while (ctrl != this)
+				{
+					controlPosition.X += ctrl.Location.X;
+					controlPosition.Y += ctrl.Location.Y;
+					ctrl = ctrl.Parent;
+				}
 
-                formPosition.X -= controlPosition.X;
-                formPosition.Y -= controlPosition.Y;
-            }
+				formPosition.X -= controlPosition.X;
+				formPosition.Y -= controlPosition.Y;
+			}
 			//formPosition.X += worldView.Width / 2;
 			//formPosition.Y += worldView.Height / 2;
 
@@ -813,6 +847,19 @@ namespace CircuitCrawlerEditor
 
 		private void selectedItemProperties_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
+			if (selectedTile != null)
+			{
+				selectionCube.Position = selectedTile.Position;
+			}
+			if (selectedEntity != null)
+			{
+				selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
+			}
+			if (selectedLight != null)
+			{
+				selectionCube.Position = selectedLight.Position.Xy;
+			}
+
 			UpdateWorldTree();
 		}
 
