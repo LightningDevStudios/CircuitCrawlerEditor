@@ -424,6 +424,22 @@ namespace CircuitCrawlerEditor.Parser
 			{
 				#region Save Tileset
 
+				/*
+				int x = Convert.ToInt32(level.Tileset.x);
+				int y = Convert.ToInt32(level.Tileset.y);
+
+				tileset = new Tile[y][];
+
+				for (int i = 0; i < tileset.Length; i++)
+				{
+					tileset[i] = new Tile[x];
+				}
+
+				for (int i = 0; i < y; i++)
+					for (int j = 0; j < x; j++)
+						tileset[i][j] = new Tile(new Point(j, i), x, y, (TileType)level.Tileset.Tile[i * x + j].state);
+				 */
+
 				level.Tileset = new LevelTileset();
 
 				int x = tileset[0].Length;
@@ -433,12 +449,13 @@ namespace CircuitCrawlerEditor.Parser
 				level.Tileset.y = y.ToString();
 
 				level.Tileset.Tile = new TileInfo[tileset[0].Length * tileset.Length];
-				for (int i = 0; i < x; i++)
+
+				for (int i = 0; i < y; i++)
 				{
-					for (int j = 0; j < y; j++)
+					for (int j = 0; j < x; j++)
 					{
 						level.Tileset.Tile[i * x + j] = new TileInfo();
-						level.Tileset.Tile[i * x + j].state = (tileStateType)tileset[j][i].TileType;
+						level.Tileset.Tile[i * x + j].state = (tileStateType)tileset[i][j].TileType;
 					}
 				}
 
