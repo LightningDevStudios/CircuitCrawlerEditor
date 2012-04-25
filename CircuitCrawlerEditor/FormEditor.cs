@@ -275,9 +275,13 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			float zoom = camera.Zoom + -e.Delta / 20;
-			/*if (zoom < 1)
-				zoom = 1;*/
+			float zoom = camera.Zoom;
+			if (e.Delta > 0)
+				zoom *= 2f * ((float)e.Delta / 120f);
+			else
+				zoom /= 2f * -((float)e.Delta / 120f);
+			if (zoom < 0.015625f)
+				zoom = 0.012625f;
 			camera.Zoom = zoom;
 			camera.LoadView();
 		}
