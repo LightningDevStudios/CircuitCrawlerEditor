@@ -39,7 +39,7 @@ namespace CircuitCrawlerEditor
 
 			camera = new Camera();
 			level = new Level();
-
+            gridSnap = 72;
 			showLights = true;
 
 			Application.Idle += Application_Idle;
@@ -733,17 +733,15 @@ namespace CircuitCrawlerEditor
 
 		private Vector2 SnapToGrid(Vector2 v)
 		{
-			if (v.X % gridSnap < gridSnap / 2)
-				v.X = v.X - v.X % gridSnap;
-			else
-				v.X = v.X + (gridSnap - v.X % gridSnap);
+			v.X = v.X - v.X % gridSnap;
 
 			if (v.Y % gridSnap < gridSnap / 2)
 				v.Y = v.Y - v.Y % gridSnap;
 			else
 				v.Y = v.Y + (gridSnap - v.Y % gridSnap);
 
-			return new Vector2(v.X + Tile.SIZE_F / 2, v.Y + Tile.SIZE_F / 2);
+            //if(v.X < gridSnap
+			return new Vector2(v.X + Tile.SIZE_F / 2, v.Y - Tile.SIZE_F / 2);
 		}
 
 		private Vector2 ScreenToWorld(Vector2 v, bool hack = false)
