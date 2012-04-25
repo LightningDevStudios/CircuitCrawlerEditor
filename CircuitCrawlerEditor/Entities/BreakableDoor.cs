@@ -13,6 +13,7 @@ namespace CircuitCrawlerEditor.Entities
 		public BreakableDoor(float xPos, float yPos)
 			: base(xPos, yPos)
 		{
+            MaxHits = 3;
 			vertVbo = DoorData.GetVertexBufferID();
 			indVbo = DoorData.GetIndexBufferID();
 			indCount = DoorData.GetIndexCount();

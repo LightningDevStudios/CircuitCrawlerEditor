@@ -10,6 +10,10 @@ namespace CircuitCrawlerEditor.Entities
         public Player(float xPos, float yPos)
             : base(xPos, yPos)
         {
+			vertVbo = BallData.GetVertexBufferID();
+			indVbo = BallData.GetIndexBufferID();
+			indCount = BallData.GetIndexCount();
+			tex = Resources.Textures["ball.png"];
         }
     }
 }

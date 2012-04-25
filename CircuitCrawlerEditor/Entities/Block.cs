@@ -13,6 +13,7 @@ namespace CircuitCrawlerEditor.Entities
 		public Block(float xPos, float yPos)
 			: base(xPos, yPos)
 		{
+            Friction = 1;
 			vertVbo = BlockData.GetVertexBufferID();
 			indVbo = BlockData.GetIndexBufferID();
 			indCount = BlockData.GetIndexCount();

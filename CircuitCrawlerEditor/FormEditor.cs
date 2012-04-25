@@ -148,7 +148,7 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_MouseClick(object sender, MouseEventArgs e)
 		{
-			Vector2 pos = ScreenToWorld(e.Location);
+			Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
 
 			if (selectedEntity != null)
 			{
@@ -565,23 +565,26 @@ namespace CircuitCrawlerEditor
 		{
 			if (e.KeyData == Keys.Delete)
 			{
-				switch (levelItemsList.SelectedNode.Parent.Text)
+				if (levelItemsList.SelectedNode.Parent != null)
 				{
-					case "Entities":
-						level.Entities.Remove((Entity)levelItemsList.SelectedNode.Tag);
-						break;
-					case "Causes":
-						level.Causes.Remove((Cause)levelItemsList.SelectedNode.Tag);
-						break;
-					case "Effects":
-						level.Effects.Remove((Effect)levelItemsList.SelectedNode.Tag);
-						break;
-					case "Triggers":
-						level.Triggers.Remove((Trigger)levelItemsList.SelectedNode.Tag);
-						break;
-					case "Lights":
-						level.Lights.Remove((Light)levelItemsList.SelectedNode.Tag);
-						break;
+					switch (levelItemsList.SelectedNode.Parent.Text)
+					{
+						case "Entities":
+							level.Entities.Remove((Entity)levelItemsList.SelectedNode.Tag);
+							break;
+						case "Causes":
+							level.Causes.Remove((Cause)levelItemsList.SelectedNode.Tag);
+							break;
+						case "Effects":
+							level.Effects.Remove((Effect)levelItemsList.SelectedNode.Tag);
+							break;
+						case "Triggers":
+							level.Triggers.Remove((Trigger)levelItemsList.SelectedNode.Tag);
+							break;
+						case "Lights":
+							level.Lights.Remove((Light)levelItemsList.SelectedNode.Tag);
+							break;
+					}
 				}
 				
 				UpdateWorldTree();
@@ -747,23 +750,26 @@ namespace CircuitCrawlerEditor
 			return new Vector2(v.X + Tile.SIZE_F / 2, v.Y + Tile.SIZE_F / 2);
 		}
 
-		private Vector2 ScreenToWorld(Vector2 v)
+		private Vector2 ScreenToWorld(Vector2 v, bool hack = false)
 		{
-			Point formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
+            Point formPosition = new Point((int)v.X, (int)v.Y);
+            if (!hack)
+            {
+                formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
 
-			Point controlPosition = new Point();
-			Control ctrl = worldView;
+                Point controlPosition = new Point();
+                Control ctrl = worldView;
 
-			while (ctrl != this)
-			{
-				controlPosition.X += ctrl.Location.X;
-				controlPosition.Y += ctrl.Location.Y;
-				ctrl = ctrl.Parent;
-			}
+                while (ctrl != this)
+                {
+                    controlPosition.X += ctrl.Location.X;
+                    controlPosition.Y += ctrl.Location.Y;
+                    ctrl = ctrl.Parent;
+                }
 
-			formPosition.X -= controlPosition.X;
-			formPosition.Y -= controlPosition.Y;
-
+                formPosition.X -= controlPosition.X;
+                formPosition.Y -= controlPosition.Y;
+            }
 			//formPosition.X += worldView.Width / 2;
 			//formPosition.Y += worldView.Height / 2;
 
@@ -822,12 +828,7 @@ namespace CircuitCrawlerEditor
 
 		private void FormEditor_KeyUp(object sender, KeyEventArgs e)
 		{
-			if (!e.Alt)
-			{
-				panning = false;
-				e.Handled = true;
-				e.SuppressKeyPress = true;
-			}
+
 		}
 
 		private void FormEditor_FormClosing(object sender, FormClosingEventArgs e)

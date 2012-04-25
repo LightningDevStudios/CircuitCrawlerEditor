@@ -511,7 +511,7 @@
 			this.Text = "Circuit Crawler Level Editor";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditor_FormClosing);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormEditor_KeyDown);
-			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormEditor_KeyUp);
+			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.levelItemsList_KeyUp);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.splitContainer1.Panel1.ResumeLayout(false);
