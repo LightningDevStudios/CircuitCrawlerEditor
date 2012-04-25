@@ -448,6 +448,13 @@ namespace CircuitCrawlerEditor.Parser
 
 				level.Entities = new LevelEntities();
 
+				Player player = (Player)entList.Find(ent => ent is Player);
+				if (player != null)
+				{
+					level.Entities.Player = new PlayerInfo();
+					level.Entities.Player = SaveEntity<PlayerInfo, Player>(level.Entities.Player, player);
+				}
+
 				List<Entity> buttonList = entList.FindAll(ent => ent is Button);
 				if (buttonList.Count > 0)
 				{
@@ -524,15 +531,15 @@ namespace CircuitCrawlerEditor.Parser
 					}
 				}
 
-				List<Entity> BlockList = entList.FindAll(ent => ent is Block);
-				if (BlockList.Count > 0)
+				List<Entity> blockList = entList.FindAll(ent => ent is Block);
+				if (blockList.Count > 0)
 				{
-					level.Entities.Block = new BlockInfo[BlockList.Count];
-					for (int i = 0; i < BlockList.Count; i++)
+					level.Entities.Block = new BlockInfo[blockList.Count];
+					for (int i = 0; i < blockList.Count; i++)
 					{
 						level.Entities.Block[i] = new BlockInfo();
-						level.Entities.Block[i].friction = ((Block)BlockList[i]).Friction;
-						level.Entities.Block[i] = SaveEntity(level.Entities.Block[i], (Block)BlockList[i]);
+						level.Entities.Block[i].friction = ((Block)blockList[i]).Friction;
+						level.Entities.Block[i] = SaveEntity(level.Entities.Block[i], (Block)blockList[i]);
 					}
 				}
 
