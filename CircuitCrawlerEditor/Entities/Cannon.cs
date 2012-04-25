@@ -12,6 +12,10 @@ namespace CircuitCrawlerEditor.Entities
 		{
             BallSpeed = 5000000;
             Stupidity = 0;
+			vertVbo = BlockData.GetVertexBufferID();
+			indVbo = BlockData.GetIndexBufferID();
+			indCount = BlockData.GetIndexCount();
+			tex = Resources.Textures["block.png"];
 		}
 
 		[Category("Cannon"), Description("The speed at which the balls from this cannon fire.")]

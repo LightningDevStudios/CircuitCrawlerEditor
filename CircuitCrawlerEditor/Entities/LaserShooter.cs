@@ -13,6 +13,10 @@ namespace CircuitCrawlerEditor.Entities
             ShotsPerSecond = 1;
             BeamWidth = 5;
             Stupidity = 0;
+			vertVbo = BlockData.GetVertexBufferID();
+			indVbo = BlockData.GetIndexBufferID();
+			indCount = BlockData.GetIndexCount();
+			tex = Resources.Textures["block.png"];
 		}
 
 		[Category("LaserShooter"), Description("The number of times the laser fires per second.")]
