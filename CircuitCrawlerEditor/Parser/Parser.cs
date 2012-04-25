@@ -402,7 +402,7 @@ namespace CircuitCrawlerEditor.Parser
 			if (info.id != null)
 				ent.ID = info.id;
 			if (info.angleSpecified)
-				ent.Angle = info.angle;
+				ent.Angle = info.angle - 90;
 
 			return ent;
 		}
@@ -433,12 +433,12 @@ namespace CircuitCrawlerEditor.Parser
 				level.Tileset.y = y.ToString();
 
 				level.Tileset.Tile = new TileInfo[tileset[0].Length * tileset.Length];
-				for (int i = 0; i < tileset.Length; i++)
+				for (int i = 0; i < x; i++)
 				{
-					for (int j = 0; j < tileset[0].Length; j++)
+					for (int j = 0; j < y; j++)
 					{
 						level.Tileset.Tile[i * x + j] = new TileInfo();
-						level.Tileset.Tile[i * x + j].state = (tileStateType)tileset[i][j].TileType;
+						level.Tileset.Tile[i * x + j].state = (tileStateType)tileset[j][i].TileType;
 					}
 				}
 
@@ -792,7 +792,7 @@ namespace CircuitCrawlerEditor.Parser
 
 			info.angleSpecified = true;
 
-			info.angle = ent.Angle;
+			info.angle = ent.Angle + 90;
 
 			return info;
 		}
