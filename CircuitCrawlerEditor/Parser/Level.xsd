@@ -179,6 +179,18 @@
     </xs:complexContent>
   </xs:complexType>
 
+    <xs:complexType name="LightInfo">
+      <xs:sequence>
+        <xs:element name="index" type="intType" />
+        <xs:element name="ambient" type="stringType" />
+        <xs:element name="diffuse" type="stringType" />
+        <xs:element name="position" type="stringType" />
+        <xs:element name="constAtten" type="floatType" />
+        <xs:element name="linAtten" type="floatType" />
+        <xs:element name="quadAtten" type="floatType" />
+      </xs:sequence>
+    </xs:complexType>
+
   <!-- LEVEL XSD -->
 
   <xs:element name="Level">
@@ -194,10 +206,6 @@
             <xs:attribute name="y" type="xs:integer" use="required"/>
           </xs:complexType>
         </xs:element>
-
-        <xs:element name="Nodes" type="stringType" />
-        <xs:element name="NodeLinks" type="stringType" />
-        <xs:element name="NodePaths" type="stringType" />
 
         <xs:element name="Entities">
           <xs:complexType>
@@ -250,6 +258,14 @@
           </xs:complexType>
         </xs:element>
 
+        <xs:element name="Lights">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Light" type="LightInfo" minOccurs="0" maxOccurs="8" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
         <xs:element name="TeleporterLinker" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:attribute name="t1" type="stringType" use="required" />
@@ -257,6 +273,8 @@
             <xs:attribute name="oneWay" type="booleanType" use="required" />
           </xs:complexType>
         </xs:element>
+
+        
 
       </xs:sequence>
     </xs:complexType>
