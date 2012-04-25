@@ -16,7 +16,6 @@ namespace CircuitCrawlerEditor
 	{
 		private bool loaded;
 		private bool showLights;
-		private bool panning;
 
 		private Point initialMousePos;
 		private Vector2 initialCameraPos;
@@ -42,7 +41,7 @@ namespace CircuitCrawlerEditor
 			camera = new Camera();
 			level = new Level();
             gridSnap = 72;
-			showLights = true;
+			showLights = false;
 
 			WindowState = FormWindowState.Maximized;
 			Application.Idle += Application_Idle;
@@ -221,46 +220,43 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Right)
 			{
-				if (panning)
+				camera.Position = initialCameraPos + new Vector2((e.X - initialMousePos.X) * initialSize.Width / worldView.Size.Width, (initialMousePos.Y - e.Y) * initialSize.Width / worldView.Size.Width);
+				camera.LoadView();
+			}
+			else if (e.Button == MouseButtons.Left)
+			{
+				if (selectedEntity != null)
 				{
-					camera.Position = initialCameraPos + new Vector2((e.X - initialMousePos.X) * initialSize.Width / worldView.Size.Width, (initialMousePos.Y - e.Y) * initialSize.Width / worldView.Size.Width);
-					camera.LoadView();
+					Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
+
+					if (snapping)
+						pos = SnapToGrid(pos);
+
+					selectedEntity.XPos = pos.X;
+					selectedEntity.YPos = pos.Y;
+				}
+
+				if (selectedTile == null && selectedEntity == null && selectedLight == null)
+				{
+					selectedItemProperties.SelectedObject = null;
+					selectionCube.Hidden = true;
 				}
 				else
 				{
+					selectionCube.Hidden = false;
+					if (selectedTile != null)
+					{
+						selectionCube.Position = selectedTile.Position;
+					}
 					if (selectedEntity != null)
 					{
-						Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
-
-						if (snapping)
-							pos = SnapToGrid(pos);
-
-						selectedEntity.XPos = pos.X;
-						selectedEntity.YPos = pos.Y;
+						selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
 					}
-
-					if (selectedTile == null && selectedEntity == null && selectedLight == null)
+					if (selectedLight != null)
 					{
-						selectedItemProperties.SelectedObject = null;
-						selectionCube.Hidden = true;
-					}
-					else
-					{
-						selectionCube.Hidden = false;
-						if (selectedTile != null)
-						{
-							selectionCube.Position = selectedTile.Position;
-						}
-						if (selectedEntity != null)
-						{
-							selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
-						}
-						if (selectedLight != null)
-						{
-							selectionCube.Position = selectedLight.Position.Xy;
-						}
+						selectionCube.Position = selectedLight.Position.Xy;
 					}
 				}
 			}
@@ -268,33 +264,30 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Right)
 			{
-				if (panning)
+				initialMousePos = new Point(e.X, e.Y);
+				initialCameraPos = camera.Position;
+			}
+			else if (e.Button == MouseButtons.Left)
+			{
+				foreach (Entity ent in level.Entities)
 				{
-					initialMousePos = new Point(e.X, e.Y);
-					initialCameraPos = camera.Position;
-				}
-				else
-				{
-					foreach (Entity ent in level.Entities)
-					{
-						Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
+					Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
 
-						if (RadiusCheck(pos, new Vector2(ent.XPos, ent.YPos), 32))
+					if (RadiusCheck(pos, new Vector2(ent.XPos, ent.YPos), 32))
+					{
+						selectedEntity = ent;
+						TreeNodeCollection nodes = levelItemsList.Nodes;
+						foreach (TreeNode node in nodes)
 						{
-							selectedEntity = ent;
-							TreeNodeCollection nodes = levelItemsList.Nodes;
-							foreach (TreeNode node in nodes)
+							if (node.Tag == ent)
 							{
-								if (node.Tag == ent)
-								{
-									levelItemsList.SelectedNode = node;
-									break;
-								}
+								levelItemsList.SelectedNode = node;
+								break;
 							}
-							selectedItemProperties.SelectedObject = ent;
 						}
+						selectedItemProperties.SelectedObject = ent;
 					}
 				}
 			}
@@ -304,19 +297,16 @@ namespace CircuitCrawlerEditor
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				if (!panning)
+				if (selectedEntity != null)
 				{
-					if (selectedEntity != null)
-					{
-						Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
+					Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
 
-						if (snapping)
-							pos = SnapToGrid(pos);
+					if (snapping)
+						pos = SnapToGrid(pos);
 
-						selectedEntity.XPos = pos.X;
-						selectedEntity.YPos = pos.Y;
-						selectedEntity = null;
-					}
+					selectedEntity.XPos = pos.X;
+					selectedEntity.YPos = pos.Y;
+					selectedEntity = null;
 				}
 			}
 		}
@@ -387,8 +377,6 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_DragDrop(object sender, DragEventArgs e)
 		{
-			panning = false;
-
 			Vector2 worldPos = ScreenToWorld(e.X, e.Y);
 
 			if (snapping)
@@ -879,26 +867,6 @@ namespace CircuitCrawlerEditor
 			}
 
 			UpdateWorldTree();
-		}
-
-		private void FormEditor_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Alt)
-			{
-				panning = true;
-				e.Handled = true;
-				e.SuppressKeyPress = true;
-			}
-		}
-
-		private void FormEditor_KeyUp(object sender, KeyEventArgs e)
-		{
-			if (!e.Alt)
-			{
-				panning = false;
-				e.Handled = true;
-				e.SuppressKeyPress = true;
-			}
 		}
 
 		private void FormEditor_FormClosing(object sender, FormClosingEventArgs e)

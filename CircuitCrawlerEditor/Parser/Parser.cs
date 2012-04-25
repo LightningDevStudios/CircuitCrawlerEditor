@@ -424,22 +424,6 @@ namespace CircuitCrawlerEditor.Parser
 			{
 				#region Save Tileset
 
-				/*
-				int x = Convert.ToInt32(level.Tileset.x);
-				int y = Convert.ToInt32(level.Tileset.y);
-
-				tileset = new Tile[y][];
-
-				for (int i = 0; i < tileset.Length; i++)
-				{
-					tileset[i] = new Tile[x];
-				}
-
-				for (int i = 0; i < y; i++)
-					for (int j = 0; j < x; j++)
-						tileset[i][j] = new Tile(new Point(j, i), x, y, (TileType)level.Tileset.Tile[i * x + j].state);
-				 */
-
 				level.Tileset = new LevelTileset();
 
 				int x = tileset[0].Length;
