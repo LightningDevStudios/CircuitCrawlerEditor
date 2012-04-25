@@ -240,6 +240,28 @@ namespace CircuitCrawlerEditor
 						selectedEntity.XPos = pos.X;
 						selectedEntity.YPos = pos.Y;
 					}
+
+					if (selectedTile == null && selectedEntity == null && selectedLight == null)
+					{
+						selectedItemProperties.SelectedObject = null;
+						selectionCube.Hidden = true;
+					}
+					else
+					{
+						selectionCube.Hidden = false;
+						if (selectedTile != null)
+						{
+							selectionCube.Position = selectedTile.Position;
+						}
+						if (selectedEntity != null)
+						{
+							selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
+						}
+						if (selectedLight != null)
+						{
+							selectionCube.Position = selectedLight.Position.Xy;
+						}
+					}
 				}
 			}
 		}
