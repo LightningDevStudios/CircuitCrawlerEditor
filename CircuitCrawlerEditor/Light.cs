@@ -3,6 +3,9 @@ using System.ComponentModel;
 
 using OpenTK;
 using OpenTK.Graphics;
+using System.Windows.Forms;
+using System.Drawing.Design;
+using System.Windows.Forms.Design;
 
 namespace CircuitCrawlerEditor
 {
@@ -10,7 +13,8 @@ namespace CircuitCrawlerEditor
 	{
 		public int Index { get; set; }
 
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+		[Editor(typeof(ColorType), typeof(UITypeEditor))]
+		[TypeConverter(typeof(ExpandableObjectConverter))]
         public Color4 Ambient
         {
             get
@@ -73,5 +77,27 @@ namespace CircuitCrawlerEditor
 		public float ConstantAttenuation { get; set; }
 		public float LinearAttenuation { get; set; }
 		public float QuadraticAttenuation { get; set; }
+	}
+
+	class ColorType : UITypeEditor
+	{
+		public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+		{
+			return UITypeEditorEditStyle.Modal;
+		}
+		public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
+		{
+			IWindowsFormsEditorService IFService = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+			Color4? color = value as Color4?;
+			if (IFService != null)
+			{
+				using (ColorDialog form = new ColorDialog())
+				{
+					form.ShowDialog();
+					color = form.Color;
+				}
+			}
+			return color;
+		}
 	}
 }

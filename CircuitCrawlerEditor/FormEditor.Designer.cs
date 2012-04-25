@@ -54,10 +54,9 @@
 			System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem("List", 11);
 			System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem("Door", 11);
 			System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem("EndGame", 11);
-			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("RaiseBridge", 11);
-			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("RemoveEntity", 11);
-			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem("TriggerTimer", 11);
-			System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem("Trigger", 12);
+			System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("RemoveEntity", 11);
+			System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("TriggerTimer", 11);
+			System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem("Trigger", 12);
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEditor));
 			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Entities");
 			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Causes");
@@ -325,12 +324,10 @@
 			listViewItem22.Group = listViewGroup3;
 			listViewItem22.Tag = "EffectEndGame";
 			listViewItem23.Group = listViewGroup3;
-			listViewItem23.Tag = "EffectRaiseBridge";
+			listViewItem23.Tag = "EffectRemoveEntity";
 			listViewItem24.Group = listViewGroup3;
-			listViewItem24.Tag = "EffectRemoveEntity";
-			listViewItem25.Group = listViewGroup3;
-			listViewItem25.Tag = "EffectTriggerTimer";
-			listViewItem26.Tag = "Trigger";
+			listViewItem24.Tag = "EffectTriggerTimer";
+			listViewItem25.Tag = "Trigger";
 			this.spawnList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2,
@@ -356,8 +353,7 @@
             listViewItem22,
             listViewItem23,
             listViewItem24,
-            listViewItem25,
-            listViewItem26});
+            listViewItem25});
 			this.spawnList.LabelWrap = false;
 			this.spawnList.LargeImageList = this.spawnIcons;
 			this.spawnList.Location = new System.Drawing.Point(0, 0);
