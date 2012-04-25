@@ -46,6 +46,7 @@ namespace CircuitCrawlerEditor
 
 			WindowState = FormWindowState.Maximized;
 			Application.Idle += Application_Idle;
+			label2.Text = "";
 		}
 
 		void Application_Idle(object sender, EventArgs e)
@@ -221,6 +222,8 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_MouseMove(object sender, MouseEventArgs e)
 		{
+			Vector2 mousePos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
+			label2.Text = "X: " + (int)mousePos.X + " Y: " + (int)mousePos.Y;
 			if (e.Button == MouseButtons.Left)
 			{
 				if (panning)
@@ -609,6 +612,9 @@ namespace CircuitCrawlerEditor
 		{
 			selectedItemProperties.SelectedObject = e.Node.Tag;
 			selectedEntity = e.Node.Tag as Entity;
+
+			if(selectedEntity != null)
+				selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
 		}
 
 		private void levelItemsList_KeyUp(object sender, KeyEventArgs e)
