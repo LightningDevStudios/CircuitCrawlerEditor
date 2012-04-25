@@ -12,8 +12,8 @@ namespace CircuitCrawlerEditor
 	[DefaultPropertyAttribute("Tile")]
 	public class Tile
 	{
-		public const float TILE_SIZE_F = 72.0f;
-		public const int TILE_SIZE = 72;
+		public const float SIZE_F = 72.0f;
+		public const int SIZE = 72;
 
 		private Tileset tileset;
 		private Point tilesetPos;
@@ -61,7 +61,7 @@ namespace CircuitCrawlerEditor
 		public float[] getVertexData()
 		{
 			//calculate vertices
-			float s = TILE_SIZE_F / 2;
+			float s = SIZE_F / 2;
 
 			float[] vertices = null;
 			float[] texCoords = null;
@@ -93,12 +93,12 @@ namespace CircuitCrawlerEditor
 					};
 					break;
 				case TileType.Wall:
-					vertices = TilesetHelper.getTileVertices(this.borders, s, 0.2f);
+					vertices = TilesetHelper.getTileVertices(this.borders, s, SIZE_F);
 					texCoords = TilesetHelper.getWallTexCoords(this.borders);
 					normals = TilesetHelper.getTileNormals(this.borders);
 					break;
 				case TileType.Pit:
-					vertices = TilesetHelper.getTileVertices(this.borders, s, -0.2f);
+					vertices = TilesetHelper.getTileVertices(this.borders, s, -SIZE_F);
 					texCoords = TilesetHelper.getPitTexCoords(this.borders);
 					normals = TilesetHelper.getTileNormals(this.borders);
 					break;

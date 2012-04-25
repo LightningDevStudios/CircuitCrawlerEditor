@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 
+using CircuitCrawlerEditor.Models;
+
 namespace CircuitCrawlerEditor.Entities
 {
 	public class BreakableDoor : Entity
@@ -11,6 +13,10 @@ namespace CircuitCrawlerEditor.Entities
 		public BreakableDoor(float xPos, float yPos)
 			: base(xPos, yPos)
 		{
+			vertVbo = DoorData.GetVertexBufferID();
+			indVbo = DoorData.GetIndexBufferID();
+			indCount = DoorData.GetIndexCount();
+			tex = Resources.Textures["door.png"];
 		}
 	}
 }

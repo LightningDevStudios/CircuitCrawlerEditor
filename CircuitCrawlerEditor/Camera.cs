@@ -62,27 +62,25 @@ namespace CircuitCrawlerEditor
 
 		public Camera(Vector2 position, Size viewportSize)
 		{
-			UpdateProjection();
-			UpdateView();
 			zoom = 1;
 			aspectRatio = (float)viewportSize.Width / (float)viewportSize.Height;
+			UpdateProjection();
+			UpdateView();
 		}
 
 		public Camera()
+			: this(new Vector2(0, 0), new Size(1, 1))
 		{
-			projection = Matrix4.Identity;
-			view = Matrix4.Identity;
-			zoom = 1;
 		}
 
 		private void UpdateProjection()
 		{
-			projection = Matrix4.CreatePerspectiveOffCenter(-2.5f, 2.5f, -2.5f / aspectRatio, 2.5f / aspectRatio, 0.01f, 1.5f);
+			projection = Matrix4.CreatePerspectiveOffCenter(-0.75f, 0.75f, -0.75f / aspectRatio, 0.75f / aspectRatio, 1f, Tile.SIZE_F * 6);
 		}
 
 		private void UpdateView()
 		{
-			view = Matrix4.Scale(zoom) * Matrix4.CreateTranslation(position.X, position.Y, 0);
+			view = Matrix4.Scale(zoom) * Matrix4.CreateTranslation(position.X, position.Y, -Tile.SIZE_F * 4f);
 		}
 
 		public void LoadProjection()

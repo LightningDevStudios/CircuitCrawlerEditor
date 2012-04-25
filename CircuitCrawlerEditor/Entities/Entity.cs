@@ -21,7 +21,8 @@ namespace CircuitCrawlerEditor.Entities
 
 		private string id;
 
-		//public bool idChanged = false;
+		protected int vertVbo, indVbo, indCount;
+
 		private bool isSelected = false;
 
 		[Category("\n"), Description("The type of entity this is.")]
@@ -66,7 +67,22 @@ namespace CircuitCrawlerEditor.Entities
 
 		public void Draw()
 		{
-			//TODO: 3D and shit
+			if (tex != null)
+				GL.BindTexture(TextureTarget.Texture2D, tex.TexturePtr);
+
+			Matrix4 model = Matrix4.CreateRotationZ(angle * (float)Math.PI / 180f) * Matrix4.CreateTranslation(new Vector3(xPos, yPos, 0));
+
+			GL.MultMatrix(ref model);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vertVbo);
+			GL.VertexPointer(3, VertexPointerType.Float, 32, 0);
+			GL.TexCoordPointer(2, TexCoordPointerType.Float, 32, 12);
+			GL.NormalPointer(NormalPointerType.Float, 32, 20);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indVbo);
+			GL.DrawElements(BeginMode.Triangles, indCount, DrawElementsType.UnsignedShort, 0);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 		}
 
 		public override string ToString()
