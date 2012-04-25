@@ -143,7 +143,7 @@ namespace CircuitCrawlerEditor
 			128f / 512f + 1f / 1024f, 64f / 256f + 1f / 512f,
 			128f / 512f + 1f / 1024f, 128f / 256f - 1f / 512f,
 			192f / 512f - 1f / 1024f, 128f / 256f - 1f / 512f,
-			192f / 512f - 1f / 1024f, 64f / 256f + 1f / 512f,            
+			192f / 512f - 1f / 1024f, 64f / 256f + 1f / 512f,
 		};
 
 			float[] sideTexCoords = new float[]
@@ -387,7 +387,7 @@ namespace CircuitCrawlerEditor
 
 		public static void setInitialTileOffset(Tile tile, Point p, int length, int width)
 		{
-			tile.Position = new Vector2(-(float)width / 2 * Tile.TILE_SIZE_F + p.X * Tile.TILE_SIZE_F + Tile.TILE_SIZE_F / 2, (float)length / 2 * Tile.TILE_SIZE_F - p.Y * Tile.TILE_SIZE_F - Tile.TILE_SIZE_F / 2);
+			tile.Position = new Vector2(-(float)width / 2 * Tile.SIZE_F + p.X * Tile.SIZE_F + Tile.SIZE_F / 2, (float)length / 2 * Tile.SIZE_F - p.Y * Tile.SIZE_F - Tile.SIZE_F / 2);
 		}
 	}
 }

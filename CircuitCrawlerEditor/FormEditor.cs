@@ -28,7 +28,7 @@ namespace CircuitCrawlerEditor
 
 		private Entity selectedEntity;
 		private Tile selectedTile;
-        private Light selectedLight;
+		private Light selectedLight;
 
 		private float gridSnap;
 		private bool snapping;
@@ -72,6 +72,8 @@ namespace CircuitCrawlerEditor
 			GL.ClearColor(Color.CornflowerBlue);
 
 			ResizeViewport();
+
+			Resources.LoadAll();
 
 			GenerateTiles(4, 4);
 
@@ -137,8 +139,7 @@ namespace CircuitCrawlerEditor
 
 			camera.AspectRatio = (float)worldView.Width / (float)worldView.Height;
 			camera.LoadProjection();
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadIdentity();
+			camera.LoadView();
 		}
 
 		#endregion
@@ -147,7 +148,7 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_MouseClick(object sender, MouseEventArgs e)
 		{
-			Vector2 pos = ScreenToWorld(e.Location);
+			Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
 
 			if (selectedEntity != null)
 			{
@@ -183,75 +184,75 @@ namespace CircuitCrawlerEditor
 				if (!selected)
 				{
 					selectedEntity = null;
-                    if (selectedLight != null)
-                    {
-                        if (snapping)
-                        {
-                            pos = SnapToGrid(pos);
-                        }
-                        selectedLight.Position = new Vector4(pos.X, pos.Y, selectedLight.PositionZ, selectedLight.PositionW);
-                        selectedLight = null;
-                    }
-                    else
-                    {
-                        bool selectedALight = false;
-                        foreach (Light l in level.Lights)
-                        {
-                            if (RadiusCheck(pos, new Vector2(l.Position.X, l.Position.Y), 32))
-                            {
-                                selectedLight = l;
-                                TreeNodeCollection nodes = levelItemsList.Nodes;
-                                foreach (TreeNode node in nodes)
-                                {
-                                    if (node.Tag == l)
-                                    {
-                                        levelItemsList.SelectedNode = node;
-                                        break;
-                                    }
-                                }
-                                selectedItemProperties.SelectedObject = l;
-                                selectedALight = true;
-                            }
-                        }
+					if (selectedLight != null)
+					{
+						if (snapping)
+						{
+							pos = SnapToGrid(pos);
+						}
+						selectedLight.Position = new Vector4(pos.X, pos.Y, selectedLight.PositionZ, selectedLight.PositionW);
+						selectedLight = null;
+					}
+					else
+					{
+						bool selectedALight = false;
+						foreach (Light l in level.Lights)
+						{
+							if (RadiusCheck(pos, new Vector2(l.Position.X, l.Position.Y), 32))
+							{
+								selectedLight = l;
+								TreeNodeCollection nodes = levelItemsList.Nodes;
+								foreach (TreeNode node in nodes)
+								{
+									if (node.Tag == l)
+									{
+										levelItemsList.SelectedNode = node;
+										break;
+									}
+								}
+								selectedItemProperties.SelectedObject = l;
+								selectedALight = true;
+							}
+						}
 
-                        if (!selectedALight)
-                        {
-                            foreach (Tile[] t in level.Tileset.Tiles)
-                            {
-                                foreach (Tile tile in t)
-                                {
-                                    if (PointInSquare(pos, tile.Position, Tile.TILE_SIZE))
-                                    {
-                                        if (selectedTile == tile)
-                                        {
-                                            selectedTile = null;
-                                        }
-                                        else
-                                        {
-                                            selectedTile = tile;
-                                            TreeNodeCollection nodes = levelItemsList.Nodes;
-                                            foreach (TreeNode node in nodes)
-                                            {
-                                                if (node.Tag == selectedTile)
-                                                {
-                                                    levelItemsList.SelectedNode = node;
-                                                    break;
-                                                }
-                                            }
-                                            selectedItemProperties.SelectedObject = selectedTile;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+						if (!selectedALight)
+						{
+							foreach (Tile[] t in level.Tileset.Tiles)
+							{
+								foreach (Tile tile in t)
+								{
+									if (PointInSquare(pos, tile.Position, Tile.SIZE))
+									{
+										if (selectedTile == tile)
+										{
+											selectedTile = null;
+										}
+										else
+										{
+											selectedTile = tile;
+											TreeNodeCollection nodes = levelItemsList.Nodes;
+											foreach (TreeNode node in nodes)
+											{
+												if (node.Tag == selectedTile)
+												{
+													levelItemsList.SelectedNode = node;
+													break;
+												}
+											}
+											selectedItemProperties.SelectedObject = selectedTile;
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 
-            if (selectedTile == null && selectedEntity == null && selectedLight == null)
-            {
-                selectedItemProperties.SelectedObject = null;
-            }
+			if (selectedTile == null && selectedEntity == null && selectedLight == null)
+			{
+				selectedItemProperties.SelectedObject = null;
+			}
 		}
 
 		private void worldView_MouseMove(object sender, MouseEventArgs e)
@@ -324,8 +325,8 @@ namespace CircuitCrawlerEditor
 					break;
 			}
 
-			camera.LoadView();
 			camera.LoadProjection();
+			camera.LoadView();
 		}
 
 		#endregion
@@ -351,38 +352,38 @@ namespace CircuitCrawlerEditor
 			switch ((string)item.Tag)
 			{
 				case "Light":
-                    if (level.Lights.Count < 8)
-                    {
-                        Light l = new Light();
-                        l.Diffuse = Color4.White;
-                        l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
-                        l.Position = new Vector4(worldPos.X, worldPos.Y, 36, 1);
-                        l.ConstantAttenuation = 1f;
-                        l.LinearAttenuation = 1f / 3000f;
-                        l.QuadraticAttenuation = 1f / 40000f;
-                        level.Lights.Add(l);
+					if (level.Lights.Count < 8)
+					{
+						Light l = new Light();
+						l.Diffuse = Color4.White;
+						l.Ambient = new Color4(0.1f, 0.1f, 0.1f, 1f);
+						l.Position = new Vector4(worldPos.X, worldPos.Y, 36, 1);
+						l.ConstantAttenuation = 1f;
+						l.LinearAttenuation = 1f / 3000f;
+						l.QuadraticAttenuation = 1f / 40000f;
+						level.Lights.Add(l);
 
-                        for (int i = 0; i < 8; i++)
-                        {
-                            bool inUse = false;
-                            for (int j = 0; j < level.Lights.Count; j++)
-                            {
-                                if (level.Lights[j].Index == i)
-                                {
-                                    inUse = true;
-                                }
-                            }
-                            if (!inUse)
-                            {
-                                l.Index = i;
-                            }
-                        }
-                        selectedObject = l;
-                    }
-                    else
-                    {
-                        MessageBox.Show("To many lights. Max light count is 8.", "Light Count", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+						for (int i = 0; i < 8; i++)
+						{
+							bool inUse = false;
+							for (int j = 0; j < level.Lights.Count; j++)
+							{
+								if (level.Lights[j].Index == i)
+								{
+									inUse = true;
+								}
+							}
+							if (!inUse)
+							{
+								l.Index = i;
+							}
+						}
+						selectedObject = l;
+					}
+					else
+					{
+						MessageBox.Show("To many lights. Max light count is 8.", "Light Count", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
 					break;
 				case "Ball":
 					Ball ball = new Ball(worldPos.X, worldPos.Y);
@@ -589,8 +590,7 @@ namespace CircuitCrawlerEditor
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("Are you sure you want to exit?.\r\nAll unsaved changes will be discarded.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-				Application.Exit();
+			Close();
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -600,14 +600,7 @@ namespace CircuitCrawlerEditor
 
 		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				if (MessageBox.Show("Opening this file will discard all current changes.\r\nAre you sure you want to continue?", "Open Level", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-				{
-					Parser.Parser.SaveLevel(saveDialog.FileName, level);
-				}
-			}
-
+			ShowSaveDialog();
 			UpdateWorldTree();
 		}
 
@@ -616,9 +609,12 @@ namespace CircuitCrawlerEditor
 			loadDialog.FileName = "";
 			if (loadDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				Level newlevel = Parser.Parser.LoadLevel(loadDialog.FileName);
-				if (newlevel != null)
-					level = newlevel;
+				if (MessageBox.Show("Opening this file will discard all current changes.\r\nAre you sure you want to continue?", "Open Level", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+				{
+					Level newlevel = Parser.Parser.LoadLevel(loadDialog.FileName);
+					if (newlevel != null)
+						level = newlevel;
+				}
 			}
 
 			UpdateWorldTree();
@@ -645,11 +641,17 @@ namespace CircuitCrawlerEditor
 
 		private void newToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("Are you sure you want to create a new level?", "New Level", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+			switch (PromptUserSave())
 			{
-				level = new Level();
-				worldView_Load(this, EventArgs.Empty);
+				case DialogResult.Yes:
+					if (!ShowSaveDialog())
+						return;
+					break;
+				case DialogResult.Cancel:
+					return;
 			}
+			level = new Level();
+			worldView_Load(this, EventArgs.Empty);
 		}
 
 		private void resizeTilesetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -661,10 +663,7 @@ namespace CircuitCrawlerEditor
 				if (level.Tileset.Tiles.Length == form.X && level.Tileset.Tiles[0].Length == form.Y)
 					return;
 
-				if (MessageBox.Show("Are you sure you want to resize the tiles?\r\nThis will erase all current tiles.", "Resize Tiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-				{
-					GenerateTiles(form.X, form.Y);
-				}
+				GenerateTiles(form.X, form.Y);
 			}
 		}
 
@@ -741,30 +740,33 @@ namespace CircuitCrawlerEditor
 			else
 				v.Y = v.Y + (gridSnap - v.Y % gridSnap);
 
-			return new Vector2(v.X + Tile.TILE_SIZE_F / 2, v.Y + Tile.TILE_SIZE_F / 2);
+			return new Vector2(v.X + Tile.SIZE_F / 2, v.Y + Tile.SIZE_F / 2);
 		}
 
-		private Vector2 ScreenToWorld(Vector2 v)
+		private Vector2 ScreenToWorld(Vector2 v, bool hack = false)
 		{
-			Point formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
+            Point formPosition = new Point((int)v.X, (int)v.Y);
+            if (!hack)
+            {
+                formPosition = PointToClient(new Point((int)v.X, (int)v.Y));
 
-			Point controlPosition = new Point();
-			Control ctrl = worldView;
+                Point controlPosition = new Point();
+                Control ctrl = worldView;
 
-			while (ctrl != this)
-			{
-				controlPosition.X += ctrl.Location.X;
-				controlPosition.Y += ctrl.Location.Y;
-				ctrl = ctrl.Parent;
-			}
+                while (ctrl != this)
+                {
+                    controlPosition.X += ctrl.Location.X;
+                    controlPosition.Y += ctrl.Location.Y;
+                    ctrl = ctrl.Parent;
+                }
 
-			formPosition.X -= controlPosition.X;
-			formPosition.Y -= controlPosition.Y;
-
+                formPosition.X -= controlPosition.X;
+                formPosition.Y -= controlPosition.Y;
+            }
 			//formPosition.X += worldView.Width / 2;
 			//formPosition.Y += worldView.Height / 2;
 
-			Matrix4 fakeProjection = Matrix4.CreateOrthographic(72 * 4, 72 * 4, 0.01f, 1.5f);
+			Matrix4 fakeProjection = Matrix4.CreateOrthographic(Tile.SIZE_F * 7, Tile.SIZE_F * 6 / camera.AspectRatio, 1f, Tile.SIZE_F * 4);
 
 			return ExtraMath.Unproject(fakeProjection, camera.View, worldView.Size, formPosition).Xy;
 		}
@@ -797,7 +799,7 @@ namespace CircuitCrawlerEditor
 						tiles[i][j] = new Tile(new Point(i, j), 4, 4, TileType.Floor); 
 				}
 			}
-			level.Tileset = new Tileset(tiles, new Texture(new Bitmap("Resources/Textures/tilesetworld.png"), 16, 8, TextureMinFilter.Linear, TextureMagFilter.Linear, TextureWrapMode.Clamp, TextureWrapMode.Clamp));
+			level.Tileset = new Tileset(tiles, Resources.Textures["tilesetworld.png"]);
 		}
 
 		#endregion
@@ -827,12 +829,36 @@ namespace CircuitCrawlerEditor
 			}
 		}
 
-        private void FormEditor_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (MessageBox.Show("Are you sure you want to exit?.\r\nAll unsaved changes will be discarded.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                Application.Exit();
-            else
-                e.Cancel = true;
-        }
+		private void FormEditor_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			switch (PromptUserSave())
+			{
+				case System.Windows.Forms.DialogResult.Yes:
+					if (!ShowSaveDialog())
+						e.Cancel = true;
+					break;
+				case DialogResult.No:
+					break;
+				case DialogResult.Cancel:
+					e.Cancel = true;
+					break;
+			}
+		}
+
+		private bool ShowSaveDialog()
+		{
+			if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				Parser.Parser.SaveLevel(saveDialog.FileName, level);
+				return true;
+			}
+
+			return false;
+		}
+
+		private DialogResult PromptUserSave()
+		{
+			return MessageBox.Show("Unsaved changes will be shot, surviving changes will be shot repeatedly until dead. Do you want to save your changes from this horrible fate before you go?", "Leaving, bro?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+		}
 	}
 }

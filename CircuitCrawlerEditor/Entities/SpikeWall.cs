@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 
+using CircuitCrawlerEditor.Models;
+
 namespace CircuitCrawlerEditor.Entities
 {
 	public class SpikeWall : Entity
@@ -9,6 +11,11 @@ namespace CircuitCrawlerEditor.Entities
 			: base(xPos, yPos)
 		{
 			Dir = Direction.LEFT;
+
+			vertVbo = SpikeWallData.GetVertexBufferID();
+			indVbo = SpikeWallData.GetIndexBufferID();
+			indCount = SpikeWallData.GetIndexCount();
+			tex = Resources.Textures["spikewall.png"];
 		}
 
 		[Category("SpikeWall"), Description("The direction in which the spikewall pushes.")]

@@ -43,6 +43,13 @@ namespace CircuitCrawlerEditor
 
 			Tileset.Draw();
 
+			foreach (Entity ent in Entities)
+			{
+				GL.PushMatrix();
+				ent.Draw();
+				GL.PopMatrix();
+			}
+
 			foreach (Light l in Lights)
 			{
 				GL.Disable(EnableCap.Light0 + l.Index);

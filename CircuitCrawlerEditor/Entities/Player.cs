@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 
+using CircuitCrawlerEditor.Models;
+
 namespace CircuitCrawlerEditor.Entities
 {
     public class Player : Entity
