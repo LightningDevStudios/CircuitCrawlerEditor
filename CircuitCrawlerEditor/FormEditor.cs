@@ -169,53 +169,56 @@ namespace CircuitCrawlerEditor
 		{
 			Vector2 pos = ScreenToWorld(new Vector2(e.Location.X, e.Location.Y), true);
 
-			foreach (Tile[] t in level.Tileset.Tiles)
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
 			{
-				foreach (Tile tile in t)
+				foreach (Tile[] t in level.Tileset.Tiles)
 				{
-					if (PointInSquare(pos, tile.Position, Tile.SIZE))
+					foreach (Tile tile in t)
 					{
-						if (selectedTile == tile)
+						if (PointInSquare(pos, tile.Position, Tile.SIZE))
 						{
-							selectedTile = null;
-						}
-						else
-						{
-							selectedTile = tile;
-							TreeNodeCollection nodes = levelItemsList.Nodes;
-							foreach (TreeNode node in nodes)
+							if (selectedTile == tile)
 							{
-								if (node.Tag == selectedTile)
-								{
-									levelItemsList.SelectedNode = node;
-									break;
-								}
+								selectedTile = null;
 							}
-							selectedItemProperties.SelectedObject = selectedTile;
+							else
+							{
+								selectedTile = tile;
+								TreeNodeCollection nodes = levelItemsList.Nodes;
+								foreach (TreeNode node in nodes)
+								{
+									if (node.Tag == selectedTile)
+									{
+										levelItemsList.SelectedNode = node;
+										break;
+									}
+								}
+								selectedItemProperties.SelectedObject = selectedTile;
+							}
 						}
 					}
 				}
-			}
 
-			if (selectedTile == null && selectedEntity == null && selectedLight == null)
-			{
-				selectedItemProperties.SelectedObject = null;
-				selectionCube.Hidden = true;
-			}
-			else
-			{
-				selectionCube.Hidden = false;
-				if (selectedTile != null)
+				if (selectedTile == null && selectedEntity == null && selectedLight == null)
 				{
-					selectionCube.Position = selectedTile.Position;
+					selectedItemProperties.SelectedObject = null;
+					selectionCube.Hidden = true;
 				}
-				if (selectedEntity != null)
+				else
 				{
-					selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
-				}
-				if (selectedLight != null)
-				{
-					selectionCube.Position = selectedLight.Position.Xy;
+					selectionCube.Hidden = false;
+					if (selectedTile != null)
+					{
+						selectionCube.Position = selectedTile.Position;
+					}
+					if (selectedEntity != null)
+					{
+						selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
+					}
+					if (selectedLight != null)
+					{
+						selectionCube.Position = selectedLight.Position.Xy;
+					}
 				}
 			}
 		}
@@ -300,6 +303,15 @@ namespace CircuitCrawlerEditor
 						}
 					}
 				}
+			}
+
+			if (e.Button == MouseButtons.Right)
+			{
+				selectedEntity = null;
+				selectedLight = null;
+				selectedTile = null;
+				selectedItemProperties.SelectedObject = null;
+				selectionCube.Hidden = true;
 			}
 		}
 
