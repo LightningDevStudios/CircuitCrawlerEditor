@@ -42,6 +42,7 @@ namespace CircuitCrawlerEditor
             gridSnap = 72;
 			showLights = true;
 
+			WindowState = FormWindowState.Maximized;
 			Application.Idle += Application_Idle;
 		}
 
@@ -75,7 +76,7 @@ namespace CircuitCrawlerEditor
 
 			Resources.LoadAll();
 
-			GenerateTiles(4, 4);
+			GenerateTiles(16, 16);
 
 			initialSize = worldView.Size;
 
@@ -330,6 +331,8 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_DragDrop(object sender, DragEventArgs e)
 		{
+			panning = false;
+
 			Vector2 worldPos = ScreenToWorld(e.X, e.Y);
 
 			if (snapping)
@@ -817,7 +820,12 @@ namespace CircuitCrawlerEditor
 
 		private void FormEditor_KeyUp(object sender, KeyEventArgs e)
 		{
-
+			if (!e.Alt)
+			{
+				panning = false;
+				e.Handled = true;
+				e.SuppressKeyPress = true;
+			}
 		}
 
 		private void FormEditor_FormClosing(object sender, FormClosingEventArgs e)
