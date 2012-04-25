@@ -8,6 +8,9 @@ namespace CircuitCrawlerEditor.Entities
 		public LaserShooter(float xPos, float yPos)
 			: base(xPos, yPos)
 		{
+            ShotsPerSecond = 1;
+            BeamWidth = 5;
+            Stupidity = 0;
 		}
 
 		[Category("LaserShooter"), Description("The number of times the laser fires per second.")]

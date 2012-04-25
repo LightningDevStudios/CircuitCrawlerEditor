@@ -8,6 +8,8 @@ namespace CircuitCrawlerEditor.Entities
 		public Cannon(float xPos, float yPos)
 			: base(xPos, yPos)
 		{
+            BallSpeed = 5000000;
+            Stupidity = 0;
 		}
 
 		[Category("Cannon"), Description("The speed at which the balls from this cannon fire.")]

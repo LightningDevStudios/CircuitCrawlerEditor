@@ -11,7 +11,7 @@ namespace CircuitCrawlerEditor.Entities
         public Ball(float xPos, float yPos)
             : base(xPos, yPos)
         {
-
+            Friction = 1;
         }
     }
 }
