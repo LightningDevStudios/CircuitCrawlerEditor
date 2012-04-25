@@ -424,22 +424,6 @@ namespace CircuitCrawlerEditor.Parser
 			{
 				#region Save Tileset
 
-				/*
-				int x = Convert.ToInt32(level.Tileset.x);
-				int y = Convert.ToInt32(level.Tileset.y);
-
-				tileset = new Tile[y][];
-
-				for (int i = 0; i < tileset.Length; i++)
-				{
-					tileset[i] = new Tile[x];
-				}
-
-				for (int i = 0; i < y; i++)
-					for (int j = 0; j < x; j++)
-						tileset[i][j] = new Tile(new Point(j, i), x, y, (TileType)level.Tileset.Tile[i * x + j].state);
-				 */
-
 				level.Tileset = new LevelTileset();
 
 				int x = tileset[0].Length;
@@ -468,6 +452,7 @@ namespace CircuitCrawlerEditor.Parser
 				Player player = (Player)entList.Find(ent => ent is Player);
 				if (player != null)
 				{
+					player.ID = Guid.NewGuid().ToString();
 					level.Entities.Player = new PlayerInfo();
 					level.Entities.Player = SaveEntity<PlayerInfo, Player>(level.Entities.Player, player);
 				}
@@ -478,6 +463,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.Button = new ButtonInfo[buttonList.Count];
 					for (int i = 0; i < buttonList.Count; i++)
 					{
+						buttonList[i].ID = Guid.NewGuid().ToString();
 						level.Entities.Button[i] = new ButtonInfo();
 						level.Entities.Button[i] = SaveEntity<ButtonInfo, Button>(level.Entities.Button[i], (Button)buttonList[i]);
 					}
@@ -489,6 +475,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.BreakableDoor = new BreakableDoorInfo[breakableDoorList.Count];
 					for (int i = 0; i < breakableDoorList.Count; i++)
 					{
+						breakableDoorList[i].ID = Guid.NewGuid().ToString();
 						level.Entities.BreakableDoor[i] = new BreakableDoorInfo();
 						level.Entities.BreakableDoor[i].maxHits = ((BreakableDoor)breakableDoorList[i]).MaxHits;
 						level.Entities.BreakableDoor[i] = SaveEntity<BreakableDoorInfo, BreakableDoor>(level.Entities.BreakableDoor[i], (BreakableDoor)breakableDoorList[i]);
@@ -501,6 +488,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.Cannon = new CannonInfo[cannonList.Count];
 					for (int i = 0; i < cannonList.Count; i++)
 					{
+						cannonList[i].ID = Guid.NewGuid().ToString();
 						Cannon c = (Cannon)cannonList[i];
 						level.Entities.Cannon[i] = new CannonInfo();
 						level.Entities.Cannon[i].shotVelocity = c.BallSpeed;
@@ -515,6 +503,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.Door = new DoorInfo[doorList.Count];
 					for (int i = 0; i < doorList.Count; i++)
 					{
+						doorList[i].ID = Guid.NewGuid().ToString();
 						level.Entities.Door[i] = new DoorInfo();
 						level.Entities.Door[i].dir = (directionType)((Door)doorList[i]).Dir;
 						level.Entities.Door[i] = SaveEntity<DoorInfo, Door>(level.Entities.Door[i], (Door)doorList[i]);
@@ -527,6 +516,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.LaserShooter = new LaserShooterInfo[laserShooterList.Count];
 					for (int i = 0; i < laserShooterList.Count; i++)
 					{
+						laserShooterList[i].ID = Guid.NewGuid().ToString();
 						LaserShooter ls = (LaserShooter)laserShooterList[i];
 						level.Entities.LaserShooter[i] = new LaserShooterInfo();
 						level.Entities.LaserShooter[i].shotsPerSecond = ls.ShotsPerSecond;
@@ -542,6 +532,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.Ball = new BallInfo[BallList.Count];
 					for (int i = 0; i < BallList.Count; i++)
 					{
+						BallList[i].ID = Guid.NewGuid().ToString();
 						level.Entities.Ball[i] = new BallInfo();
 						level.Entities.Ball[i].friction = ((Ball)BallList[i]).Friction;
 						level.Entities.Ball[i] = SaveEntity(level.Entities.Ball[i], (Ball)BallList[i]);
@@ -554,6 +545,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.Block = new BlockInfo[blockList.Count];
 					for (int i = 0; i < blockList.Count; i++)
 					{
+						blockList[i].ID = Guid.NewGuid().ToString();
 						level.Entities.Block[i] = new BlockInfo();
 						level.Entities.Block[i].friction = ((Block)blockList[i]).Friction;
 						level.Entities.Block[i] = SaveEntity(level.Entities.Block[i], (Block)blockList[i]);
@@ -566,6 +558,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.PuzzleBox = new PuzzleBoxInfo[puzzleBoxList.Count];
 					for (int i = 0; i < puzzleBoxList.Count; i++)
 					{
+						puzzleBoxList[i].ID = Guid.NewGuid().ToString();
 						level.Entities.PuzzleBox[i] = new PuzzleBoxInfo();
 						level.Entities.PuzzleBox[i] = SaveEntity(level.Entities.PuzzleBox[i], (PuzzleBox)puzzleBoxList[i]);
 					}
@@ -577,6 +570,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.SpikeWall = new SpikeWallInfo[spikeWallList.Count];
 					for (int i = 0; i < spikeWallList.Count; i++)
 					{
+						spikeWallList[i].ID = Guid.NewGuid().ToString();
 						level.Entities.SpikeWall[i] = new SpikeWallInfo();
 						level.Entities.SpikeWall[i].dir = (directionType)((SpikeWall)spikeWallList[i]).Dir;
 						level.Entities.SpikeWall[i] = SaveEntity<SpikeWallInfo, SpikeWall>(level.Entities.SpikeWall[i], (SpikeWall)spikeWallList[i]);
@@ -589,6 +583,7 @@ namespace CircuitCrawlerEditor.Parser
 					level.Entities.Teleporter = new TeleporterInfo[teleporterList.Count];
 					for (int i = 0; i < teleporterList.Count; i++)
 					{
+						teleporterList[i].ID = Guid.NewGuid().ToString();
 						level.Entities.Teleporter[i] = new TeleporterInfo();
 						level.Entities.Teleporter[i] = SaveEntity(level.Entities.Teleporter[i], (Block)teleporterList[i]);
 					}
@@ -602,6 +597,11 @@ namespace CircuitCrawlerEditor.Parser
 
 				if (causeList.Count > 0)
 				{
+					for (int i = 0; i < causeList.Count; i++)
+					{
+						causeList[i].ID = Guid.NewGuid().ToString();
+					}
+
 					level.Triggers.Cause = new LevelTriggersCause[causeList.Count];
 
 					List<Cause> startList = new List<Cause>();
@@ -689,6 +689,11 @@ namespace CircuitCrawlerEditor.Parser
 
 				if (effectList.Count > 0)
 				{
+					for (int i = 0; i < effectList.Count; i++)
+					{
+						effectList[i].ID = Guid.NewGuid().ToString();
+					}
+
 					level.Triggers.Effect = new LevelTriggersEffect[effectList.Count];
 
 					List<Effect> startList = new List<Effect>();
