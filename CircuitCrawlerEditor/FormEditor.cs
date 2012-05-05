@@ -16,6 +16,7 @@ namespace CircuitCrawlerEditor
 	{
 		private bool loaded;
 		private bool showLights;
+		private bool shiftHeld;
 
 		private Point initialMousePos;
 		private Vector2 initialCameraPos;
@@ -26,13 +27,13 @@ namespace CircuitCrawlerEditor
 		private Level level;
 
 		private Entity selectedEntity;
-		private Tile selectedTile;
+		private List<Tile> selectedTiles;
 		private Light selectedLight;
 
 		private float gridSnap;
 		private bool snapping;
 
-		private SelectionCube selectionCube;
+		private List<SelectionCube> selectionCubes;
 
 		public FormEditor()
 		{
@@ -40,6 +41,7 @@ namespace CircuitCrawlerEditor
 
 			camera = new Camera();
 			level = new Level();
+			selectedTiles = new List<Tile>();
             gridSnap = 72;
 			showLights = false;
 
@@ -82,7 +84,7 @@ namespace CircuitCrawlerEditor
 
 			initialSize = worldView.Size;
 
-			selectionCube = new SelectionCube(Vector2.Zero);
+			selectionCubes = new List<SelectionCube>();
 
 			Light l = new Light();
 			l.Diffuse = Color4.White;
@@ -124,8 +126,13 @@ namespace CircuitCrawlerEditor
 			if (showLights)
 				GL.Disable(EnableCap.Lighting);
 
-			selectionCube.Update();
-			selectionCube.Draw();
+			foreach (SelectionCube selectionCube in selectionCubes)
+			{
+				selectionCube.Update();
+				GL.PushMatrix();
+				selectionCube.Draw();
+				GL.PopMatrix();
+			}
 
 			if (showLights)
 				GL.Enable(EnableCap.Lighting);
@@ -176,47 +183,44 @@ namespace CircuitCrawlerEditor
 					{
 						if (PointInSquare(pos, tile.Position, Tile.SIZE))
 						{
-							if (selectedTile == tile)
+							if (!shiftHeld || selectedTiles.Contains(tile))
 							{
-								selectedTile = null;
+								selectedTiles.Clear();
+								selectionCubes.Clear();
 							}
-							else
-							{
-								selectedTile = tile;
-								TreeNodeCollection nodes = levelItemsList.Nodes;
-								foreach (TreeNode node in nodes)
-								{
-									if (node.Tag == selectedTile)
-									{
-										levelItemsList.SelectedNode = node;
-										break;
-									}
-								}
-								selectedItemProperties.SelectedObject = selectedTile;
-							}
+
+							selectedTiles.Add(tile);
+
+							selectedItemProperties.SelectedObjects = selectedTiles.ToArray();
 						}
 					}
 				}
 
-				if (selectedTile == null && selectedEntity == null && selectedLight == null)
+				if (selectedTiles.Count == 0 && selectedEntity == null && selectedLight == null)
 				{
 					selectedItemProperties.SelectedObject = null;
-					selectionCube.Hidden = true;
+					selectedItemProperties.SelectedObjects = null;
+					selectionCubes.Clear();
 				}
 				else
 				{
-					selectionCube.Hidden = false;
-					if (selectedTile != null)
+					if (selectedTiles != null)
 					{
-						selectionCube.Position = selectedTile.Position;
+						selectionCubes.Clear();
+						foreach (Tile t in selectedTiles)
+							selectionCubes.Add(new SelectionCube(t.Position));
 					}
+
 					if (selectedEntity != null)
 					{
-						selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
+						selectionCubes.Clear();
+						selectionCubes.Add(new SelectionCube(new Vector2(selectedEntity.XPos, selectedEntity.YPos)));
 					}
+
 					if (selectedLight != null)
 					{
-						selectionCube.Position = selectedLight.Position.Xy;
+						selectionCubes.Clear();
+						selectionCubes.Add(new SelectionCube(selectedLight.Position.Xy));
 					}
 				}
 			}
@@ -245,25 +249,31 @@ namespace CircuitCrawlerEditor
 					selectedEntity.YPos = pos.Y;
 				}
 
-				if (selectedTile == null && selectedEntity == null && selectedLight == null)
+				if (selectedTiles.Count == 0 && selectedEntity == null && selectedLight == null)
 				{
 					selectedItemProperties.SelectedObject = null;
-					selectionCube.Hidden = true;
+					selectedItemProperties.SelectedObjects = null;
+					selectionCubes.Clear();
 				}
 				else
 				{
-					selectionCube.Hidden = false;
-					if (selectedTile != null)
+					if (selectedTiles != null)
 					{
-						selectionCube.Position = selectedTile.Position;
+						selectionCubes.Clear();
+						foreach (Tile t in selectedTiles)
+							selectionCubes.Add(new SelectionCube(t.Position));
 					}
+
 					if (selectedEntity != null)
 					{
-						selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
+						selectionCubes.Clear();
+						selectionCubes.Add(new SelectionCube(new Vector2(selectedEntity.XPos, selectedEntity.YPos)));
 					}
+
 					if (selectedLight != null)
 					{
-						selectionCube.Position = selectedLight.Position.Xy;
+						selectionCubes.Clear();
+						selectionCubes.Add(new SelectionCube(selectedLight.Position.Xy));
 					}
 				}
 			}
@@ -297,15 +307,6 @@ namespace CircuitCrawlerEditor
 						selectedItemProperties.SelectedObject = ent;
 					}
 				}
-			}
-
-			if (e.Button == MouseButtons.Right)
-			{
-				selectedEntity = null;
-				selectedLight = null;
-				selectedTile = null;
-				selectedItemProperties.SelectedObject = null;
-				selectionCube.Hidden = true;
 			}
 		}
 
@@ -346,6 +347,13 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_KeyUp(object sender, KeyEventArgs e)
 		{
+			if (!e.Shift)
+			{
+				shiftHeld = false;
+				e.Handled = true;
+				e.SuppressKeyPress = true;
+			}
+
 			switch (e.KeyData)
 			{
 				case Keys.Delete:
@@ -358,6 +366,13 @@ namespace CircuitCrawlerEditor
 
 		private void worldView_KeyDown(object sender, KeyEventArgs e)
 		{
+			if (e.Shift)
+			{
+				shiftHeld = true;
+				e.Handled = true;
+				e.SuppressKeyPress = true;
+			}
+
 			switch (e.KeyData)
 			{
 				case Keys.W:
@@ -614,8 +629,11 @@ namespace CircuitCrawlerEditor
 			selectedItemProperties.SelectedObject = e.Node.Tag;
 			selectedEntity = e.Node.Tag as Entity;
 
-			if(selectedEntity != null)
-				selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
+			if (selectedEntity != null)
+			{
+				selectionCubes.Clear();
+				selectionCubes.Add(new SelectionCube(new Vector2(selectedEntity.XPos, selectedEntity.YPos)));
+			}
 		}
 
 		private void levelItemsList_KeyUp(object sender, KeyEventArgs e)
@@ -871,19 +889,24 @@ namespace CircuitCrawlerEditor
 		#endregion
 
 		private void selectedItemProperties_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-		{
-			if (selectedTile != null)
+		{	
+			/*if (selectedTiles != null)
 			{
-				selectionCube.Position = selectedTile.Position;
+				foreach (Tile t in selectedTiles)
+					selectionCubes.Add(new SelectionCube(t.Position));
 			}
+
 			if (selectedEntity != null)
 			{
-				selectionCube.Position = new Vector2(selectedEntity.XPos, selectedEntity.YPos);
+				selectionCubes.Clear();
+				selectionCubes.Add(new SelectionCube(new Vector2(selectedEntity.XPos, selectedEntity.YPos)));
 			}
+
 			if (selectedLight != null)
 			{
-				selectionCube.Position = selectedLight.Position.Xy;
-			}
+				selectionCubes.Clear();
+				selectionCubes.Add(new SelectionCube(selectedLight.Position.Xy));
+			}*/
 
 			UpdateWorldTree();
 		}

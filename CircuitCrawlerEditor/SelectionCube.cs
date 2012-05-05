@@ -13,29 +13,14 @@ namespace CircuitCrawlerEditor
 		private bool alphaIncreasing;
 		private Color4 color;
 		private Vector2 position;
-		private Matrix4 model;
 		private int vertVbo, indVbo;
 
 		public SelectionCube(Vector2 position)
 		{
 			this.color = Color4.Green;
-			this.model = Matrix4.Scale(80f / 50f) * Matrix4.CreateTranslation(new Vector3(position));
+			this.position = position;
 			vertVbo = BlockData.GetVertexBufferID();
 			indVbo = BlockData.GetIndexBufferID();
-		}
-
-		public Vector2 Position
-		{
-			get
-			{
-				return position;
-			}
-
-			set
-			{
-				position = value;
-				this.model = Matrix4.Scale(80f / 50f) * Matrix4.CreateTranslation(new Vector3(position));
-			}
 		}
 
 		public bool Hidden { get; set; }
@@ -46,6 +31,8 @@ namespace CircuitCrawlerEditor
 				return;
 
 			GL.Color4(color);
+
+			Matrix4 model = Matrix4.Scale(80f / 50f) * Matrix4.CreateTranslation(new Vector3(position));
 
 			GL.MultMatrix(ref model);
 
