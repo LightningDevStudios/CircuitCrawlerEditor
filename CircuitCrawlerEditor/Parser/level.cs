@@ -26,15 +26,11 @@ namespace CircuitCrawlerEditor.Parser {
         
         private LevelTileset tilesetField;
         
-        private string nodesField;
-        
-        private string nodeLinksField;
-        
-        private string nodePathsField;
-        
         private LevelEntities entitiesField;
         
         private LevelTriggers triggersField;
+        
+        private LightInfo[] lightsField;
         
         private LevelTeleporterLinker[] teleporterLinkerField;
         
@@ -46,39 +42,6 @@ namespace CircuitCrawlerEditor.Parser {
             }
             set {
                 this.tilesetField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string Nodes {
-            get {
-                return this.nodesField;
-            }
-            set {
-                this.nodesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string NodeLinks {
-            get {
-                return this.nodeLinksField;
-            }
-            set {
-                this.nodeLinksField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string NodePaths {
-            get {
-                return this.nodePathsField;
-            }
-            set {
-                this.nodePathsField = value;
             }
         }
         
@@ -101,6 +64,18 @@ namespace CircuitCrawlerEditor.Parser {
             }
             set {
                 this.triggersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Light", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
+        public LightInfo[] Lights {
+            get {
+                return this.lightsField;
+            }
+            set {
+                this.lightsField = value;
             }
         }
         
@@ -201,6 +176,105 @@ namespace CircuitCrawlerEditor.Parser {
         
         /// <remarks/>
         SLIP,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class LightInfo {
+        
+        private int indexField;
+        
+        private string ambientField;
+        
+        private string diffuseField;
+        
+        private string positionField;
+        
+        private float constAttenField;
+        
+        private float linAttenField;
+        
+        private float quadAttenField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int index {
+            get {
+                return this.indexField;
+            }
+            set {
+                this.indexField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string ambient {
+            get {
+                return this.ambientField;
+            }
+            set {
+                this.ambientField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string diffuse {
+            get {
+                return this.diffuseField;
+            }
+            set {
+                this.diffuseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string position {
+            get {
+                return this.positionField;
+            }
+            set {
+                this.positionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public float constAtten {
+            get {
+                return this.constAttenField;
+            }
+            set {
+                this.constAttenField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public float linAtten {
+            get {
+                return this.linAttenField;
+            }
+            set {
+                this.linAttenField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public float quadAtten {
+            get {
+                return this.quadAttenField;
+            }
+            set {
+                this.quadAttenField = value;
+            }
+        }
     }
     
     /// <remarks/>

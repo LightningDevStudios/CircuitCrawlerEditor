@@ -489,31 +489,31 @@ namespace CircuitCrawlerEditor
 					level.Entities.Add(door);
 					selectedObject = door;
 					break;
-				case "LaserShooter":
+				/*case "LaserShooter":
 					LaserShooter ls = new LaserShooter(worldPos.X, worldPos.Y);
 					level.Entities.Add(ls);
 					selectedObject = ls;
-					break;
+					break;*/
 				case "Player":
 					Player p = new Player(worldPos.X, worldPos.Y);
 					level.Entities.Add(p);
 					selectedObject = p;
 					break;
-				case "PuzzleBox":
+				/*case "PuzzleBox":
 					PuzzleBox pb = new PuzzleBox(worldPos.X, worldPos.Y);
 					level.Entities.Add(pb);
 					selectedObject = pb;
-					break;
+					break;*/
 				case "SpikeWall":
 					SpikeWall sw = new SpikeWall(worldPos.X, worldPos.Y);
 					level.Entities.Add(sw);
 					selectedObject = sw;
 					break;
-				case "Teleporter":
+				/*case "Teleporter":
 					Teleporter tp = new Teleporter(worldPos.X, worldPos.Y);
 					level.Entities.Add(tp);
 					selectedObject = tp;
-					break;
+					break;*/
 				case "CauseAND":
 					CauseAND cAnd = new CauseAND();
 					level.Causes.Add(cAnd);

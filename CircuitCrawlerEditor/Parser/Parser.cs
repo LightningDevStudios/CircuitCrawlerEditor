@@ -24,13 +24,15 @@ namespace CircuitCrawlerEditor.Parser
 				List<Cause> causes;
 				List<Effect> effects;
 				List<Trigger> triggers;
-				LoadLevel(filepath, out tileset, out entities, out causes, out effects, out triggers);
+				List<Light> lights;
+				LoadLevel(filepath, out tileset, out entities, out causes, out effects, out triggers, out lights);
 				CircuitCrawlerEditor.Level level = new CircuitCrawlerEditor.Level();
 				level.Tileset = new Tileset(tileset, new Texture(new Bitmap("Resources/Textures/tilesetworld.png"), 16, 8, TextureMinFilter.Linear, TextureMagFilter.Linear, TextureWrapMode.Clamp, TextureWrapMode.Clamp));
 				level.Entities = entities;
 				level.Causes = causes;
 				level.Effects = effects;
 				level.Triggers = triggers;
+				level.Lights = lights;
 				return level;
 			}
 			catch
@@ -39,7 +41,7 @@ namespace CircuitCrawlerEditor.Parser
 			}
 		}
 
-		private static bool LoadLevel(String filepath, out Tile[][] tileset, out List<Entity> entities, out List<Cause> causes, out List<Effect> effects, out List<Trigger> triggers)
+		private static bool LoadLevel(String filepath, out Tile[][] tileset, out List<Entity> entities, out List<Cause> causes, out List<Effect> effects, out List<Trigger> triggers, out List<Light> lights)
 		{
 			try
 			{
@@ -51,6 +53,7 @@ namespace CircuitCrawlerEditor.Parser
 				causes = new List<Cause>();
 				effects = new List<Effect>();
 				triggers = new List<Trigger>();
+				lights = new List<Light>();
 
 				#region Load Tileset
 
@@ -376,6 +379,39 @@ namespace CircuitCrawlerEditor.Parser
 					#endregion
 				}
 
+				#region Load Lights
+
+				if (level.Lights != null)
+				{
+					for (int i = 0; i < level.Lights.Length; i++)
+					{
+						LightInfo ll = level.Lights[i];
+						Light l = new Light();
+						l.Index = ll.index;
+						string[] ambient = ll.ambient.Split(',');
+						l.AmbientR = float.Parse(ambient[0]);
+						l.AmbientG = float.Parse(ambient[1]);
+						l.AmbientB = float.Parse(ambient[2]);
+						l.AmbientA = float.Parse(ambient[3]);
+						string[] diffuse = ll.diffuse.Split(',');
+						l.DiffuseR = float.Parse(diffuse[0]);
+						l.DiffuseG = float.Parse(diffuse[1]);
+						l.DiffuseB = float.Parse(diffuse[2]);
+						l.DiffuseA = float.Parse(diffuse[3]);
+						string[] position = ll.position.Split(',');
+						l.PositionX = float.Parse(position[0]);
+						l.PositionY = float.Parse(position[1]);
+						l.PositionZ = float.Parse(position[2]);
+						l.PositionW = float.Parse(position[3]);
+						l.ConstantAttenuation = ll.constAtten;
+						l.LinearAttenuation = ll.linAtten;
+						l.QuadraticAttenuation = ll.quadAtten;
+						lights.Add(l);
+					}
+				}
+
+				#endregion
+
 				UIEntListEditor.entList = entities;
 				UICauseListEditor.causeList = causes;
 				UIEffectListEditor.effectList = effects;
@@ -390,6 +426,7 @@ namespace CircuitCrawlerEditor.Parser
 				entities = null;
 				tileset = null;
 				triggers = null;
+				lights = null;
 				System.Windows.Forms.MessageBox.Show("Error. Unable to load level. Reason: " + e.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
 				return false;
 			}
@@ -413,10 +450,10 @@ namespace CircuitCrawlerEditor.Parser
 
 		public static void SaveLevel(String filepath, CircuitCrawlerEditor.Level level)
 		{
-			SaveLevel(filepath, level.Tileset.Tiles, level.Entities, level.Causes, level.Effects, level.Triggers);
+			SaveLevel(filepath, level.Tileset.Tiles, level.Entities, level.Causes, level.Effects, level.Triggers, level.Lights);
 		}
 
-		private static void SaveLevel(String filepath, Tile[][] tileset, List<Entity> entList, List<Cause> causeList, List<Effect> effectList, List<Trigger> triggerList)
+		private static void SaveLevel(String filepath, Tile[][] tileset, List<Entity> entList, List<Cause> causeList, List<Effect> effectList, List<Trigger> triggerList, List<Light> lightList)
 		{
 			Level level = new Level();
 
@@ -790,6 +827,26 @@ namespace CircuitCrawlerEditor.Parser
 						tData.effect = triggerList[i].Effect.ID;
 						level.Triggers.Trigger[i] = tData;
 					}
+				}
+
+				#endregion
+
+				#region Save Lights
+
+				level.Lights = new LightInfo[lightList.Count];
+
+				for (int i = 0; i < lightList.Count; i++ )
+				{
+					Light l = lightList[i];
+					LightInfo ll = new LightInfo();
+					ll.index = l.Index;
+					ll.ambient = l.AmbientR + "," + l.AmbientG + "," + l.AmbientB + "," + l.AmbientA;
+					ll.diffuse = l.DiffuseR + "," + l.DiffuseG + "," + l.DiffuseB + "," + l.DiffuseB;
+					ll.position = l.PositionX + "," + l.PositionY + "," + l.PositionZ + "," + l.PositionW;
+					ll.constAtten = l.ConstantAttenuation;
+					ll.linAtten = l.LinearAttenuation;
+					ll.quadAtten = l.QuadraticAttenuation;
+					level.Lights[i] = ll;
 				}
 
 				#endregion
