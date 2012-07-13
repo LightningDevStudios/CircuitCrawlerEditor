@@ -60,16 +60,14 @@ namespace CircuitCrawlerEditor.Parser
 				int x = Convert.ToInt32(level.Tileset.x);
 				int y = Convert.ToInt32(level.Tileset.y);
 
-				tileset = new Tile[y][];
+				tileset = new Tile[x][];
 
-				for (int i = 0; i < tileset.Length; i++)
-				{
-					tileset[i] = new Tile[x];
-				}
+				for (int i = 0; i < x; i++)
+					tileset[i] = new Tile[y];
 
-				for (int i = 0; i < y; i++)
-					for (int j = 0; j < x; j++)
-						tileset[i][j] = new Tile(new Point(j, i), x, y, (TileType)level.Tileset.Tile[i * x + j].state);
+				for (int j = 0; j < y; j++)
+					for (int i = 0; i < x; i++)
+						tileset[i][j] = new Tile(new Point(i, j), x, y, (TileType)level.Tileset.Tile[j * x + i].state);
 
 				#endregion
 
@@ -463,20 +461,20 @@ namespace CircuitCrawlerEditor.Parser
 
 				level.Tileset = new LevelTileset();
 
-				int x = tileset[0].Length;
-				int y = tileset.Length;
+				int x = tileset.Length;
+				int y = tileset[0].Length;
 
 				level.Tileset.x = x.ToString();
 				level.Tileset.y = y.ToString();
 
-				level.Tileset.Tile = new TileInfo[tileset[0].Length * tileset.Length];
+				level.Tileset.Tile = new TileInfo[x * y];
 
-				for (int i = 0; i < y; i++)
+				for (int i = 0; i < x; i++)
 				{
-					for (int j = 0; j < x; j++)
+					for (int j = 0; j < y; j++)
 					{
-						level.Tileset.Tile[i * x + j] = new TileInfo();
-						level.Tileset.Tile[i * x + j].state = (tileStateType)tileset[i][j].TileType;
+						level.Tileset.Tile[j * x + i] = new TileInfo();
+						level.Tileset.Tile[j * x + i].state = (tileStateType)tileset[i][j].TileType;
 					}
 				}
 
